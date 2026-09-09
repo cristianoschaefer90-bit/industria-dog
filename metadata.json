@@ -1,0 +1,8 @@
+{
+  "name": "Remix Indústria do Dog - Hot Dogs Artesanais",
+  "description": "Landing page de alta conversão para a Indústria do Dog em Três Coroas - RS. Hot dogs artesanais gourmet, atendimento presencial e delivery via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

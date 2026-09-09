@@ -1,0 +1,69 @@
+{
+  "timezone": "America/Sao_Paulo",
+  "manualOverride": "auto",
+  "days": {
+    "domingo": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "segunda": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "terca": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "quarta": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "quinta": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "sexta": {
+      "isOpen": true,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    },
+    "sabado": {
+      "isOpen": false,
+      "periods": [
+        {
+          "open": "18:30",
+          "close": "23:00"
+        }
+      ]
+    }
+  }
+}
