@@ -7554,17 +7554,19 @@
         }
       }
 
-      // Polling de redundância a cada 10 segundos
-      setInterval(fetchStoreStatus, 10000);
+      // Polling de redundância ultra-rápido a cada 4 segundos
+      setInterval(fetchStoreStatus, 4000);
 
-      // Atualização imediata ao desbloquear o celular ou focar na aba
+      // Atualização imediata ao desbloquear o celular, focar na aba ou voltar de segundo plano (iOS Safari / Android)
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
           fetchStoreStatus();
         }
       });
+      window.addEventListener('pageshow', fetchStoreStatus);
       window.addEventListener('focus', fetchStoreStatus);
       window.addEventListener('online', fetchStoreStatus);
+      window.addEventListener('resume', fetchStoreStatus);
     }
 
     async function fetchStoreStatus() {
@@ -8275,7 +8277,7 @@
             'Content-Type': 'application/json',
             'x-admin-token': getAdminToken()
           },
-          body: JSON.stringify({ override: overrideMode })
+          body: JSON.stringify({ override: overrideMode, adminToken: getAdminToken() })
         });
         if (res.ok) {
           const data = await res.json();
@@ -8420,7 +8422,7 @@
               'Content-Type': 'application/json',
               'x-admin-token': getAdminToken()
             },
-            body: JSON.stringify(currentAdminSchedule)
+            body: JSON.stringify({ ...currentAdminSchedule, adminToken: getAdminToken() })
           });
           if (res.ok) {
             const data = await res.json();

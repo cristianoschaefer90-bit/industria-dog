@@ -29,6 +29,20 @@ function requireAdminAuth(req: Request, res: Response, next: () => void) {
   if (!token && authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.substring(7);
   }
+  if (!token && req.body && req.body.adminToken) {
+    token = String(req.body.adminToken);
+  }
+  if (!token && req.query && typeof req.query.token === 'string') {
+    token = req.query.token;
+  }
+
+  // Se a senha foi informada diretamente
+  if (!token && req.body && typeof req.body.password === 'string') {
+    const check = verifyAdminPassword(req.body.password);
+    if (check.success) {
+      return next();
+    }
+  }
 
   if (!validateAdminToken(token)) {
     return res.status(401).json({
