@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Indústria do Dog - Hot Dogs Artesanais | Três Coroas - RS</title>
   <meta name="description" content="O melhor hot dog artesanal de Três Coroas - RS. Salsichas premium e receitas autorais. Aberto de domingo a sexta das 18:30 às 23h (sábado fechado). Peça pelo WhatsApp (51) 9949-2898.">
   <link rel="icon" type="image/jpeg" href="/logo.jpg">
@@ -4187,30 +4187,102 @@
         display: none;
       }
       .brand-name {
-        font-size: 1.15rem;
+        font-size: clamp(1rem, 4vw, 1.15rem);
       }
       .brand-logo-container {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
+      }
+      .modal-header-fixed {
+        padding: 16px 18px 12px 18px;
       }
       .modal-header-fixed h3 {
-        font-size: 1.08rem;
+        font-size: clamp(1.2rem, 5vw, 1.45rem);
+      }
+      .modal-body-scrollable {
+        padding: 14px 16px;
+        gap: 12px;
+      }
+      .modal-footer-fixed {
+        padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)) 16px;
       }
       .modal-addons-group {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 6px;
         width: 100%;
       }
       .addon-card-item {
-        padding: 5px 8px;
+        padding: 8px 10px;
         width: 100%;
+        min-height: 48px;
       }
       .addon-card-title {
-        font-size: 0.78rem;
+        font-size: 0.8rem;
       }
       .addon-card-desc {
-        font-size: 0.66rem;
+        font-size: 0.68rem;
+      }
+      .addon-qty-controls {
+        padding: 2px 4px;
+        gap: 4px;
+      }
+      .btn-addon-qty {
+        width: 30px;
+        height: 30px;
+        font-size: 0.95rem;
+      }
+      .modal-select, .modal-input, .modal-textarea {
+        font-size: 16px !important; /* Previne zoom forçado do iOS Safari */
+        padding: 10px 12px;
+      }
+      .header-status-pill {
+        padding: 5px 10px;
+        font-size: 0.74rem;
+        gap: 5px;
+      }
+      .btn-admin-access {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+      }
+      /* Admin Modal em telas pequenas */
+      .admin-modal-card {
+        width: min(96vw, 680px) !important;
+        max-height: calc(100dvh - 16px) !important;
+      }
+      .admin-override-grid {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+      }
+      .admin-day-card {
+        padding: 10px 12px !important;
+      }
+    }
+
+    /* Ajustes específicos para celulares ultra-compactos (<= 360px: iPhone SE, Galaxy A03) */
+    @media (max-width: 360px) {
+      .header-container {
+        padding: 0 10px;
+        gap: 4px;
+      }
+      .brand-name {
+        font-size: 0.95rem;
+      }
+      .header-status-pill span:not(.status-indicator-dot) {
+        font-size: 0.7rem;
+      }
+      .header-right {
+        gap: 6px;
+      }
+      .hero-title {
+        font-size: clamp(2.2rem, 10vw, 2.8rem) !important;
+      }
+      .hero-status-card {
+        padding: 14px 14px;
+      }
+      .btn-lg {
+        padding: 12px 16px;
+        font-size: 0.88rem;
       }
     }
 
@@ -7421,8 +7493,80 @@
     }
 
     // ==========================================================================
-    // FUNÇÕES DE HORÁRIOS DE ATENDIMENTO & INTEGRAÇÃO BACKEND
+    // FUNÇÕES DE HORÁRIOS DE ATENDIMENTO & SINCRONIZAÇÃO EM TEMPO REAL
+    // Notifica e atualiza TODOS os celulares e navegadores instantaneamente
     // ==========================================================================
+    let sseEventSource = null;
+    let localBroadcastChannel = null;
+
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        localBroadcastChannel = new BroadcastChannel('industria_dog_live_sync');
+        localBroadcastChannel.onmessage = (event) => {
+          if (event.data && event.data.type === 'status_update' && event.data.status) {
+            storeStatus = event.data.status;
+            updateUIWithStoreStatus();
+          }
+        };
+      }
+    } catch (e) {}
+
+    function initRealtimeStatusSync() {
+      // Conexão Server-Sent Events (Push em tempo real instantâneo do servidor)
+      if (typeof EventSource !== 'undefined') {
+        try {
+          if (sseEventSource) {
+            sseEventSource.close();
+          }
+          sseEventSource = new EventSource('/api/store-status/stream');
+
+          sseEventSource.onmessage = (event) => {
+            try {
+              const data = JSON.parse(event.data);
+              if (data && data.type === 'status_update' && typeof data.isOpen === 'boolean') {
+                storeStatus = data;
+                if (data.schedule) {
+                  localStorage.setItem('industria_dog_schedule', JSON.stringify(data.schedule));
+                }
+                if (data.manualOverride) {
+                  localStorage.setItem('industria_dog_override', data.manualOverride);
+                }
+                updateUIWithStoreStatus();
+
+                // Notifica outras abas locais
+                if (localBroadcastChannel) {
+                  localBroadcastChannel.postMessage({ type: 'status_update', status: data });
+                }
+              }
+            } catch (err) {}
+          };
+
+          sseEventSource.onerror = () => {
+            if (sseEventSource) {
+              sseEventSource.close();
+              sseEventSource = null;
+            }
+            // Reconexão suave após 5 segundos
+            setTimeout(initRealtimeStatusSync, 5000);
+          };
+        } catch (err) {
+          console.warn('SSE stream fallback:', err);
+        }
+      }
+
+      // Polling de redundância a cada 10 segundos
+      setInterval(fetchStoreStatus, 10000);
+
+      // Atualização imediata ao desbloquear o celular ou focar na aba
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          fetchStoreStatus();
+        }
+      });
+      window.addEventListener('focus', fetchStoreStatus);
+      window.addEventListener('online', fetchStoreStatus);
+    }
+
     async function fetchStoreStatus() {
       // 1. Atualização imediata via motor de cálculo no cliente (Zero delay / Nunca trava em Verificando)
       storeStatus = calculateClientStoreStatus();
@@ -8110,6 +8254,12 @@
       storeStatus = calculateClientStoreStatus(currentAdminSchedule);
       updateUIWithStoreStatus();
 
+      if (localBroadcastChannel) {
+        try {
+          localBroadcastChannel.postMessage({ type: 'status_update', status: storeStatus });
+        } catch (e) {}
+      }
+
       const labels = {
         'auto': 'Modo Automático (Horário Normal)',
         'force_open': 'Forçar ABERTO (Lojas e pedidos liberados)',
@@ -8247,6 +8397,12 @@
         localStorage.setItem('industria_dog_schedule', JSON.stringify(currentAdminSchedule));
         storeStatus = calculateClientStoreStatus(currentAdminSchedule);
         updateUIWithStoreStatus();
+
+        if (localBroadcastChannel) {
+          try {
+            localBroadcastChannel.postMessage({ type: 'status_update', status: storeStatus });
+          } catch (e) {}
+        }
 
         // Tenta sincronizar com o backend
         try {
@@ -8813,9 +8969,9 @@
       initMagneticButtons();
       initHeroEmbers();
       
-      // Carrega e monitora status do estabelecimento e horários
+      // Inicializa a sincronização em tempo real (Server-Sent Events + Broadcast)
+      initRealtimeStatusSync();
       fetchStoreStatus();
-      setInterval(fetchStoreStatus, 30000); // Atualiza automaticamente a cada 30 segundos
 
       // Verifica sessão salva do gestor
       checkAdminSession();

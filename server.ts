@@ -40,6 +40,89 @@ function requireAdminAuth(req: Request, res: Response, next: () => void) {
   next();
 }
 
+// ============================================================================
+// SISTEMA DE SINCRONIZAÇÃO EM TEMPO REAL (SERVER-SENT EVENTS - BROADCAST)
+// Atualiza o horário instantaneamente para TODOS os usuários conectados
+// ============================================================================
+const sseClients = new Set<Response>();
+
+export function broadcastStoreStatus() {
+  try {
+    const schedule = getStoreSchedule();
+    const status = isStoreOpen(schedule);
+    const payload = JSON.stringify({
+      type: 'status_update',
+      timestamp: Date.now(),
+      success: true,
+      schedule,
+      ...status
+    });
+
+    for (const client of sseClients) {
+      try {
+        client.write(`data: ${payload}\n\n`);
+      } catch (err) {
+        sseClients.delete(client);
+      }
+    }
+  } catch (err) {
+    console.error('Erro no broadcast SSE:', err);
+  }
+}
+
+// API: Stream em tempo real via Server-Sent Events (SSE)
+app.get('/api/store-status/stream', (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders();
+
+  // Envia o estado atual imediatamente na conexão inicial
+  try {
+    const schedule = getStoreSchedule();
+    const status = isStoreOpen(schedule);
+    const initialPayload = JSON.stringify({
+      type: 'status_update',
+      timestamp: Date.now(),
+      success: true,
+      schedule,
+      ...status
+    });
+    res.write(`data: ${initialPayload}\n\n`);
+  } catch (e) {}
+
+  sseClients.add(res);
+
+  // Ping periódico a cada 20 segundos para manter conexões móveis vivas
+  const pingInterval = setInterval(() => {
+    try {
+      res.write(': ping\n\n');
+    } catch (e) {
+      clearInterval(pingInterval);
+      sseClients.delete(res);
+    }
+  }, 20000);
+
+  req.on('close', () => {
+    clearInterval(pingInterval);
+    sseClients.delete(res);
+  });
+});
+
+// Checagem periódica do servidor para viradas de horário automáticas (ex: 18:30 ou 23:00)
+let lastKnownStatusOpen: boolean | null = null;
+setInterval(() => {
+  try {
+    const schedule = getStoreSchedule();
+    const status = isStoreOpen(schedule);
+    if (lastKnownStatusOpen === null || lastKnownStatusOpen !== status.isOpen) {
+      lastKnownStatusOpen = status.isOpen;
+      broadcastStoreStatus();
+    }
+  } catch (e) {}
+}, 20000);
+
 // API: Retorna o status atual de funcionamento do restaurante no fuso horário oficial
 app.get('/api/store-status', (req: Request, res: Response) => {
   try {
@@ -126,6 +209,9 @@ app.post('/api/admin/schedule', requireAdminAuth, (req: Request, res: Response) 
     const saved = saveStoreSchedule(body);
     const updatedStatus = isStoreOpen(saved);
 
+    // Notifica instantaneamente todos os clientes conectados em tempo real!
+    broadcastStoreStatus();
+
     res.json({
       success: true,
       message: 'Horários de funcionamento atualizados com sucesso!',
@@ -151,6 +237,10 @@ app.post('/api/admin/toggle-override', requireAdminAuth, (req: Request, res: Res
     saveStoreSchedule(current);
 
     const updatedStatus = isStoreOpen(current);
+
+    // Notifica instantaneamente todos os clientes conectados em tempo real!
+    broadcastStoreStatus();
+
     res.json({
       success: true,
       message: `Modo alterado para: ${override}`,
