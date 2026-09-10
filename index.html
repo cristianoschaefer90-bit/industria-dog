@@ -2508,7 +2508,8 @@
     .modal-body-scrollable {
       padding: 20px 24px;
       overflow-y: auto;
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
       -webkit-overflow-scrolling: touch;
       display: flex;
       flex-direction: column;
@@ -4430,9 +4431,48 @@
       font-size: 0.98rem;
       line-height: 1.55;
       color: var(--color-text-main);
-      margin: 0 auto 14px auto;
+      margin: 0 auto 12px auto;
       text-align: center;
       max-width: 580px;
+    }
+    /* Resumo dos Dias de Atendimento no Hero (100% Visível no Celular) */
+    .hero-schedule-summary-box {
+      margin: 0 auto 14px auto;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      max-width: 560px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .hero-schedule-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px 12px;
+    }
+    .hero-schedule-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #e5e5e5;
+      line-height: 1.3;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .hero-schedule-badge.open i {
+      color: #22c55e;
+    }
+    .hero-schedule-badge.closed i {
+      color: #f87171;
+    }
+    .hero-schedule-badge strong {
+      color: #ffffff;
+      font-weight: 700;
     }
     .status-quick-actions {
       display: flex;
@@ -4979,7 +5019,136 @@
       font-size: 0.9rem;
     }
 
-    /* Tabela de horários semanal (Modal do cliente e Seção de Localização) */
+    /* ==========================================================================
+       ESCALA SEMANAL DE HORÁRIOS (RESPONSIVA, MODERNA & FLUIDA)
+       Design 100% à prova de falhas em todos os celulares e computadores
+       ========================================================================== */
+    .schedule-table-card-wrapper,
+    .page-schedule-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .schedule-week-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+      background: #121110;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+    }
+
+    .schedule-day-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      transition: all var(--transition-fast);
+      gap: 10px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .schedule-day-card:hover {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .schedule-day-card.is-today-row {
+      background: linear-gradient(135deg, rgba(217, 130, 43, 0.2) 0%, rgba(217, 130, 43, 0.07) 100%);
+      border: 1px solid rgba(217, 130, 43, 0.45);
+      box-shadow: 0 2px 12px rgba(217, 130, 43, 0.12);
+    }
+
+    .schedule-day-header-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .schedule-col-day {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      min-width: 110px;
+    }
+
+    .schedule-day-card.is-today-row .schedule-col-day {
+      font-weight: 800;
+      color: var(--color-mustard);
+    }
+
+    .today-tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--color-mustard);
+      color: #14110f;
+      padding: 2px 7px;
+      border-radius: 4px;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .schedule-col-status {
+      flex-shrink: 0;
+    }
+
+    .schedule-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .schedule-status-badge.open {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.28);
+    }
+
+    .schedule-status-badge.closed {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.28);
+    }
+
+    .schedule-col-hours {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.86rem;
+      color: #e5e5e5;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .schedule-hours-icon {
+      font-size: 0.78rem;
+      color: var(--color-text-muted);
+      opacity: 0.85;
+    }
+
+    /* Regras de fallback para tabela legada */
     .schedule-week-table {
       width: 100%;
       border-collapse: collapse;
@@ -5011,23 +5180,6 @@
     .schedule-week-table td.col-hours {
       white-space: nowrap;
       text-align: right;
-    }
-    .schedule-status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-    .schedule-status-badge.open {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-    }
-    .schedule-status-badge.closed {
-      background: rgba(239, 68, 68, 0.15);
-      color: #f87171;
     }
 
     /* ==========================================================================
@@ -5063,16 +5215,20 @@
         overflow-x: hidden !important;
       }
 
-      /* Modal de Horários do Cliente */
+      /* Modal de Horários do Cliente (Garantia de visualização completa em mobile) */
       .schedule-modal-card {
-        width: calc(100vw - 16px) !important;
+        width: min(calc(100vw - 16px), 540px) !important;
         max-width: 100% !important;
         margin: auto !important;
+        max-height: calc(100dvh - 16px) !important;
         border-radius: 16px !important;
         overflow-x: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
       }
       .schedule-modal-card .modal-header-fixed {
         padding: 14px 48px 12px 14px !important;
+        flex-shrink: 0 !important;
       }
       .schedule-modal-card .modal-close-btn {
         top: 12px !important;
@@ -5081,90 +5237,115 @@
       .schedule-modal-card .modal-body-scrollable {
         padding: 12px 10px !important;
         overflow-x: hidden !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior: contain !important;
+        touch-action: pan-y !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+      .schedule-modal-card .modal-body-scrollable > * {
+        flex-shrink: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
-      /* Escala Semanal de Horários (Tabela no Modal e na Página Inicial) */
+      /* Escala Semanal de Horários no Mobile (Visual em Cards, 100% legível e sem cortes) */
       .schedule-table-card-wrapper,
       .page-schedule-wrapper {
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+        flex-shrink: 0 !important;
         overflow-x: hidden !important;
-        background: #121110 !important;
-        border-radius: 10px !important;
       }
-      .schedule-week-table {
-        display: block !important;
+      .schedule-week-list {
+        padding: 6px !important;
+        gap: 6px !important;
         width: 100% !important;
-        border-collapse: separate !important;
-        margin: 0 !important;
-      }
-      .schedule-week-table tbody {
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
-        width: 100% !important;
+      }
+      .schedule-day-card {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        flex-shrink: 0 !important;
+        padding: 9px 12px !important;
         gap: 6px !important;
-        padding: 6px !important;
-        box-sizing: border-box !important;
-      }
-      .schedule-week-table tr {
-        display: grid !important;
-        grid-template-columns: 1fr auto !important;
-        grid-template-areas:
-          "day status"
-          "hours hours" !important;
-        row-gap: 5px !important;
-        column-gap: 8px !important;
-        padding: 10px 12px !important;
-        border-radius: 8px !important;
-        background: rgba(255, 255, 255, 0.02) !important;
-        border: 1px solid rgba(255, 255, 255, 0.06) !important;
         width: 100% !important;
         box-sizing: border-box !important;
+        background: rgba(255, 255, 255, 0.025) !important;
+        border: 1px solid rgba(255, 255, 255, 0.07) !important;
+        border-radius: 8px !important;
+        min-height: 52px !important;
+      }
+      .schedule-day-card.is-today-row {
+        background: linear-gradient(135deg, rgba(217, 130, 43, 0.2) 0%, rgba(217, 130, 43, 0.07) 100%) !important;
+        border: 1px solid rgba(217, 130, 43, 0.45) !important;
+        box-shadow: 0 2px 12px rgba(217, 130, 43, 0.12) !important;
+      }
+      .schedule-day-header-row {
+        display: flex !important;
         align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 8px !important;
+        flex-shrink: 0 !important;
       }
-      .schedule-week-table tr.is-today-row {
-        background: linear-gradient(135deg, rgba(217, 130, 43, 0.16) 0%, rgba(217, 130, 43, 0.05) 100%) !important;
-        border-color: rgba(217, 130, 43, 0.38) !important;
-        box-shadow: 0 2px 10px rgba(217, 130, 43, 0.08) !important;
-      }
-      .schedule-week-table td {
-        padding: 0 !important;
-        border: none !important;
-      }
-      .schedule-week-table td.col-day {
-        grid-area: day !important;
-        font-size: 0.88rem !important;
+      .schedule-col-day {
+        font-size: 0.90rem !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
         display: flex !important;
         align-items: center !important;
         gap: 6px !important;
         min-width: 0 !important;
+        flex-shrink: 0 !important;
       }
-      .schedule-week-table td.col-status {
-        grid-area: status !important;
-        text-align: right !important;
+      .schedule-day-card.is-today-row .schedule-col-day {
+        font-weight: 800 !important;
+        color: var(--color-mustard) !important;
       }
-      .schedule-week-table td.col-hours {
-        grid-area: hours !important;
-        font-size: 0.82rem !important;
+      .schedule-col-status {
+        flex-shrink: 0 !important;
+      }
+      .schedule-col-hours {
+        font-size: 0.84rem !important;
         color: #d4d4d4 !important;
         display: flex !important;
         align-items: center !important;
         gap: 6px !important;
         width: 100% !important;
-        padding-top: 4px !important;
-        border-top: 1px dashed rgba(255, 255, 255, 0.06) !important;
+        padding-top: 5px !important;
+        border-top: 1px dashed rgba(255, 255, 255, 0.07) !important;
         white-space: normal !important;
         text-align: left !important;
+        justify-content: flex-start !important;
+        flex-shrink: 0 !important;
       }
       .schedule-status-badge {
-        padding: 3px 8px !important;
+        padding: 2px 7px !important;
         font-size: 0.72rem !important;
         gap: 4px !important;
       }
       .today-tag {
         font-size: 0.65rem !important;
         padding: 1px 6px !important;
+      }
+
+      /* Fallback para tabela legada se presente */
+      .schedule-week-table {
+        width: 100% !important;
+      }
+      .schedule-week-table td {
+        padding: 8px 6px !important;
+        font-size: 0.82rem !important;
       }
 
       /* Modal do Painel de Gestão (Admin) no Mobile */
@@ -5425,9 +5606,15 @@
     }
 
     @media (max-width: 400px) {
-      .schedule-week-table tr {
+      .schedule-day-card {
         padding: 8px 10px !important;
-        gap: 4px !important;
+        gap: 5px !important;
+      }
+      .schedule-col-day {
+        font-size: 0.84rem !important;
+      }
+      .schedule-col-hours {
+        font-size: 0.78rem !important;
       }
       .schedule-week-table td.col-day {
         font-size: 0.82rem !important;
@@ -5966,9 +6153,22 @@
           <p class="status-main-message" id="heroStatusMessage">
             Verificando se o estabelecimento está aberto para receber pedidos...
           </p>
+          <!-- Resumo dos Dias de Atendimento Visível Direto na Tela do Celular -->
+          <div class="hero-schedule-summary-box" id="heroScheduleSummaryBox">
+            <div class="hero-schedule-badge-row">
+              <span class="hero-schedule-badge open">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span id="heroSummaryOpenDays">Domingo a Sexta: <strong>18:30 às 23:00</strong></span>
+              </span>
+              <span class="hero-schedule-badge closed">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <span id="heroSummaryClosedDays">Sábado: <strong>Fechado</strong></span>
+              </span>
+            </div>
+          </div>
           <div class="status-quick-actions">
             <button type="button" class="btn-view-schedule" onclick="openScheduleModal()">
-              <i class="fa-regular fa-calendar-days"></i> Ver Horários da Semana
+              <i class="fa-regular fa-calendar-days"></i> Ver Horários da Semana (Escala Completa)
             </button>
             <button type="button" class="btn-quick-admin" id="heroBtnAdmin" style="display: none;" onclick="openAdminModal()">
               <i class="fa-solid fa-sliders"></i> Alterar Horários (Gestor)
@@ -6804,47 +7004,59 @@
                     </div>
                   </div>
 
-                  <!-- Tabela Completa da Escala Semanal Visível no Celular e Computador -->
-                  <div class="page-schedule-wrapper" style="margin-top: 12px; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); overflow-x: hidden;">
-                    <table class="schedule-week-table" id="pageScheduleWeekTable">
-                      <tbody>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Domingo</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Segunda-feira</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Terça-feira</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quarta-feira</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quinta-feira</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sexta-feira</span></td>
-                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-                        </tr>
-                        <tr>
-                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sábado</span></td>
-                          <td class="col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></td>
-                          <td class="col-hours"><span style="color: var(--color-text-muted);">Fechado o dia todo</span></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <!-- Escala Semanal Completa Visível no Celular e Computador -->
+                  <div class="page-schedule-wrapper" style="margin-top: 12px; width: 100%;">
+                    <div class="schedule-week-list" id="pageScheduleWeekTable">
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Domingo</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Segunda-feira</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Terça-feira</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Quarta-feira</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Quinta-feira</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Sexta-feira</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+                      </div>
+                      <div class="schedule-day-card">
+                        <div class="schedule-day-header-row">
+                          <div class="schedule-col-day"><span class="day-name">Sábado</span></div>
+                          <div class="schedule-col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></div>
+                        </div>
+                        <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span style="color: var(--color-text-muted);">Fechado o dia todo</span></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -7288,47 +7500,59 @@
           Confira abaixo nossa escala semanal completa:
         </p>
 
-        <!-- Tabela Semanal de Horários (Responsiva para Celular e Computador) -->
-        <div class="schedule-table-card-wrapper" style="overflow-x: hidden; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
-          <table class="schedule-week-table" id="scheduleWeekTable">
-            <tbody>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Domingo</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Segunda-feira</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Terça-feira</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quarta-feira</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quinta-feira</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sexta-feira</span></td>
-                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
-                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
-              </tr>
-              <tr>
-                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sábado</span></td>
-                <td class="col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></td>
-                <td class="col-hours"><span style="color: var(--color-text-muted);">Fechado o dia todo</span></td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Escala Semanal de Horários (Responsiva para Celular e Computador) -->
+        <div class="schedule-table-card-wrapper" style="width: 100%;">
+          <div class="schedule-week-list" id="scheduleWeekTable">
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Domingo</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Segunda-feira</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Terça-feira</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Quarta-feira</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Quinta-feira</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Sexta-feira</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span><strong>18:30</strong> às <strong>23:00</strong></span></div>
+            </div>
+            <div class="schedule-day-card">
+              <div class="schedule-day-header-row">
+                <div class="schedule-col-day"><span class="day-name">Sábado</span></div>
+                <div class="schedule-col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></div>
+              </div>
+              <div class="schedule-col-hours"><i class="fa-regular fa-clock schedule-hours-icon"></i><span style="color: var(--color-text-muted);">Fechado o dia todo</span></div>
+            </div>
+          </div>
         </div>
 
         <div style="margin-top: 14px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5;">
@@ -8588,6 +8812,41 @@
       // Renderiza tabela semanal do cliente se a escala estiver disponível
       if (storeStatus.schedule) {
         renderWeeklyScheduleTable(storeStatus.schedule, storeStatus.currentDay);
+
+        // Atualiza os badges de dias no Hero (Mobile e Desktop)
+        const heroOpenDaysEl = document.getElementById('heroSummaryOpenDays');
+        const heroClosedDaysEl = document.getElementById('heroSummaryClosedDays');
+        if (storeStatus.schedule.days) {
+          const schedDays = storeStatus.schedule.days;
+          const openList = [];
+          const closedList = [];
+          DAYS_ORDER_WEEK.forEach(k => {
+            const d = schedDays[k];
+            const shortName = DAY_NAMES[k] ? DAY_NAMES[k].split('-')[0] : k;
+            if (d && d.isOpen && d.periods && d.periods.length > 0) {
+              openList.push({ name: shortName, period: d.periods[0] });
+            } else {
+              closedList.push(shortName);
+            }
+          });
+          if (heroOpenDaysEl && openList.length > 0) {
+            const p = openList[0].period;
+            const hours = p ? `${p.open} às ${p.close}` : '18:30 às 23:00';
+            if (openList.length === 6 && closedList.length === 1) {
+              heroOpenDaysEl.innerHTML = `${openList[0].name} a ${openList[openList.length - 1].name}: <strong>${hours}</strong>`;
+            } else {
+              heroOpenDaysEl.innerHTML = openList.map(o => o.name).join(', ') + `: <strong>${hours}</strong>`;
+            }
+          }
+          if (heroClosedDaysEl) {
+            if (closedList.length > 0) {
+              heroClosedDaysEl.innerHTML = closedList.join(', ') + ': <strong>Fechado</strong>';
+              if (heroClosedDaysEl.parentElement) heroClosedDaysEl.parentElement.style.display = 'inline-flex';
+            } else {
+              if (heroClosedDaysEl.parentElement) heroClosedDaysEl.parentElement.style.display = 'none';
+            }
+          }
+        }
       }
     }
 
@@ -8687,14 +8946,14 @@
     }
 
     function renderWeeklyScheduleTable(schedule, currentDayKey) {
-      const tbodies = document.querySelectorAll('#scheduleWeekTable tbody, #pageScheduleWeekTable tbody');
-      if (!tbodies.length || !schedule || !schedule.days) return;
+      const containers = document.querySelectorAll('#scheduleWeekTable, #pageScheduleWeekTable');
+      if (!containers.length || !schedule || !schedule.days) return;
 
       const html = DAYS_ORDER_WEEK.map(key => {
         const d = schedule.days[key];
         if (!d) return '';
         const isToday = key === currentDayKey;
-        const todayBadge = isToday ? '<span class="today-tag" style="margin-left: 6px;">Hoje</span>' : '';
+        const todayBadge = isToday ? '<span class="today-tag">Hoje</span>' : '';
         const dayTitle = DAY_NAMES[key] || key;
         
         let statusBadge = '';
@@ -8709,23 +8968,31 @@
         }
 
         return `
-          <tr class="${isToday ? 'is-today-row' : ''}">
-            <td class="col-day" style="font-weight: ${isToday ? '800' : '600'}; color: ${isToday ? 'var(--color-mustard)' : '#fff'};">
-              <span class="day-name">${dayTitle}</span> ${todayBadge}
-            </td>
-            <td class="col-status">${statusBadge}</td>
-            <td class="col-hours">
-              <span class="schedule-hours-content">
-                <i class="fa-regular fa-clock schedule-hours-icon"></i>
-                <span>${hoursText}</span>
-              </span>
-            </td>
-          </tr>
+          <div class="schedule-day-card ${isToday ? 'is-today-row' : ''}">
+            <div class="schedule-day-header-row">
+              <div class="schedule-col-day">
+                <span class="day-name">${dayTitle}</span>
+                ${todayBadge}
+              </div>
+              <div class="schedule-col-status">
+                ${statusBadge}
+              </div>
+            </div>
+            <div class="schedule-col-hours">
+              <i class="fa-regular fa-clock schedule-hours-icon"></i>
+              <span>${hoursText}</span>
+            </div>
+          </div>
         `;
       }).join('');
 
-      tbodies.forEach(tbody => {
-        tbody.innerHTML = html;
+      containers.forEach(container => {
+        const tbody = container.querySelector('tbody');
+        if (tbody) {
+          tbody.innerHTML = html;
+        } else {
+          container.innerHTML = html;
+        }
       });
     }
 
