@@ -7546,8 +7546,8 @@
               sseEventSource.close();
               sseEventSource = null;
             }
-            // Reconexão suave após 5 segundos
-            setTimeout(initRealtimeStatusSync, 5000);
+            // Reconexão rápida após 3 segundos
+            setTimeout(initRealtimeStatusSync, 3000);
           };
         } catch (err) {
           console.warn('SSE stream fallback:', err);
@@ -7568,11 +7568,7 @@
     }
 
     async function fetchStoreStatus() {
-      // 1. Atualização imediata via motor de cálculo no cliente (Zero delay / Nunca trava em Verificando)
-      storeStatus = calculateClientStoreStatus();
-      updateUIWithStoreStatus();
-
-      // 2. Se houver backend ativo, sincroniza dados atualizados
+      // 1. Tenta buscar o status atualizado do servidor central
       try {
         const res = await fetch('/api/store-status');
         const contentType = res.headers.get('content-type') || '';
@@ -7587,11 +7583,16 @@
               localStorage.setItem('industria_dog_override', data.manualOverride);
             }
             updateUIWithStoreStatus();
+            return;
           }
         }
       } catch (err) {
-        // Ambiente estático (Vercel) ou offline: o cálculo local do navegador já mantém os dados 100% corretos
+        // Ambiente estático (Vercel) ou offline
       }
+
+      // 2. Se o servidor estiver indisponível, calcula pelo motor cliente baseado no cache
+      storeStatus = calculateClientStoreStatus();
+      updateUIWithStoreStatus();
     }
 
     function updateUIWithStoreStatus() {
@@ -8268,7 +8269,7 @@
       showToast(`Status atualizado: ${labels[overrideMode] || overrideMode}`, 'success');
 
       try {
-        await fetch('/api/admin/toggle-override', {
+        const res = await fetch('/api/admin/toggle-override', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -8276,6 +8277,13 @@
           },
           body: JSON.stringify({ override: overrideMode })
         });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.currentStatus) {
+            storeStatus = data.currentStatus;
+            updateUIWithStoreStatus();
+          }
+        }
       } catch (err) {}
     }
 
@@ -8406,7 +8414,7 @@
 
         // Tenta sincronizar com o backend
         try {
-          await fetch('/api/admin/schedule', {
+          const res = await fetch('/api/admin/schedule', {
             method: 'POST',
             headers: { 
               'Content-Type': 'application/json',
@@ -8414,6 +8422,13 @@
             },
             body: JSON.stringify(currentAdminSchedule)
           });
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.currentStatus) {
+              storeStatus = data.currentStatus;
+              updateUIWithStoreStatus();
+            }
+          }
         } catch (serverErr) {}
 
         showToast('Horários de funcionamento salvos com sucesso!', 'success');
