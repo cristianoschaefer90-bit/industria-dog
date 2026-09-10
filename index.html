@@ -6802,6 +6802,42 @@
       sexta: 'Sexta-feira',
       sabado: 'Sábado'
     };
+    // =========================================================================
+    // SUPABASE — fonte unica de verdade do status da loja.
+    // A anon key e publica por design: RLS libera apenas LEITURA da escala.
+    // Qualquer alteracao passa por RPC que confere a senha do admin no banco.
+    // =========================================================================
+    const SUPABASE_URL = 'https://olhelmhceqnfxhdrtkey.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_nskyuxKQ_kH-TpqJAcZLTw_6kFWi_Gb';
+
+    async function sbFetch(pathname, init = {}) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${pathname}`, {
+        ...init,
+        cache: 'no-store',
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          ...(init.headers || {})
+        }
+      });
+      if (!res.ok) {
+        let detail = '';
+        try { detail = (await res.json())?.message || ''; } catch (e) {}
+        throw new Error(detail || `Supabase ${res.status}`);
+      }
+      return res.status === 204 ? null : res.json();
+    }
+
+    async function sbSelectSchedule() {
+      const rows = await sbFetch('store_schedule?id=eq.1&select=config');
+      return (rows && rows[0] && rows[0].config) || null;
+    }
+
+    async function sbRpc(fn, args) {
+      return sbFetch('rpc/' + fn, { method: 'POST', body: JSON.stringify(args || {}) });
+    }
+
     const DAYS_ORDER_WEEK = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
     const DAYS_ADMIN_ORDER = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
 
@@ -6826,19 +6862,19 @@
       }
     };
 
+    // Cache APENAS em memoria. O servidor e a unica fonte de verdade do status.
+    // Persistir a escala no localStorage fazia cada navegador manter um status proprio.
+    let serverSchedule = null;
+
     function getActiveSchedule() {
-      try {
-        const saved = localStorage.getItem('industria_dog_schedule');
-        let sched = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_STORE_SCHEDULE));
-        const override = localStorage.getItem('industria_dog_override');
-        if (override && ['auto', 'force_open', 'force_closed'].includes(override)) {
-          sched.manualOverride = override;
-        }
-        return sched;
-      } catch (e) {
-        return JSON.parse(JSON.stringify(DEFAULT_STORE_SCHEDULE));
-      }
+      return JSON.parse(JSON.stringify(serverSchedule || DEFAULT_STORE_SCHEDULE));
     }
+
+    // Limpa caches legados que causavam divergencia de status entre usuarios
+    try {
+      localStorage.removeItem('industria_dog_schedule');
+      localStorage.removeItem('industria_dog_override');
+    } catch (e) {}
 
     function computeNextOpening(sched, currentDayIdx, nowMin) {
       if (!sched || !sched.days) return null;
@@ -7432,44 +7468,23 @@
       }
 
       try {
-        // Tenta validar no backend se disponível
+        // Autorizacao final no servidor: o relogio/cache do celular nao decide.
         try {
-          const validateRes = await fetch('/api/orders/validate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: itemsList })
+          await sbRpc('create_order', {
+            p_payload: { items: itemsList, orderType, notes, total: totalGeral }
           });
-          const contentType = validateRes.headers.get('content-type') || '';
-          if (validateRes.ok && contentType.includes('application/json')) {
-            const validation = await validateRes.json();
-            if (!validation.allowed) {
-              showToast(validation.message || 'Estamos fechados no momento. Pedidos indisponíveis.', 'error');
-              if (validation.nextOpening) {
-                showToast(`Próxima abertura: ${validation.nextOpening}`, 'info');
-              }
-              await fetchStoreStatus();
-              if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnHtml;
-              }
-              return;
-            }
-          }
         } catch (serverErr) {
-          // Servidor offline ou ambiente Vercel estático: o status local já confirmou que está aberto!
+          if (/STORE_CLOSED/.test(serverErr.message)) {
+            showToast('Estamos fechados no momento. Pedidos indisponíveis.', 'error');
+            await fetchStoreStatus();
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalBtnHtml;
+            }
+            return;
+          }
+          // Falha de rede: nao bloqueia o cliente de chamar no WhatsApp
         }
-
-        // Registrar o pedido no backend se disponível
-        fetch('/api/orders', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            items: itemsList,
-            orderType,
-            notes,
-            total: totalGeral
-          })
-        }).catch(() => {});
 
         // Abre o WhatsApp normalmente
         const encodedMessage = encodeURIComponent(message);
@@ -7496,7 +7511,6 @@
     // FUNÇÕES DE HORÁRIOS DE ATENDIMENTO & SINCRONIZAÇÃO EM TEMPO REAL
     // Notifica e atualiza TODOS os celulares e navegadores instantaneamente
     // ==========================================================================
-    let sseEventSource = null;
     let localBroadcastChannel = null;
 
     try {
@@ -7512,88 +7526,43 @@
     } catch (e) {}
 
     function initRealtimeStatusSync() {
-      // Conexão Server-Sent Events (Push em tempo real instantâneo do servidor)
-      if (typeof EventSource !== 'undefined') {
-        try {
-          if (sseEventSource) {
-            sseEventSource.close();
-          }
-          sseEventSource = new EventSource('/api/store-status/stream');
+      // Sem SSE: funcoes serverless nao mantem conexao aberta.
+      // Polling adaptativo — pausa com a aba oculta e refaz na volta.
+      let pollTimer = null;
 
-          sseEventSource.onmessage = (event) => {
-            try {
-              const data = JSON.parse(event.data);
-              if (data && data.type === 'status_update' && typeof data.isOpen === 'boolean') {
-                storeStatus = data;
-                if (data.schedule) {
-                  localStorage.setItem('industria_dog_schedule', JSON.stringify(data.schedule));
-                }
-                if (data.manualOverride) {
-                  localStorage.setItem('industria_dog_override', data.manualOverride);
-                }
-                updateUIWithStoreStatus();
-
-                // Notifica outras abas locais
-                if (localBroadcastChannel) {
-                  localBroadcastChannel.postMessage({ type: 'status_update', status: data });
-                }
-              }
-            } catch (err) {}
-          };
-
-          sseEventSource.onerror = () => {
-            if (sseEventSource) {
-              sseEventSource.close();
-              sseEventSource = null;
-            }
-            // Reconexão rápida após 3 segundos
-            setTimeout(initRealtimeStatusSync, 3000);
-          };
-        } catch (err) {
-          console.warn('SSE stream fallback:', err);
-        }
+      function startPolling() {
+        stopPolling();
+        pollTimer = setInterval(fetchStoreStatus, 20000);
+      }
+      function stopPolling() {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
       }
 
-      // Polling de redundância ultra-rápido a cada 4 segundos
-      setInterval(fetchStoreStatus, 4000);
+      fetchStoreStatus();
+      startPolling();
 
-      // Atualização imediata ao desbloquear o celular, focar na aba ou voltar de segundo plano (iOS Safari / Android)
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') {
           fetchStoreStatus();
+          startPolling();
+        } else {
+          stopPolling();
         }
       });
       window.addEventListener('pageshow', fetchStoreStatus);
       window.addEventListener('focus', fetchStoreStatus);
       window.addEventListener('online', fetchStoreStatus);
-      window.addEventListener('resume', fetchStoreStatus);
     }
 
     async function fetchStoreStatus() {
-      // 1. Tenta buscar o status atualizado do servidor central
       try {
-        const res = await fetch('/api/store-status');
-        const contentType = res.headers.get('content-type') || '';
-        if (res.ok && contentType.includes('application/json')) {
-          const data = await res.json();
-          if (data && typeof data.isOpen === 'boolean') {
-            storeStatus = data;
-            if (data.schedule) {
-              localStorage.setItem('industria_dog_schedule', JSON.stringify(data.schedule));
-            }
-            if (data.manualOverride) {
-              localStorage.setItem('industria_dog_override', data.manualOverride);
-            }
-            updateUIWithStoreStatus();
-            return;
-          }
-        }
+        const config = await sbSelectSchedule();
+        if (config) serverSchedule = config;
       } catch (err) {
-        // Ambiente estático (Vercel) ou offline
+        // Offline: mantem a ultima escala conhecida. O pedido e revalidado
+        // no servidor (RPC create_order) antes de ser aceito.
       }
-
-      // 2. Se o servidor estiver indisponível, calcula pelo motor cliente baseado no cache
-      storeStatus = calculateClientStoreStatus();
+      storeStatus = calculateClientStoreStatus(serverSchedule || undefined);
       updateUIWithStoreStatus();
     }
 
@@ -7900,61 +7869,25 @@
       }
     }
 
-    async function verifyPasswordLocally(password) {
+    async function verifyAdminPassword(password) {
       if (!password) return false;
-      const clean = password.trim();
-      if (clean === 'dog2026') return true;
-
-      const savedCustom = localStorage.getItem('industria_dog_custom_pwd');
-      if (savedCustom && clean === savedCustom.trim()) return true;
-
       try {
-        const msgUint8 = new TextEncoder().encode(clean);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-        if (hashHex === '55fa7f1b22856559bfdfcedca9ec9f0056ee96b756a88681c10d0c47579489e5') {
-          return true;
-        }
-        const savedHash = localStorage.getItem('industria_dog_admin_pwd_hash');
-        if (savedHash && hashHex === savedHash) {
-          return true;
-        }
-      } catch (e) {}
-
-      return false;
+        return (await sbRpc('admin_check_password', { p_password: String(password).trim() })) === true;
+      } catch (e) {
+        return false;
+      }
     }
 
     async function checkAdminSession() {
-      const token = getAdminToken();
-      if (!token) {
+      const secret = getAdminToken();
+      if (!secret) {
         updateAdminUIState(false);
         return false;
       }
-
-      if (token.startsWith('local_admin_')) {
-        updateAdminUIState(true);
-        return true;
-      }
-
-      try {
-        const res = await fetch('/api/admin/verify', {
-          headers: { 'x-admin-token': token }
-        });
-        const contentType = res.headers.get('content-type') || '';
-        if (res.ok && contentType.includes('application/json')) {
-          const data = await res.json();
-          if (data && data.authenticated) {
-            updateAdminUIState(true);
-            return true;
-          }
-        }
-      } catch (err) {}
-
-      // Se estiver em ambiente estático sem API (ex: Vercel estático), preserva a sessão autenticada do gestor
-      updateAdminUIState(true);
-      return true;
+      const ok = await verifyAdminPassword(secret);
+      if (!ok) localStorage.removeItem(ADMIN_STORAGE_KEY);
+      updateAdminUIState(ok);
+      return ok;
     }
 
     function triggerAdminAccess(event) {
@@ -8026,55 +7959,18 @@
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Validando acesso...';
       if (errBox) errBox.style.display = 'none';
 
-      let loggedIn = false;
-      let token = '';
-
-      // 1. Tenta autenticação no backend se houver servidor online
-      try {
-        const res = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password })
-        });
-        const contentType = res.headers.get('content-type') || '';
-        if (res.ok && contentType.includes('application/json')) {
-          const data = await res.json();
-          if (data && data.success && data.token) {
-            loggedIn = true;
-            token = data.token;
-          } else if (data && data.error) {
-            if (errBox) {
-              errBox.textContent = data.error;
-              errBox.style.display = 'block';
-            }
-            if (input) input.select();
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = origText;
-            return;
-          }
-        }
-      } catch (err) {
-        // Servidor indisponível ou deploy estático no Vercel
-      }
-
-      // 2. Se não conectou com a API do servidor (ex: Vercel estático), valida credencial do gestor localmente
-      if (!loggedIn) {
-        const isValid = await verifyPasswordLocally(password);
-        if (isValid) {
-          loggedIn = true;
-          token = 'local_admin_' + Date.now();
-        }
-      }
+      const loggedIn = await verifyAdminPassword(password);
 
       if (loggedIn) {
-        localStorage.setItem(ADMIN_STORAGE_KEY, token);
+        // A senha e a credencial das RPCs de escrita — guardada so neste device.
+        localStorage.setItem(ADMIN_STORAGE_KEY, String(password).trim());
         updateAdminUIState(true);
         closeAuthModal();
         showToast('Acesso autorizado! Bem-vindo ao Painel de Gestão.', 'success');
         openAdminModal();
       } else {
         if (errBox) {
-          errBox.textContent = 'Senha incorreta. Tente novamente.';
+          errBox.textContent = 'Senha incorreta ou servidor indisponível.';
           errBox.style.display = 'block';
         }
         if (input) input.select();
@@ -8085,15 +7981,6 @@
     }
 
     async function adminLogout(notify = true) {
-      const token = getAdminToken();
-      if (token) {
-        try {
-          await fetch('/api/admin/logout', {
-            method: 'POST',
-            headers: { 'x-admin-token': token }
-          });
-        } catch (e) {}
-      }
       localStorage.removeItem(ADMIN_STORAGE_KEY);
       updateAdminUIState(false);
       closeAdminModal();
@@ -8127,45 +8014,21 @@
       submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Alterando...';
 
       let changed = false;
-
-      // 1. Tenta alterar no backend se disponível
       try {
-        const res = await fetch('/api/admin/change-password', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-token': getAdminToken()
-          },
-          body: JSON.stringify({ currentPassword, newPassword })
-        });
-        const contentType = res.headers.get('content-type') || '';
-        if (res.ok && contentType.includes('application/json')) {
-          const data = await res.json();
-          if (data && data.success) {
-            changed = true;
-          }
+        changed = (await sbRpc('admin_change_password', {
+          p_current: currentPassword,
+          p_new: newPassword
+        })) === true;
+        if (changed) {
+          localStorage.setItem(ADMIN_STORAGE_KEY, newPassword);
         }
-      } catch (err) {}
-
-      // 2. Se backend offline ou estático, valida senha atual e salva localmente
-      if (!changed) {
-        const isCurrentValid = await verifyPasswordLocally(currentPassword);
-        if (isCurrentValid) {
-          localStorage.setItem('industria_dog_custom_pwd', newPassword);
-          try {
-            const msgUint8 = new TextEncoder().encode(newPassword);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            localStorage.setItem('industria_dog_admin_pwd_hash', hashHex);
-          } catch (e) {}
-          changed = true;
-        } else {
-          if (msgBox) {
-            msgBox.style.display = 'block';
-            msgBox.style.color = '#f87171';
-            msgBox.textContent = 'A senha atual informada está incorreta.';
-          }
+      } catch (err) {
+        if (msgBox) {
+          msgBox.style.display = 'block';
+          msgBox.style.color = '#f87171';
+          msgBox.textContent = /SENHA_CURTA/.test(err.message)
+            ? 'A nova senha deve ter no mínimo 6 caracteres.'
+            : 'A senha atual informada está incorreta.';
         }
       }
 
@@ -8213,22 +8076,17 @@
     }
 
     async function loadAdminSchedule() {
-      let loaded = false;
       try {
-        const res = await fetch('/api/admin/schedule', {
-          headers: { 'x-admin-token': getAdminToken() }
-        });
-        const contentType = res.headers.get('content-type') || '';
-        if (res.ok && contentType.includes('application/json')) {
-          const data = await res.json();
-          if (data && data.schedule) {
-            currentAdminSchedule = JSON.parse(JSON.stringify(data.schedule));
-            loaded = true;
-          }
+        const config = await sbSelectSchedule();
+        if (config) {
+          serverSchedule = config;
+          currentAdminSchedule = JSON.parse(JSON.stringify(config));
         }
-      } catch (err) {}
+      } catch (err) {
+        showToast('Não foi possível carregar os horários do servidor.', 'error');
+      }
 
-      if (!loaded) {
+      if (!currentAdminSchedule) {
         currentAdminSchedule = JSON.parse(JSON.stringify(getActiveSchedule()));
       }
 
@@ -8248,45 +8106,31 @@
     }
 
     async function handleSetOverride(overrideMode) {
-      localStorage.setItem('industria_dog_override', overrideMode);
-      if (currentAdminSchedule) {
-        currentAdminSchedule.manualOverride = overrideMode;
-      }
+      const prevMode = (currentAdminSchedule && currentAdminSchedule.manualOverride) || 'auto';
       updateOverrideButtons(overrideMode);
 
-      storeStatus = calculateClientStoreStatus(currentAdminSchedule);
-      updateUIWithStoreStatus();
-
-      if (localBroadcastChannel) {
-        try {
-          localBroadcastChannel.postMessage({ type: 'status_update', status: storeStatus });
-        } catch (e) {}
-      }
-
       const labels = {
-        'auto': 'Modo Automático (Horário Normal)',
-        'force_open': 'Forçar ABERTO (Lojas e pedidos liberados)',
-        'force_closed': 'Forçar FECHADO (Pedidos bloqueados)'
+        'auto': 'Modo Automático (horário normal)',
+        'force_open': 'Forçar ABERTO (pedidos liberados)',
+        'force_closed': 'Forçar FECHADO (pedidos bloqueados)'
       };
-      showToast(`Status atualizado: ${labels[overrideMode] || overrideMode}`, 'success');
 
       try {
-        const res = await fetch('/api/admin/toggle-override', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-token': getAdminToken()
-          },
-          body: JSON.stringify({ override: overrideMode, adminToken: getAdminToken() })
+        const config = await sbRpc('set_store_override', {
+          p_password: getAdminToken(),
+          p_override: overrideMode
         });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.currentStatus) {
-            storeStatus = data.currentStatus;
-            updateUIWithStoreStatus();
-          }
-        }
-      } catch (err) {}
+        serverSchedule = config;
+        currentAdminSchedule = JSON.parse(JSON.stringify(config));
+        storeStatus = calculateClientStoreStatus(config);
+        updateUIWithStoreStatus();
+        showToast(`Status atualizado para TODOS: ${labels[overrideMode] || overrideMode}`, 'success');
+      } catch (err) {
+        updateOverrideButtons(prevMode);
+        showToast(/SENHA_INVALIDA/.test(err.message)
+          ? 'Sessão inválida. Faça login novamente — nada foi alterado.'
+          : 'Falha ao salvar. O status NÃO foi alterado para os clientes.', 'error');
+      }
     }
 
     function renderAdminDaysList() {
@@ -8403,41 +8247,22 @@
       }
 
       try {
-        // Salva na memória persistente do navegador
-        localStorage.setItem('industria_dog_schedule', JSON.stringify(currentAdminSchedule));
-        storeStatus = calculateClientStoreStatus(currentAdminSchedule);
+        const config = await sbRpc('set_store_schedule', {
+          p_password: getAdminToken(),
+          p_config: currentAdminSchedule
+        });
+        serverSchedule = config;
+        currentAdminSchedule = JSON.parse(JSON.stringify(config));
+        storeStatus = calculateClientStoreStatus(config);
         updateUIWithStoreStatus();
 
-        if (localBroadcastChannel) {
-          try {
-            localBroadcastChannel.postMessage({ type: 'status_update', status: storeStatus });
-          } catch (e) {}
-        }
-
-        // Tenta sincronizar com o backend
-        try {
-          const res = await fetch('/api/admin/schedule', {
-            method: 'POST',
-            headers: { 
-              'Content-Type': 'application/json',
-              'x-admin-token': getAdminToken()
-            },
-            body: JSON.stringify({ ...currentAdminSchedule, adminToken: getAdminToken() })
-          });
-          if (res.ok) {
-            const data = await res.json();
-            if (data && data.currentStatus) {
-              storeStatus = data.currentStatus;
-              updateUIWithStoreStatus();
-            }
-          }
-        } catch (serverErr) {}
-
-        showToast('Horários de funcionamento salvos com sucesso!', 'success');
+        showToast('Horários salvos e aplicados para TODOS os clientes!', 'success');
         closeAdminModal();
       } catch (err) {
         console.error(err);
-        showToast('Erro ao salvar horários.', 'error');
+        showToast(/SENHA_INVALIDA/.test(err.message)
+          ? 'Sessão inválida. Faça login novamente — nada foi salvo.'
+          : 'Falha ao salvar. Os horários NÃO foram alterados para os clientes.', 'error');
       } finally {
         if (saveBtn) {
           saveBtn.disabled = false;
