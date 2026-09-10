@@ -4536,22 +4536,210 @@
       display: none !important;
     }
 
-    /* Modal do Painel Admin */
+    /* ==========================================================================
+       MODAL DO PAINEL ADMIN (GESTÃO DE HORÁRIOS PREMIUM)
+       ========================================================================== */
     .admin-modal-card {
-      max-width: 760px;
+      max-width: 780px;
       width: 100%;
+      background: #11100f;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05);
     }
-    .admin-day-card {
-      background: #141312;
+    .admin-modal-card .modal-header-fixed {
+      padding: 18px 74px 16px 22px !important;
+      position: relative;
+    }
+    .admin-modal-card .modal-close-btn {
+      top: 18px;
+      right: 18px;
+      z-index: 10;
+    }
+    .admin-modal-card .admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-admin-logout {
+      padding: 6px 13px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-admin-logout:hover {
+      background: rgba(239, 68, 68, 0.22);
+      border-color: #ef4444;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    @media (max-width: 600px) {
+      .admin-modal-card .modal-header-fixed {
+        padding: 14px 52px 14px 14px !important;
+      }
+      .admin-modal-card .modal-close-btn {
+        top: 12px;
+        right: 12px;
+      }
+      .admin-modal-card .admin-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+        margin-top: 6px;
+      }
+    }
+
+    /* Caixa de Controle Operacional Imediato */
+    .override-control-box {
+      background: linear-gradient(180deg, #181716 0%, #121110 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+    .override-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .override-header-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.2px;
+    }
+    .override-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: rgba(217, 130, 43, 0.15);
+      border: 1px solid rgba(217, 130, 43, 0.3);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--color-mustard);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .override-header-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-mustard);
+      box-shadow: 0 0 8px var(--color-mustard);
+      animation: pulseIndicator 2s infinite;
+    }
+    .override-btn-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .btn-override-option {
+      position: relative;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
+      background: #191817;
+      color: #e5e5e5;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-override-option .override-opt-icon {
+      font-size: 1.15rem;
+      margin-bottom: 2px;
+      color: var(--color-text-muted);
+      transition: color 0.2s;
+    }
+    .btn-override-option .override-opt-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .btn-override-option .override-opt-desc {
+      font-size: 0.72rem;
+      color: var(--color-text-muted);
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .btn-override-option:hover {
+      background: #211f1d;
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+    .btn-override-option.active-auto {
+      background: linear-gradient(145deg, rgba(217, 130, 43, 0.16) 0%, rgba(217, 130, 43, 0.06) 100%);
+      border-color: var(--color-mustard);
+      color: #fff;
+      box-shadow: 0 0 0 1px var(--color-mustard), 0 4px 16px rgba(217, 130, 43, 0.18);
+    }
+    .btn-override-option.active-auto .override-opt-icon {
+      color: var(--color-mustard);
+    }
+    .btn-override-option.active-force-open {
+      background: linear-gradient(145deg, rgba(34, 197, 94, 0.18) 0%, rgba(34, 197, 94, 0.06) 100%);
+      border-color: #22c55e;
+      color: #fff;
+      box-shadow: 0 0 0 1px #22c55e, 0 4px 16px rgba(34, 197, 94, 0.2);
+    }
+    .btn-override-option.active-force-open .override-opt-icon {
+      color: #4ade80;
+    }
+    .btn-override-option.active-force-closed {
+      background: linear-gradient(145deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.08) 100%);
+      border-color: #ef4444;
+      color: #fff;
+      box-shadow: 0 0 0 1px #ef4444, 0 4px 16px rgba(239, 68, 68, 0.22);
+    }
+    .btn-override-option.active-force-closed .override-opt-icon {
+      color: #f87171;
+    }
+
+    /* Cards de Configuração dos Dias da Semana */
+    .admin-day-card {
+      background: linear-gradient(180deg, #171615 0%, #121110 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 18px;
       margin-bottom: 12px;
-      transition: border-color var(--transition-fast);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.25s ease;
+    }
+    .admin-day-card:hover {
+      border-color: rgba(255, 255, 255, 0.14);
     }
     .admin-day-card.is-today {
       border-color: var(--color-mustard);
-      background: rgba(217, 130, 43, 0.05);
+      background: linear-gradient(180deg, rgba(217, 130, 43, 0.1) 0%, #131211 100%);
+      box-shadow: 0 0 0 1px rgba(217, 130, 43, 0.35), 0 6px 20px rgba(217, 130, 43, 0.12), inset 0 1px 0 rgba(217, 130, 43, 0.2);
+    }
+    .admin-day-card.is-closed-card {
+      background: #11100f;
+      opacity: 0.9;
     }
     .admin-day-header {
       display: flex;
@@ -4561,95 +4749,70 @@
       flex-wrap: wrap;
     }
     .admin-day-title {
-      font-weight: 700;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .today-tag {
-      font-size: 0.72rem;
-      padding: 2px 8px;
-      background: var(--color-mustard);
-      color: #000;
-      border-radius: 9999px;
       font-weight: 800;
-      text-transform: uppercase;
-    }
-    .admin-day-periods {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .admin-period-row {
+      font-size: 1.02rem;
       display: flex;
       align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.02);
-      padding: 8px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 10px;
+      color: #f3f3f3;
+      letter-spacing: 0.2px;
     }
-    .admin-time-input {
-      background: #0c0b0a;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: var(--radius-sm);
-      color: #fff;
-      padding: 6px 10px;
-      font-family: var(--font-sans);
-      font-size: 0.9rem;
-      width: 108px;
-    }
-    .admin-time-input:focus {
-      outline: none;
-      border-color: var(--color-mustard);
-    }
-    .btn-period-delete {
-      background: transparent;
-      border: none;
-      color: #ef4444;
-      cursor: pointer;
-      padding: 6px 8px;
-      font-size: 0.95rem;
-      transition: opacity var(--transition-fast);
-      display: inline-flex;
+    .admin-day-icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .btn-period-delete:hover {
-      opacity: 0.7;
-    }
-    .btn-add-period {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px dashed rgba(255, 255, 255, 0.2);
       color: var(--color-mustard);
-      border-radius: var(--radius-sm);
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+    .today-tag {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      border-radius: 9999px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+    }
+    .admin-day-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .admin-status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: all var(--transition-fast);
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
-    .btn-add-period:hover {
-      background: rgba(217, 130, 43, 0.15);
-      border-color: var(--color-mustard);
+    .admin-status-pill.status-open {
+      background: rgba(34, 197, 94, 0.14);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #4ade80;
+    }
+    .admin-status-pill.status-closed {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.28);
+      color: #f87171;
     }
 
-    /* Switch toggle estilo iOS/Material */
+    /* Interruptor Switch Moderno */
     .switch-label {
       position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
       cursor: pointer;
-      font-size: 0.88rem;
-      font-weight: 700;
       user-select: none;
     }
     .switch-input {
@@ -4660,86 +4823,209 @@
     }
     .switch-slider {
       position: relative;
-      width: 44px;
-      height: 24px;
-      background-color: #383431;
-      border-radius: 24px;
-      transition: background-color 0.25s;
+      width: 46px;
+      height: 25px;
+      background-color: #2b2826;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.25s ease;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
     }
     .switch-slider::before {
       content: "";
       position: absolute;
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: #fff;
+      height: 19px;
+      width: 19px;
+      left: 2px;
+      bottom: 2px;
+      background: linear-gradient(180deg, #ffffff 0%, #e0e0e0 100%);
       border-radius: 50%;
-      transition: transform 0.25s;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .switch-input:checked + .switch-slider {
       background-color: #22c55e;
+      border-color: #16a34a;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.35);
     }
     .switch-input:checked + .switch-slider::before {
-      transform: translateX(20px);
+      transform: translateX(21px);
     }
 
-    /* Botões de controle de Override */
-    .override-control-box {
-      background: #121110;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      margin-bottom: 20px;
-    }
-    .override-btn-group {
+    /* Linhas de Período/Turno */
+    .admin-day-periods {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
+      flex-direction: column;
+      gap: 9px;
     }
-    .btn-override-option {
-      padding: 8px 14px;
-      border-radius: var(--radius-sm);
+    .admin-period-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0d0c0b;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      flex-wrap: wrap;
+      transition: border-color 0.2s;
+    }
+    .admin-period-row:hover {
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .period-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--color-text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .period-time-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1 1 auto;
+    }
+    .time-capsule {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #141312;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 4px 8px 4px 10px;
+      transition: all 0.2s;
+    }
+    .time-capsule:focus-within {
+      border-color: var(--color-mustard);
+      box-shadow: 0 0 0 2px rgba(217, 130, 43, 0.25);
+    }
+    .time-capsule-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .admin-time-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 700;
+      width: 96px;
+      letter-spacing: 0.5px;
+      padding: 2px 0;
+    }
+    .admin-time-input:focus {
+      outline: none;
+    }
+    .period-arrow {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      opacity: 0.6;
+    }
+    .btn-period-delete {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       font-size: 0.85rem;
+      transition: all 0.2s;
+      margin-left: auto;
+    }
+    .btn-period-delete:hover {
+      background: #ef4444;
+      color: #ffffff;
+      border-color: #ef4444;
+      transform: scale(1.05);
+    }
+    .btn-add-period {
+      background: rgba(217, 130, 43, 0.06);
+      border: 1px dashed rgba(217, 130, 43, 0.35);
+      color: var(--color-mustard);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      transition: all var(--transition-fast);
+      margin-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+      align-self: flex-start;
     }
-    .btn-override-option.active-auto {
-      background: rgba(217, 130, 43, 0.2);
+    .btn-add-period:hover {
+      background: rgba(217, 130, 43, 0.16);
       border-color: var(--color-mustard);
-      color: var(--color-mustard);
+      border-style: solid;
+      color: #fff;
     }
-    .btn-override-option.active-force-open {
-      background: rgba(34, 197, 94, 0.25);
-      border-color: #22c55e;
-      color: #4ade80;
+    .admin-day-closed-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
     }
-    .btn-override-option.active-force-closed {
-      background: rgba(239, 68, 68, 0.25);
-      border-color: #ef4444;
+    .admin-day-closed-notice i {
       color: #f87171;
+      font-size: 0.9rem;
     }
 
-    /* Tabela de horários semanal (Modal do cliente) */
+    /* Tabela de horários semanal (Modal do cliente e Seção de Localização) */
     .schedule-week-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 12px;
+      margin-top: 4px;
     }
     .schedule-week-table tr {
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background var(--transition-fast);
+    }
+    .schedule-week-table tr:last-child {
+      border-bottom: none;
     }
     .schedule-week-table tr.is-today-row {
-      background: rgba(217, 130, 43, 0.1);
+      background: rgba(217, 130, 43, 0.12);
     }
     .schedule-week-table td {
-      padding: 12px 14px;
-      font-size: 0.92rem;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    .schedule-week-table td.col-day {
+      white-space: nowrap;
+    }
+    .schedule-week-table td.col-status {
+      white-space: nowrap;
+      text-align: center;
+      width: 1%;
+    }
+    .schedule-week-table td.col-hours {
+      white-space: nowrap;
+      text-align: right;
     }
     .schedule-status-badge {
       display: inline-flex;
@@ -4757,6 +5043,75 @@
     .schedule-status-badge.closed {
       background: rgba(239, 68, 68, 0.15);
       color: #f87171;
+    }
+
+    /* Adaptação 100% fluida da tabela de horários para celulares */
+    @media (max-width: 600px) {
+      .schedule-week-table,
+      .schedule-week-table tbody,
+      .schedule-week-table tr {
+        display: block;
+        width: 100%;
+      }
+      .schedule-week-table tr {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 9px 12px;
+        gap: 6px;
+      }
+      .schedule-week-table td {
+        padding: 0 !important;
+        border: none !important;
+      }
+      .schedule-week-table td.col-day {
+        font-size: 0.84rem !important;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+      .schedule-week-table td.col-day .day-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .schedule-week-table td.col-status {
+        flex-shrink: 0;
+      }
+      .schedule-week-table td.col-hours {
+        font-size: 0.82rem !important;
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .schedule-status-badge {
+        padding: 2px 7px;
+        font-size: 0.72rem;
+        gap: 4px;
+      }
+      .today-tag {
+        font-size: 0.65rem;
+        padding: 1px 6px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .schedule-week-table tr {
+        padding: 8px 8px;
+        gap: 4px;
+      }
+      .schedule-week-table td.col-day {
+        font-size: 0.78rem !important;
+      }
+      .schedule-week-table td.col-hours {
+        font-size: 0.75rem !important;
+      }
+      .schedule-status-badge {
+        padding: 2px 5px;
+        font-size: 0.68rem;
+        gap: 3px;
+      }
     }
 
     /* Link ultra-discreto de acesso do gestor no footer (quase invisível para clientes comuns) */
@@ -5832,9 +6187,11 @@
                  target="_blank" 
                  rel="noopener noreferrer" 
                  class="btn btn-whatsapp btn-lg" 
+                 id="pixCardWhatsAppBtn"
+                 onclick="handleWhatsAppOrderBtnClick(event)"
                  style="width: 100%; justify-content: center; margin-top: 14px;">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span>Pedir pelo WhatsApp</span>
+                <i class="fa-brands fa-whatsapp" id="pixCardWhatsAppIcon"></i>
+                <span id="pixCardWhatsAppText">Pedir pelo WhatsApp</span>
               </a>
             </div>
 
@@ -6096,17 +6453,66 @@
                   </div>
                 </div>
 
-                <!-- Horário -->
-                <div class="contact-item">
-                  <div class="contact-item-icon">
-                    <i class="fa-solid fa-clock"></i>
+                <!-- Horário com Escala Semanal Completa -->
+                <div class="contact-item contact-item-schedule" style="flex-direction: column; align-items: stretch; width: 100%;">
+                  <div style="display: flex; align-items: center; gap: 14px; width: 100%;">
+                    <div class="contact-item-icon" style="flex-shrink: 0;">
+                      <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="contact-item-text" style="flex: 1; text-align: left;">
+                      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+                        <span class="contact-item-label">Horários de Atendimento</span>
+                        <span id="locationLiveBadge" class="schedule-status-badge closed" style="font-size: 0.72rem;">
+                          <i class="fa-solid fa-circle-xmark"></i> Fechado Agora
+                        </span>
+                      </div>
+                      <span class="contact-item-value" id="locationStatusSummaryText">
+                        Domingo a Sexta: <strong>18h30 às 23h00</strong> &bull; Sábados: <strong style="color: #f87171;">Fechado</strong>
+                      </span>
+                    </div>
                   </div>
-                  <div class="contact-item-text">
-                    <span class="contact-item-label">Horário de Funcionamento</span>
-                    <span class="contact-item-value">
-                      Domingo a Sexta: <strong>18h30 às 23h00</strong><br>
-                      <small style="color: var(--color-brick-red); font-weight: 700;">Sábados: Fechado</small>
-                    </span>
+
+                  <!-- Tabela Completa da Escala Semanal Visível no Celular e Computador -->
+                  <div class="page-schedule-wrapper" style="margin-top: 12px; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); overflow: hidden;">
+                    <table class="schedule-week-table" id="pageScheduleWeekTable">
+                      <tbody>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Domingo</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Segunda-feira</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Terça-feira</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quarta-feira</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quinta-feira</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sexta-feira</span></td>
+                          <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                          <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+                        </tr>
+                        <tr>
+                          <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sábado</span></td>
+                          <td class="col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></td>
+                          <td class="col-hours"><span style="color: var(--color-text-muted);">Fechado o dia todo</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
@@ -6194,9 +6600,11 @@
            target="_blank" 
            rel="noopener noreferrer" 
            class="btn btn-whatsapp btn-lg" 
+           id="finalCtaOrderBtn"
+           onclick="handleWhatsAppOrderBtnClick(event)"
            style="font-size: 1.15rem; padding: 20px 40px; justify-content: center; align-items: center;">
-          <i class="fa-brands fa-whatsapp" style="font-size: 1.5rem;"></i>
-          <span>Fazer Meu Pedido</span>
+          <i class="fa-brands fa-whatsapp" id="finalCtaOrderBtnIcon" style="font-size: 1.5rem;"></i>
+          <span id="finalCtaOrderBtnText">Fazer Meu Pedido</span>
         </a>
 
         <div class="final-guarantees">
@@ -6548,12 +6956,45 @@
           Confira abaixo nossa escala semanal completa:
         </p>
 
-        <!-- Tabela Semanal de Horários -->
-        <div style="overflow-x: auto; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <!-- Tabela Semanal de Horários (Responsiva para Celular e Computador) -->
+        <div class="schedule-table-card-wrapper" style="overflow-x: auto; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
           <table class="schedule-week-table" id="scheduleWeekTable">
             <tbody>
-              <!-- Renderizado dinamicamente via JS -->
-              <tr><td colspan="3" style="text-align: center; color: var(--color-text-muted);">Carregando horários...</td></tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Domingo</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Segunda-feira</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Terça-feira</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quarta-feira</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Quinta-feira</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sexta-feira</span></td>
+                <td class="col-status"><span class="schedule-status-badge open"><i class="fa-solid fa-circle-check"></i> Aberto</span></td>
+                <td class="col-hours"><strong>18:30</strong> às <strong>23:00</strong></td>
+              </tr>
+              <tr>
+                <td class="col-day" style="font-weight: 600; color: #fff;"><span class="day-name">Sábado</span></td>
+                <td class="col-status"><span class="schedule-status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Fechado</span></td>
+                <td class="col-hours"><span style="color: var(--color-text-muted);">Fechado o dia todo</span></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -6639,71 +7080,94 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
 
-      <div class="modal-header-fixed" style="border-bottom: 1px solid rgba(217, 130, 43, 0.3);">
-        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 10px; flex-wrap: wrap;">
+      <div class="modal-header-fixed" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: #151413;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 12px; flex-wrap: wrap;">
           <div>
-            <span class="section-eyebrow" style="color: var(--color-mustard); margin-bottom: 2px; font-size: 0.75rem;">
-              <i class="fa-solid fa-sliders"></i> Gestão do Estabelecimento (Exclusivo)
-            </span>
-            <h3 id="adminModalTitle" style="font-size: 1.35rem;">Painel de Horários de Funcionamento</h3>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span class="badge-gold-admin" style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: rgba(217, 130, 43, 0.15); color: var(--color-mustard); border: 1px solid rgba(217, 130, 43, 0.3); text-transform: uppercase; letter-spacing: 0.6px;">
+                <i class="fa-solid fa-shield-halved"></i> Painel do Gestor
+              </span>
+              <span style="font-size: 0.74rem; color: var(--color-text-muted);">
+                &bull; Indústria do Dog
+              </span>
+            </div>
+            <h3 id="adminModalTitle" style="font-size: 1.32rem; font-weight: 800; color: #fff; letter-spacing: -0.2px; margin: 0;">
+              Horários de Funcionamento
+            </h3>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div class="status-state-pill" id="adminLiveStatusPill" style="font-size: 0.75rem;">
+          <div class="admin-header-actions">
+            <div class="status-state-pill" id="adminLiveStatusPill" style="font-size: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.1);">
               <span class="status-indicator-dot"></span>
               <span id="adminLiveStatusLabel">Status</span>
             </div>
-            <button type="button" class="btn btn-secondary" onclick="adminLogout()" style="padding: 4px 10px; font-size: 0.75rem; border-color: rgba(239,68,68,0.3); color: #fca5a5;" title="Encerrar sessão de gestor">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i> Sair
+            <button type="button" class="btn-admin-logout" onclick="adminLogout()" title="Encerrar sessão de gestor">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <span>Sair</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div class="modal-body-scrollable">
-        <!-- Caixa de Override Imediato (Emergencial) -->
+      <div class="modal-body-scrollable" style="padding: 20px;">
+        <!-- Caixa de Override Imediato (Emergencial & Tempo Real) -->
         <div class="override-control-box">
-          <label style="font-size: 0.85rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-toggle-on" style="color: var(--color-mustard);"></i> Controle Operacional Imediato:
-          </label>
-          <p style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px; margin-bottom: 8px;">
-            Deseja abrir/fechar agora sem esperar o relógio ou manter a escala automática dos dias?
+          <div class="override-header">
+            <div class="override-header-title">
+              <i class="fa-solid fa-bolt-lightning" style="color: #fbbf24;"></i>
+              <span>Controle Operacional Imediato</span>
+            </div>
+            <span class="override-header-badge">
+              <span class="pulse-dot"></span> Ao Vivo
+            </span>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--color-text-muted); margin: 4px 0 10px 0; line-height: 1.4;">
+            Abra ou feche a loja imediatamente, independentemente do relógio, ou mantenha a escala automática:
           </p>
           <div class="override-btn-group">
             <button type="button" class="btn-override-option" id="btnOverrideAuto" onclick="handleSetOverride('auto')">
-              <i class="fa-solid fa-clock-rotate-left"></i> Automático (Seguir Escala)
+              <i class="fa-solid fa-clock-rotate-left override-opt-icon"></i>
+              <span class="override-opt-title">Automático</span>
+              <span class="override-opt-desc">Segue a escala semanal</span>
             </button>
             <button type="button" class="btn-override-option" id="btnOverrideForceOpen" onclick="handleSetOverride('force_open')">
-              <i class="fa-solid fa-door-open"></i> Forçar ABERTO Agora
+              <i class="fa-solid fa-door-open override-opt-icon"></i>
+              <span class="override-opt-title">Forçar ABERTO</span>
+              <span class="override-opt-desc">Receber pedidos agora</span>
             </button>
             <button type="button" class="btn-override-option" id="btnOverrideForceClosed" onclick="handleSetOverride('force_closed')">
-              <i class="fa-solid fa-door-closed"></i> Forçar FECHADO Agora
+              <i class="fa-solid fa-door-closed override-opt-icon"></i>
+              <span class="override-opt-title">Forçar FECHADO</span>
+              <span class="override-opt-desc">Bloquear pedidos agora</span>
             </button>
           </div>
         </div>
 
         <!-- Atalhos de Configuração Rápida (Presets) -->
-        <div style="margin-bottom: 16px;">
-          <label style="font-size: 0.82rem; font-weight: 700; color: var(--color-text-muted); display: block; margin-bottom: 6px;">
-            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--color-mustard);"></i> Preenchimento Rápido de Horários:
-          </label>
+        <div style="margin-bottom: 20px; background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
+            <label style="font-size: 0.82rem; font-weight: 800; color: #e5e5e5; display: flex; align-items: center; gap: 7px; margin: 0;">
+              <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--color-mustard);"></i> Preenchimento Rápido de Horários
+            </label>
+            <span style="font-size: 0.72rem; color: var(--color-text-muted);">Clique para preencher em 1 clique</span>
+          </div>
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button type="button" class="btn-view-schedule" onclick="applyPresetSchedule('padrao')">
-              Padrão (Dom-Sex 18:30-23:00 / Sáb Fechado)
+            <button type="button" class="btn-view-schedule" onclick="applyPresetSchedule('padrao')" style="font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; font-weight: 600;">
+              <i class="fa-solid fa-check" style="color: #4ade80;"></i> Padrão (Dom-Sex 18:30-23:00 / Sáb Fechado)
             </button>
-            <button type="button" class="btn-view-schedule" onclick="applyPresetSchedule('todosOsDias')">
-              Todos os Dias (18:00-23:30)
+            <button type="button" class="btn-view-schedule" onclick="applyPresetSchedule('todosOsDias')" style="font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; font-weight: 600;">
+              <i class="fa-regular fa-clock" style="color: var(--color-mustard);"></i> Todos os Dias (18:00-23:30)
             </button>
           </div>
         </div>
 
-        <!-- Configuração dos 7 Dias da Semana (Regras 1 e 2) -->
-        <div style="margin-bottom: 16px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-            <label style="font-size: 0.92rem; font-weight: 800; color: #fff;">
-              <i class="fa-solid fa-calendar-week" style="color: var(--color-mustard);"></i> Dias e Períodos de Funcionamento:
+        <!-- Configuração dos 7 Dias da Semana -->
+        <div style="margin-bottom: 18px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;">
+            <label style="font-size: 0.94rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; margin: 0;">
+              <i class="fa-solid fa-calendar-week" style="color: var(--color-mustard);"></i> Dias e Horários de Funcionamento
             </label>
-            <span style="font-size: 0.78rem; color: var(--color-text-muted);">
-              Fuso Horário: <strong style="color: var(--color-mustard);">America/Sao_Paulo (Brasília)</strong>
+            <span style="font-size: 0.74rem; color: var(--color-text-muted); background: rgba(255, 255, 255, 0.04); padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.08);">
+              <i class="fa-solid fa-globe" style="margin-right: 4px; color: var(--color-mustard);"></i> Brasília (GMT-3)
             </span>
           </div>
 
@@ -6713,10 +7177,10 @@
           </div>
         </div>
 
-        <!-- Simulador de Teste do Backend (Regra 7, 8, 10) -->
+        <!-- Simulador de Horários -->
         <div style="background: #11100f; border: 1px dashed rgba(217, 130, 43, 0.35); border-radius: var(--radius-sm); padding: 14px 16px; margin-top: 14px;">
           <label style="font-size: 0.85rem; font-weight: 700; color: var(--color-mustard); display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-flask"></i> Simulador de Horário (Testar Regras do Backend):
+            <i class="fa-solid fa-flask"></i> Simulador de Horário:
           </label>
           <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 4px 0 10px 0;">
             Simule um dia e horário específico para verificar instantaneamente a mensagem que o cliente receberá:
@@ -7661,6 +8125,42 @@
         }
       }
 
+      // 3b. PIX Card WhatsApp button
+      const pixBtn = document.getElementById('pixCardWhatsAppBtn');
+      const pixBtnText = document.getElementById('pixCardWhatsAppText');
+      const pixBtnIcon = document.getElementById('pixCardWhatsAppIcon');
+      if (pixBtn) {
+        if (isOpen) {
+          pixBtn.className = 'btn btn-whatsapp btn-lg';
+          pixBtn.removeAttribute('aria-disabled');
+          if (pixBtnIcon) pixBtnIcon.className = 'fa-brands fa-whatsapp';
+          if (pixBtnText) pixBtnText.textContent = 'Pedir pelo WhatsApp';
+          pixBtn.title = 'Fazer pedido pelo WhatsApp';
+        } else {
+          pixBtn.className = 'btn btn-secondary btn-lg';
+          pixBtn.setAttribute('aria-disabled', 'true');
+          if (pixBtnIcon) pixBtnIcon.className = 'fa-solid fa-clock';
+          if (pixBtnText) pixBtnText.textContent = 'Fechado no Momento • Ver Horários';
+          pixBtn.title = 'Estamos fechados no momento. Clique para ver os horários.';
+        }
+      }
+
+      // 3c. Final CTA button
+      const finalCtaBtn = document.getElementById('finalCtaOrderBtn');
+      const finalCtaText = document.getElementById('finalCtaOrderBtnText');
+      const finalCtaIcon = document.getElementById('finalCtaOrderBtnIcon');
+      if (finalCtaBtn) {
+        if (isOpen) {
+          finalCtaBtn.className = 'btn btn-whatsapp btn-lg';
+          if (finalCtaIcon) finalCtaIcon.className = 'fa-brands fa-whatsapp';
+          if (finalCtaText) finalCtaText.textContent = 'Fazer Meu Pedido';
+        } else {
+          finalCtaBtn.className = 'btn btn-secondary btn-lg';
+          if (finalCtaIcon) finalCtaIcon.className = 'fa-solid fa-clock';
+          if (finalCtaText) finalCtaText.textContent = 'Estamos Fechados • Ver Horários';
+        }
+      }
+
       // 4. Floating WhatsApp hint & ping
       const floatHint = document.getElementById('whatsappFloatingHint');
       const floatPing = document.getElementById('floatingWhatsAppPing');
@@ -7735,6 +8235,15 @@
         }
       }
 
+      // 9. Badge de status na seção de localização na página
+      const locBadge = document.getElementById('locationLiveBadge');
+      if (locBadge) {
+        locBadge.className = `schedule-status-badge ${isOpen ? 'open' : 'closed'}`;
+        locBadge.innerHTML = isOpen
+          ? '<i class="fa-solid fa-circle-check"></i> Aberto Agora'
+          : '<i class="fa-solid fa-circle-xmark"></i> Fechado Agora';
+      }
+
       // Renderiza tabela semanal do cliente se a escala estiver disponível
       if (storeStatus.schedule) {
         renderWeeklyScheduleTable(storeStatus.schedule, storeStatus.currentDay);
@@ -7784,6 +8293,18 @@
       }
     }
 
+    function handleWhatsAppOrderBtnClick(event) {
+      if (storeStatus && !storeStatus.isOpen) {
+        event.preventDefault();
+        openScheduleModal();
+        const nextOpeningStr = formatNextOpening(storeStatus.nextOpening);
+        showToast(storeStatus.message || 'Estamos fechados no momento. Pedidos indisponíveis.', 'error');
+        if (nextOpeningStr) {
+          showToast(`Próxima abertura: ${nextOpeningStr}`, 'info');
+        }
+      }
+    }
+
     function handleFloatingWhatsAppClick(event) {
       if (storeStatus && !storeStatus.isOpen) {
         event.preventDefault();
@@ -7804,6 +8325,9 @@
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
+      if (storeStatus && storeStatus.schedule) {
+        renderWeeklyScheduleTable(storeStatus.schedule, storeStatus.currentDay);
+      }
       fetchStoreStatus();
     }
 
@@ -7822,10 +8346,10 @@
     }
 
     function renderWeeklyScheduleTable(schedule, currentDayKey) {
-      const tbody = document.querySelector('#scheduleWeekTable tbody');
-      if (!tbody || !schedule || !schedule.days) return;
+      const tbodies = document.querySelectorAll('#scheduleWeekTable tbody, #pageScheduleWeekTable tbody');
+      if (!tbodies.length || !schedule || !schedule.days) return;
 
-      tbody.innerHTML = DAYS_ORDER_WEEK.map(key => {
+      const html = DAYS_ORDER_WEEK.map(key => {
         const d = schedule.days[key];
         if (!d) return '';
         const isToday = key === currentDayKey;
@@ -7845,14 +8369,18 @@
 
         return `
           <tr class="${isToday ? 'is-today-row' : ''}">
-            <td style="font-weight: ${isToday ? '800' : '600'}; color: ${isToday ? 'var(--color-mustard)' : '#fff'};">
-              ${dayTitle} ${todayBadge}
+            <td class="col-day" style="font-weight: ${isToday ? '800' : '600'}; color: ${isToday ? 'var(--color-mustard)' : '#fff'};">
+              <span class="day-name">${dayTitle}</span> ${todayBadge}
             </td>
-            <td>${statusBadge}</td>
-            <td>${hoursText}</td>
+            <td class="col-status">${statusBadge}</td>
+            <td class="col-hours">${hoursText}</td>
           </tr>
         `;
       }).join('');
+
+      tbodies.forEach(tbody => {
+        tbody.innerHTML = html;
+      });
     }
 
     // ==========================================================================
@@ -8179,41 +8707,62 @@
         const periodsHtml = (day.periods && day.periods.length > 0)
           ? day.periods.map((p, idx) => `
               <div class="admin-period-row">
-                <span style="font-size: 0.8rem; color: var(--color-text-muted);">Período ${idx + 1}:</span>
-                <input type="time" class="admin-time-input" value="${p.open}" onchange="updatePeriodTime('${key}', ${idx}, 'open', this.value)">
-                <span style="font-size: 0.8rem; color: var(--color-text-muted);">às</span>
-                <input type="time" class="admin-time-input" value="${p.close}" onchange="updatePeriodTime('${key}', ${idx}, 'close', this.value)">
-                <button type="button" class="btn-period-delete" onclick="removePeriod('${key}', ${idx})" title="Remover período">
+                <div class="period-badge">
+                  <i class="fa-regular fa-clock"></i>
+                  <span>Turno ${idx + 1}</span>
+                </div>
+                <div class="period-time-group">
+                  <div class="time-capsule" title="Horário de abertura do turno ${idx + 1}">
+                    <span class="time-capsule-label">Abre</span>
+                    <input type="time" class="admin-time-input" value="${p.open}" onchange="updatePeriodTime('${key}', ${idx}, 'open', this.value)">
+                  </div>
+                  <span class="period-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                  <div class="time-capsule" title="Horário de encerramento do turno ${idx + 1}">
+                    <span class="time-capsule-label">Fecha</span>
+                    <input type="time" class="admin-time-input" value="${p.close}" onchange="updatePeriodTime('${key}', ${idx}, 'close', this.value)">
+                  </div>
+                </div>
+                <button type="button" class="btn-period-delete" onclick="removePeriod('${key}', ${idx})" title="Remover este turno">
                   <i class="fa-solid fa-trash-can"></i>
                 </button>
               </div>
             `).join('')
-          : '<div style="font-size: 0.82rem; color: #888; padding: 4px;">Nenhum período configurado (estabelecimento não abrirá neste dia).</div>';
+          : '<div class="admin-day-closed-notice"><i class="fa-regular fa-clock"></i> <span>Nenhum período de atendimento configurado para este dia.</span></div>';
 
         return `
-          <div class="admin-day-card ${isToday ? 'is-today' : ''}" id="admin-card-${key}">
+          <div class="admin-day-card ${isToday ? 'is-today' : ''} ${!day.isOpen ? 'is-closed-card' : ''}" id="admin-card-${key}">
             <div class="admin-day-header">
               <div class="admin-day-title">
+                <div class="admin-day-icon-circle">
+                  <i class="fa-regular fa-calendar-check"></i>
+                </div>
                 <span>${dayTitle}</span>
-                ${isToday ? '<span class="today-tag">Hoje</span>' : ''}
+                ${isToday ? '<span class="today-tag"><i class="fa-solid fa-bolt"></i> Hoje</span>' : ''}
               </div>
-              <div>
-                <label class="switch-label">
-                  <span style="color: ${day.isOpen ? '#4ade80' : '#f87171'}; font-size: 0.82rem;">
-                    ${day.isOpen ? 'ABERTO' : 'FECHADO'}
-                  </span>
+              <div class="admin-day-toggle-wrap">
+                <span class="admin-status-pill ${day.isOpen ? 'status-open' : 'status-closed'}">
+                  <i class="fa-solid ${day.isOpen ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+                  ${day.isOpen ? 'Aberto' : 'Fechado'}
+                </span>
+                <label class="switch-label" title="${day.isOpen ? 'Clique para fechar este dia' : 'Clique para abrir este dia'}">
                   <input type="checkbox" class="switch-input" ${isChecked} onchange="toggleDayStatus('${key}', this.checked)">
                   <span class="switch-slider"></span>
                 </label>
               </div>
             </div>
 
-            <div class="admin-day-periods" style="${day.isOpen ? '' : 'opacity: 0.35; pointer-events: none;'}">
+            <div class="admin-day-periods" style="${day.isOpen ? '' : 'display: none;'}">
               ${periodsHtml}
               <button type="button" class="btn-add-period" onclick="addPeriod('${key}')">
-                <i class="fa-solid fa-plus"></i> Adicionar Horário / Período
+                <i class="fa-solid fa-plus"></i> Adicionar Turno / Horário
               </button>
             </div>
+            ${!day.isOpen ? `
+              <div class="admin-day-closed-notice" style="margin-top: 10px;">
+                <i class="fa-solid fa-moon"></i>
+                <span>Estabelecimento fechado neste dia da semana. Ative o interruptor acima para cadastrar os horários.</span>
+              </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -8841,6 +9390,9 @@
       initMagneticButtons();
       initHeroEmbers();
       
+      // Renderização inicial imediata do status e escala antes de requisições de rede
+      updateUIWithStoreStatus();
+
       // Inicializa a sincronização em tempo real (Server-Sent Events + Broadcast)
       initRealtimeStatusSync();
       fetchStoreStatus();
