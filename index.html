@@ -5138,6 +5138,7 @@
       .gsap-reveal-item { opacity: 1 !important; transform: none !important; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -7525,18 +7526,47 @@
       }
     } catch (e) {}
 
-    function initRealtimeStatusSync() {
-      // Sem SSE: funcoes serverless nao mantem conexao aberta.
-      // Polling adaptativo — pausa com a aba oculta e refaz na volta.
-      let pollTimer = null;
+    let realtimeChannel = null;
 
-      function startPolling() {
-        stopPolling();
-        pollTimer = setInterval(fetchStoreStatus, 20000);
+    function initRealtimeStatusSync() {
+      // 1. Realtime: o Postgres empurra a mudanca para TODOS os aparelhos
+      //    conectados no instante em que o admin salva.
+      try {
+        const factory = window.supabase && window.supabase.createClient;
+        if (factory && !realtimeChannel) {
+          const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false }
+          });
+          realtimeChannel = client
+            .channel('store-schedule')
+            .on('postgres_changes', {
+              event: 'UPDATE',
+              schema: 'public',
+              table: 'store_schedule',
+              filter: 'id=eq.1'
+            }, (payload) => {
+              const config = payload && payload.new && payload.new.config;
+              if (!config) return;
+              serverSchedule = config;
+              storeStatus = calculateClientStoreStatus(config);
+              updateUIWithStoreStatus();
+            })
+            .subscribe();
+        }
+      } catch (err) {
+        // Sem realtime: o polling abaixo cobre.
       }
-      function stopPolling() {
+
+      // 2. Rede de seguranca: polling lento + virada de horario automatica
+      //    (18:30 / 23:00 nao geram evento no banco).
+      let pollTimer = null;
+      const startPolling = () => {
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = setInterval(fetchStoreStatus, 30000);
+      };
+      const stopPolling = () => {
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
-      }
+      };
 
       fetchStoreStatus();
       startPolling();
