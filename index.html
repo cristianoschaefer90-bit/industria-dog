@@ -4245,17 +4245,17 @@
         padding: 6px 10px;
         font-size: 0.75rem;
       }
-      /* Admin Modal em telas pequenas */
-      .admin-modal-card {
+      /* Centralização e contenção de modais no mobile sem rolagem lateral */
+      .order-modal-backdrop {
+        padding: 8px !important;
+        overflow-x: hidden !important;
+      }
+      .admin-modal-card,
+      .schedule-modal-card {
         width: min(96vw, 680px) !important;
+        max-width: 100% !important;
+        margin: auto !important;
         max-height: calc(100dvh - 16px) !important;
-      }
-      .admin-override-grid {
-        grid-template-columns: 1fr !important;
-        gap: 6px !important;
-      }
-      .admin-day-card {
-        padding: 10px 12px !important;
       }
     }
 
@@ -4581,21 +4581,6 @@
       border-color: #ef4444;
       color: #ffffff;
       transform: translateY(-1px);
-    }
-    @media (max-width: 600px) {
-      .admin-modal-card .modal-header-fixed {
-        padding: 14px 52px 14px 14px !important;
-      }
-      .admin-modal-card .modal-close-btn {
-        top: 12px;
-        right: 12px;
-      }
-      .admin-modal-card .admin-header-actions {
-        width: 100%;
-        justify-content: flex-start;
-        gap: 8px;
-        margin-top: 6px;
-      }
     }
 
     /* Caixa de Controle Operacional Imediato */
@@ -5045,72 +5030,419 @@
       color: #f87171;
     }
 
-    /* Adaptação 100% fluida da tabela de horários para celulares */
+    /* ==========================================================================
+       OTIMIZAÇÃO COMPLETA PARA DISPOSITIVOS MÓVEIS (ADMIN & ESCALA DE HORÁRIOS)
+       Centralizado perfeitamente, sem rolagem lateral e sem oscilação
+       ========================================================================== */
+    .schedule-hours-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .schedule-hours-icon {
+      font-size: 0.76rem;
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
     @media (max-width: 600px) {
-      .schedule-week-table,
-      .schedule-week-table tbody,
-      .schedule-week-table tr {
-        display: block;
-        width: 100%;
+      /* Prevenção rigorosa de movimento lateral na viewport e modais */
+      .order-modal-backdrop {
+        padding: 8px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow-x: hidden !important;
+        width: 100vw !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .order-modal {
+        margin: auto !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+      }
+
+      /* Modal de Horários do Cliente */
+      .schedule-modal-card {
+        width: calc(100vw - 16px) !important;
+        max-width: 100% !important;
+        margin: auto !important;
+        border-radius: 16px !important;
+        overflow-x: hidden !important;
+      }
+      .schedule-modal-card .modal-header-fixed {
+        padding: 14px 48px 12px 14px !important;
+      }
+      .schedule-modal-card .modal-close-btn {
+        top: 12px !important;
+        right: 12px !important;
+      }
+      .schedule-modal-card .modal-body-scrollable {
+        padding: 12px 10px !important;
+        overflow-x: hidden !important;
+      }
+
+      /* Escala Semanal de Horários (Tabela no Modal e na Página Inicial) */
+      .schedule-table-card-wrapper,
+      .page-schedule-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        background: #121110 !important;
+        border-radius: 10px !important;
+      }
+      .schedule-week-table {
+        display: block !important;
+        width: 100% !important;
+        border-collapse: separate !important;
+        margin: 0 !important;
+      }
+      .schedule-week-table tbody {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 6px !important;
+        padding: 6px !important;
+        box-sizing: border-box !important;
       }
       .schedule-week-table tr {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 9px 12px;
-        gap: 6px;
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        grid-template-areas:
+          "day status"
+          "hours hours" !important;
+        row-gap: 5px !important;
+        column-gap: 8px !important;
+        padding: 10px 12px !important;
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        align-items: center !important;
+      }
+      .schedule-week-table tr.is-today-row {
+        background: linear-gradient(135deg, rgba(217, 130, 43, 0.16) 0%, rgba(217, 130, 43, 0.05) 100%) !important;
+        border-color: rgba(217, 130, 43, 0.38) !important;
+        box-shadow: 0 2px 10px rgba(217, 130, 43, 0.08) !important;
       }
       .schedule-week-table td {
         padding: 0 !important;
         border: none !important;
       }
       .schedule-week-table td.col-day {
-        font-size: 0.84rem !important;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-      .schedule-week-table td.col-day .day-name {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        grid-area: day !important;
+        font-size: 0.88rem !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        min-width: 0 !important;
       }
       .schedule-week-table td.col-status {
-        flex-shrink: 0;
+        grid-area: status !important;
+        text-align: right !important;
       }
       .schedule-week-table td.col-hours {
+        grid-area: hours !important;
         font-size: 0.82rem !important;
-        text-align: right;
-        flex-shrink: 0;
+        color: #d4d4d4 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        width: 100% !important;
+        padding-top: 4px !important;
+        border-top: 1px dashed rgba(255, 255, 255, 0.06) !important;
+        white-space: normal !important;
+        text-align: left !important;
       }
       .schedule-status-badge {
-        padding: 2px 7px;
-        font-size: 0.72rem;
-        gap: 4px;
+        padding: 3px 8px !important;
+        font-size: 0.72rem !important;
+        gap: 4px !important;
       }
       .today-tag {
-        font-size: 0.65rem;
-        padding: 1px 6px;
+        font-size: 0.65rem !important;
+        padding: 1px 6px !important;
+      }
+
+      /* Modal do Painel de Gestão (Admin) no Mobile */
+      .admin-modal-card {
+        width: calc(100vw - 16px) !important;
+        max-width: 100% !important;
+        margin: auto !important;
+        max-height: calc(100dvh - 16px) !important;
+        border-radius: 16px !important;
+        overflow-x: hidden !important;
+      }
+      .admin-modal-card .modal-header-fixed {
+        padding: 14px 48px 12px 14px !important;
+      }
+      .admin-modal-card .modal-close-btn {
+        top: 12px !important;
+        right: 12px !important;
+      }
+      .admin-modal-card .admin-header-actions {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        margin-top: 8px !important;
+        gap: 8px !important;
+      }
+      .admin-modal-card .btn-admin-logout {
+        padding: 5px 12px !important;
+        font-size: 0.75rem !important;
+      }
+      .admin-body-scrollable,
+      .admin-modal-card .modal-body-scrollable {
+        padding: 12px 10px !important;
+        gap: 12px !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+
+      /* Bloco de Override Operacional Imediato */
+      .override-control-box {
+        padding: 12px 10px !important;
+        margin-bottom: 12px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+      .override-header {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+      }
+      .override-btn-group {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        margin-top: 10px !important;
+        width: 100% !important;
+      }
+      .btn-override-option {
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 10px 12px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .btn-override-option .override-opt-icon {
+        font-size: 1.25rem !important;
+        margin-bottom: 0 !important;
+        flex-shrink: 0 !important;
+      }
+      .override-opt-text-wrap {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 2px !important;
+      }
+      .btn-override-option .override-opt-title {
+        font-size: 0.86rem !important;
+      }
+      .btn-override-option .override-opt-desc {
+        font-size: 0.72rem !important;
+      }
+
+      /* Presets de Configuração Rápida */
+      .admin-presets-box {
+        padding: 10px 12px !important;
+        margin-bottom: 14px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+      .admin-presets-row {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 6px !important;
+      }
+      .admin-presets-row .btn-view-schedule {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        white-space: normal !important;
+        padding: 9px 12px !important;
+        font-size: 0.78rem !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Cards dos 7 Dias da Semana no Admin */
+      .admin-day-card {
+        padding: 12px 10px !important;
+        margin-bottom: 10px !important;
+        border-radius: 10px !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+      }
+      .admin-day-header {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 6px !important;
+      }
+      .admin-day-title {
+        font-size: 0.94rem !important;
+        gap: 6px !important;
+      }
+      .admin-day-icon-circle {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.72rem !important;
+      }
+      .admin-day-toggle-wrap {
+        gap: 6px !important;
+      }
+      .admin-status-pill {
+        font-size: 0.7rem !important;
+        padding: 2px 7px !important;
+      }
+      .switch-slider {
+        width: 42px !important;
+        height: 23px !important;
+      }
+      .switch-slider::before {
+        width: 17px !important;
+        height: 17px !important;
+        bottom: 2px !important;
+        left: 2px !important;
+      }
+      .switch-input:checked + .switch-slider::before {
+        transform: translateX(19px) !important;
+      }
+
+      /* Linha de Turno/Horários no Admin (Organizada e Sem Estourar) */
+      .admin-period-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        padding: 10px 8px !important;
+        gap: 8px !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .period-badge {
+        order: 1 !important;
+        font-size: 0.7rem !important;
+        padding: 3px 6px !important;
+      }
+      .btn-period-delete {
+        order: 2 !important;
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.78rem !important;
+        margin-left: auto !important;
+      }
+      .period-time-group {
+        order: 3 !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        margin-top: 2px !important;
+      }
+      .time-capsule {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+        padding: 6px 4px !important;
+        gap: 4px !important;
+        box-sizing: border-box !important;
+      }
+      .time-capsule-label {
+        font-size: 0.64rem !important;
+      }
+      .admin-time-input {
+        width: 70px !important;
+        font-size: 0.88rem !important;
+        text-align: center !important;
+        padding: 0 !important;
+      }
+      .period-arrow {
+        font-size: 0.7rem !important;
+        padding: 0 2px !important;
+        flex-shrink: 0 !important;
+      }
+      .btn-add-period {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 9px 12px !important;
+        font-size: 0.8rem !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Controles de Simulador e Segurança */
+      .admin-sim-controls {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .admin-sim-controls select,
+      .admin-sim-time-capsule,
+      .admin-sim-controls button {
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .admin-sim-time-capsule {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        background: #141312 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 8px !important;
+        padding: 6px 12px !important;
+      }
+      .admin-pass-controls {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+      }
+      .admin-pass-controls input,
+      .admin-pass-controls button {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+      }
+      .modal-footer-fixed {
+        padding: 12px 14px !important;
+        gap: 8px !important;
+      }
+      .modal-footer-fixed button {
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
     }
 
     @media (max-width: 400px) {
       .schedule-week-table tr {
-        padding: 8px 8px;
-        gap: 4px;
+        padding: 8px 10px !important;
+        gap: 4px !important;
       }
       .schedule-week-table td.col-day {
-        font-size: 0.78rem !important;
+        font-size: 0.82rem !important;
       }
       .schedule-week-table td.col-hours {
-        font-size: 0.75rem !important;
+        font-size: 0.78rem !important;
       }
       .schedule-status-badge {
-        padding: 2px 5px;
-        font-size: 0.68rem;
-        gap: 3px;
+        padding: 2px 6px !important;
+        font-size: 0.68rem !important;
+        gap: 3px !important;
+      }
+      .admin-time-input {
+        width: 64px !important;
+        font-size: 0.84rem !important;
       }
     }
 
@@ -6473,7 +6805,7 @@
                   </div>
 
                   <!-- Tabela Completa da Escala Semanal Visível no Celular e Computador -->
-                  <div class="page-schedule-wrapper" style="margin-top: 12px; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); overflow: hidden;">
+                  <div class="page-schedule-wrapper" style="margin-top: 12px; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); overflow-x: hidden;">
                     <table class="schedule-week-table" id="pageScheduleWeekTable">
                       <tbody>
                         <tr>
@@ -6957,7 +7289,7 @@
         </p>
 
         <!-- Tabela Semanal de Horários (Responsiva para Celular e Computador) -->
-        <div class="schedule-table-card-wrapper" style="overflow-x: auto; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
+        <div class="schedule-table-card-wrapper" style="overflow-x: hidden; width: 100%; background: #121110; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08);">
           <table class="schedule-week-table" id="scheduleWeekTable">
             <tbody>
               <tr>
@@ -7108,7 +7440,7 @@
         </div>
       </div>
 
-      <div class="modal-body-scrollable" style="padding: 20px;">
+      <div class="modal-body-scrollable admin-body-scrollable">
         <!-- Caixa de Override Imediato (Emergencial & Tempo Real) -->
         <div class="override-control-box">
           <div class="override-header">
@@ -7126,31 +7458,37 @@
           <div class="override-btn-group">
             <button type="button" class="btn-override-option" id="btnOverrideAuto" onclick="handleSetOverride('auto')">
               <i class="fa-solid fa-clock-rotate-left override-opt-icon"></i>
-              <span class="override-opt-title">Automático</span>
-              <span class="override-opt-desc">Segue a escala semanal</span>
+              <div class="override-opt-text-wrap">
+                <span class="override-opt-title">Automático</span>
+                <span class="override-opt-desc">Segue a escala semanal</span>
+              </div>
             </button>
             <button type="button" class="btn-override-option" id="btnOverrideForceOpen" onclick="handleSetOverride('force_open')">
               <i class="fa-solid fa-door-open override-opt-icon"></i>
-              <span class="override-opt-title">Forçar ABERTO</span>
-              <span class="override-opt-desc">Receber pedidos agora</span>
+              <div class="override-opt-text-wrap">
+                <span class="override-opt-title">Forçar ABERTO</span>
+                <span class="override-opt-desc">Receber pedidos agora</span>
+              </div>
             </button>
             <button type="button" class="btn-override-option" id="btnOverrideForceClosed" onclick="handleSetOverride('force_closed')">
               <i class="fa-solid fa-door-closed override-opt-icon"></i>
-              <span class="override-opt-title">Forçar FECHADO</span>
-              <span class="override-opt-desc">Bloquear pedidos agora</span>
+              <div class="override-opt-text-wrap">
+                <span class="override-opt-title">Forçar FECHADO</span>
+                <span class="override-opt-desc">Bloquear pedidos agora</span>
+              </div>
             </button>
           </div>
         </div>
 
         <!-- Atalhos de Configuração Rápida (Presets) -->
-        <div style="margin-bottom: 20px; background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05);">
+        <div class="admin-presets-box" style="margin-bottom: 20px; background: rgba(255, 255, 255, 0.02); padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05);">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
             <label style="font-size: 0.82rem; font-weight: 800; color: #e5e5e5; display: flex; align-items: center; gap: 7px; margin: 0;">
               <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--color-mustard);"></i> Preenchimento Rápido de Horários
             </label>
             <span style="font-size: 0.72rem; color: var(--color-text-muted);">Clique para preencher em 1 clique</span>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <div class="admin-presets-row" style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button type="button" class="btn-view-schedule" onclick="applyPresetSchedule('padrao')" style="font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; font-weight: 600;">
               <i class="fa-solid fa-check" style="color: #4ade80;"></i> Padrão (Dom-Sex 18:30-23:00 / Sáb Fechado)
             </button>
@@ -7185,8 +7523,8 @@
           <p style="font-size: 0.78rem; color: var(--color-text-muted); margin: 4px 0 10px 0;">
             Simule um dia e horário específico para verificar instantaneamente a mensagem que o cliente receberá:
           </p>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-            <select id="simDaySelect" class="modal-select" style="width: 150px; padding: 6px 10px; font-size: 0.85rem;">
+          <div class="admin-sim-controls" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <select id="simDaySelect" class="modal-select" style="min-width: 130px; padding: 8px 10px; font-size: 0.85rem;">
               <option value="segunda">Segunda-feira</option>
               <option value="terca">Terça-feira</option>
               <option value="quarta">Quarta-feira</option>
@@ -7195,8 +7533,11 @@
               <option value="sabado">Sábado</option>
               <option value="domingo">Domingo</option>
             </select>
-            <input type="time" id="simTimeInput" class="admin-time-input" value="19:00">
-            <button type="button" class="btn btn-secondary" onclick="runScheduleSimulation()" style="padding: 6px 12px; font-size: 0.82rem;">
+            <div class="time-capsule admin-sim-time-capsule" style="padding: 4px 8px;">
+              <span class="time-capsule-label">Horário</span>
+              <input type="time" id="simTimeInput" class="admin-time-input" value="19:00">
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="runScheduleSimulation()" style="padding: 8px 14px; font-size: 0.82rem;">
               <i class="fa-solid fa-play"></i> Simular Agora
             </button>
           </div>
@@ -7212,7 +7553,7 @@
             Altere a senha de acesso a este painel para garantir que apenas você ou sua equipe autorizada possa gerenciar os horários:
           </p>
           <form id="changePasswordForm" onsubmit="handleChangePasswordSubmit(event)" style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <div class="admin-pass-controls" style="display: flex; gap: 8px; flex-wrap: wrap;">
               <input 
                 type="password" 
                 id="currPassInput" 
@@ -7220,7 +7561,7 @@
                 placeholder="Senha atual..." 
                 required 
                 autocomplete="current-password"
-                style="flex: 1; min-width: 140px; padding: 8px 12px; font-size: 0.85rem;"
+                style="flex: 1; min-width: 110px; padding: 8px 12px; font-size: 0.85rem;"
               >
               <input 
                 type="password" 
@@ -7229,7 +7570,7 @@
                 placeholder="Nova senha (mínimo 4 dígitos)..." 
                 required 
                 autocomplete="new-password"
-                style="flex: 1; min-width: 160px; padding: 8px 12px; font-size: 0.85rem;"
+                style="flex: 1; min-width: 120px; padding: 8px 12px; font-size: 0.85rem;"
               >
               <button type="submit" id="btnChangePassSubmit" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.82rem; white-space: nowrap;">
                 <i class="fa-solid fa-lock"></i> Salvar Nova Senha
@@ -8373,7 +8714,12 @@
               <span class="day-name">${dayTitle}</span> ${todayBadge}
             </td>
             <td class="col-status">${statusBadge}</td>
-            <td class="col-hours">${hoursText}</td>
+            <td class="col-hours">
+              <span class="schedule-hours-content">
+                <i class="fa-regular fa-clock schedule-hours-icon"></i>
+                <span>${hoursText}</span>
+              </span>
+            </td>
           </tr>
         `;
       }).join('');
