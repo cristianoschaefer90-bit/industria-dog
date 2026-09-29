@@ -711,6 +711,31 @@
       text-transform: none;
     }
 
+    /* Efeito de Digitação Suave no Título Principal */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 4px;
+      height: 0.86em;
+      background: var(--color-mustard);
+      margin-left: 6px;
+      vertical-align: -0.04em;
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(217, 130, 43, 0.85);
+      animation: typewriterCursorBlink 0.75s infinite ease-in-out;
+    }
+    @keyframes typewriterCursorBlink {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0; transform: scaleY(0.85); }
+    }
+    .typewriter-cursor.finished {
+      animation: typewriterCursorFadeOut 1.2s forwards ease-out;
+    }
+    @keyframes typewriterCursorFadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 0.8; }
+      100% { opacity: 0; display: none; }
+    }
+
     .hero-subtitle {
       font-size: clamp(1.05rem, 2vw, 1.25rem);
       color: #e5ded5;
@@ -3047,7 +3072,7 @@
     }
 
     /* 3D Tilt Card Base */
-    .{
+    .card-3d-tilt {
       transform-style: preserve-3d;
       perspective: 1000px;
       transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.4, 1), box-shadow 0.25s ease;
@@ -7091,9 +7116,9 @@
           </div>
         </div>
 
-        <h1 class="hero-title" id="heroTitle">
-          <div class="line"><span class="line-inner">O VERDADEIRO <span class="highlight-red">HOT DOG ARTESANAL</span>.</span></div>
-          <div class="line"><span class="line-inner">SABOR BRUTAL, <span class="highlight-gold">NADA DE COMUM</span>.</span></div>
+        <h1 class="hero-title" id="heroTitle" aria-label="O VERDADEIRO HOT DOG ARTESANAL. SABOR BRUTAL, NADA DE COMUM.">
+          <div class="line"><span class="line-inner" id="heroTypewriterLine"><span id="heroTypewriterTarget">O VERDADEIRO <span class="highlight-red">HOT DOG ARTESANAL</span>.</span><span class="typewriter-cursor" id="heroTypewriterCursor" aria-hidden="true"></span></span></div>
+          <div class="line"><span class="line-inner" id="heroSubLine">SABOR BRUTAL, <span class="highlight-gold">NADA DE COMUM</span>.</span></div>
         </h1>
 
         <p class="hero-subtitle">
@@ -12929,8 +12954,84 @@
       }
     }
 
+    // ==========================================================================
+    // ANIMAÇÃO DE EFEITO DE DIGITAÇÃO SUAVE (HERO TITLE TYPEWRITER EFFECT)
+    // ==========================================================================
+    function initHeroTypewriter() {
+      const target = document.getElementById('heroTypewriterTarget');
+      const cursor = document.getElementById('heroTypewriterCursor');
+      const subLine = document.getElementById('heroSubLine');
+      if (!target) return;
+
+      // Respeita acessibilidade de usuários que preferem redução de movimento
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (cursor) cursor.style.display = 'none';
+        if (subLine) { subLine.style.opacity = '1'; subLine.style.transform = 'none'; }
+        return;
+      }
+
+      const prefix = "O VERDADEIRO ";
+      const highlight = "HOT DOG ARTESANAL";
+      const suffix = ".";
+
+      // Estado inicial limpo para início da digitação
+      target.innerHTML = '';
+      if (subLine) {
+        subLine.style.opacity = '0';
+        subLine.style.transform = 'translateY(10px)';
+        subLine.style.transition = 'opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+
+      let charIndex = 0;
+      const totalChars = prefix.length + highlight.length + suffix.length;
+
+      // Início após breve respiro (220ms) para captura de atenção imediata
+      setTimeout(() => {
+        function typeChar() {
+          charIndex++;
+
+          if (charIndex <= prefix.length) {
+            target.innerHTML = prefix.substring(0, charIndex);
+          } else if (charIndex <= prefix.length + highlight.length) {
+            const hlPart = highlight.substring(0, charIndex - prefix.length);
+            target.innerHTML = prefix + '<span class="highlight-red">' + hlPart + '</span>';
+          } else {
+            target.innerHTML = prefix + '<span class="highlight-red">' + highlight + '</span>' + suffix;
+          }
+
+          if (charIndex < totalChars) {
+            // Cadência suave e humana de digitação (45ms a 85ms)
+            const nextChar = (charIndex < prefix.length) 
+              ? prefix[charIndex] 
+              : (charIndex < prefix.length + highlight.length) 
+                ? highlight[charIndex - prefix.length] 
+                : suffix;
+            const delay = (nextChar === ' ') ? 85 : (charIndex === prefix.length) ? 95 : 46;
+            setTimeout(typeChar, delay);
+          } else {
+            // Digitação finalizada: revela a segunda linha do título com suavidade
+            if (subLine) {
+              setTimeout(() => {
+                subLine.style.opacity = '1';
+                subLine.style.transform = 'translateY(0)';
+              }, 120);
+            }
+            // Cursor pisca um pouco mais e conclui com fade-out elegante
+            if (cursor) {
+              setTimeout(() => {
+                cursor.classList.add('finished');
+              }, 2200);
+            }
+          }
+        }
+
+        typeChar();
+      }, 220);
+    }
+
     // Inicialização ao carregar o DOM
     document.addEventListener('DOMContentLoaded', function() {
+      initHeroTypewriter();
       initCart();
       // Suíte de animações GSAP removida para leitura imediata e foco no público mais velho.
       // init3DTilt() desativado por simplicidade
