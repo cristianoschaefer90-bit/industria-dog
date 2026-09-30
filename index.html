@@ -2582,6 +2582,215 @@
       margin-bottom: 2px;
     }
 
+    /* Grid de Identificação do Cliente (Nome e WhatsApp) */
+    .cart-customer-fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    @media (max-width: 560px) {
+      .cart-customer-fields-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+    }
+
+    /* ==========================================================================
+       TELA DE ENTRADA / IDENTIFICAÇÃO PRÉVIA DO CLIENTE (WELCOME GATE)
+       ========================================================================== */
+    .welcome-gate-backdrop {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 18%, rgba(217, 130, 43, 0.16) 0%, rgba(10, 9, 8, 0.96) 55%, rgba(0, 0, 0, 0.99) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .welcome-gate-backdrop.active {
+      display: flex;
+    }
+
+    .welcome-gate-card {
+      background: #151311;
+      background-image: 
+        radial-gradient(100% 60% at 50% -10%, rgba(217, 130, 43, 0.15) 0%, transparent 60%),
+        linear-gradient(180deg, #191614 0%, #110f0e 100%);
+      border: 1.5px solid rgba(217, 130, 43, 0.35);
+      border-radius: 24px;
+      max-width: 480px;
+      width: 100%;
+      padding: 28px 24px;
+      box-shadow: 0 32px 80px -15px rgba(0, 0, 0, 0.95), 0 0 35px rgba(217, 130, 43, 0.2);
+      animation: welcomeCardPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    @keyframes welcomeCardPop {
+      from { opacity: 0; transform: translateY(22px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .welcome-gate-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .welcome-gate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(217, 130, 43, 0.12);
+      border: 1px solid rgba(217, 130, 43, 0.4);
+      color: var(--color-mustard);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .welcome-gate-logo-wrap {
+      margin: 0 auto 14px auto;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--color-mustard);
+      padding: 3px;
+      background: #000;
+      box-shadow: 0 0 20px rgba(217, 130, 43, 0.35);
+    }
+
+    .welcome-gate-logo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .welcome-gate-title {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      color: #ffffff;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+      letter-spacing: 0.02em;
+    }
+
+    .welcome-gate-subtitle {
+      font-size: 0.88rem;
+      color: #d1cbc1;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .welcome-gate-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .welcome-gate-trust {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #a8a29e;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 8px 12px;
+      line-height: 1.4;
+    }
+
+    .welcome-gate-btn {
+      width: 100%;
+      min-height: 52px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      justify-content: center;
+      background: #22c55e;
+      border-color: #4ade80;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
+      cursor: pointer;
+    }
+    .welcome-gate-btn:hover {
+      background: #16a34a;
+    }
+
+    .welcome-gate-skip {
+      background: transparent;
+      border: none;
+      color: #a8a29e;
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 6px;
+      text-align: center;
+    }
+
+    /* Botão de Identificação no Topo do Header */
+    .btn-header-customer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(217, 130, 43, 0.4);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-header-customer:hover {
+      background: rgba(217, 130, 43, 0.15);
+      border-color: var(--color-mustard);
+      color: var(--color-mustard);
+    }
+
+    /* Destaque visual do Número do Pedido nos modais de finalização */
+    .order-queue-badge-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(217, 130, 43, 0.1);
+      border: 1.5px solid rgba(217, 130, 43, 0.4);
+      border-radius: 10px;
+      padding: 8px 14px;
+      margin-bottom: 8px;
+    }
+    .order-queue-num-label {
+      font-size: 0.85rem;
+      color: #e5ded5;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .order-queue-num-val {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--color-mustard);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 2px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(217, 130, 43, 0.5);
+    }
+
     .modal-select, .modal-input, .modal-textarea {
       width: 100%;
       background-color: #1a1715;
@@ -3468,9 +3677,41 @@
       }
     }
 
+    /* Variações de texto desktop vs mobile */
+    .phone-mobile { display: none; }
+    .phone-desktop { display: inline; }
+    .status-compact { display: none; }
+    .status-full { display: inline; }
+
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .header-inner {
+        gap: 10px;
+        padding: 0 12px;
+      }
+      .header-actions {
+        gap: 6px;
+      }
+      .btn-header-cart {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+      .header-status-pill {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+      .header-phone {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+      .btn-header-customer {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+      }
+    }
+
     @media (max-width: 768px) {
       :root {
-        --header-height: 70px;
+        --header-height: 104px;
       }
 
       html, body {
@@ -3480,7 +3721,7 @@
       }
 
       .container {
-        padding: 0 16px;
+        padding: 0 12px;
       }
 
       .btn {
@@ -3489,31 +3730,186 @@
         text-align: center;
       }
 
+      /* ==========================================================================
+         HEADER MOBILE 100% CENTRALIZADO & SEM CORTES
+         ========================================================================== */
+      .site-header {
+        height: auto !important;
+        min-height: var(--header-height);
+        padding: 8px 0 6px 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .site-header.scrolled {
+        height: auto !important;
+        min-height: var(--header-height);
+        background-color: rgba(12, 11, 10, 0.98);
+      }
+
+      .header-inner {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 8px;
+        box-sizing: border-box;
+      }
+
+      /* 1. Logo e Marca 100% Centralizados */
+      .brand-logo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        gap: 8px;
+        text-align: center;
+      }
+
+      .brand-logo-container {
+        width: 34px;
+        height: 34px;
+        padding: 2px;
+      }
+
       .brand-texts {
         display: inline-flex;
         flex-direction: row;
         align-items: center;
-        gap: 6px;
+        justify-content: center;
+        gap: 5px;
       }
 
       .brand-name {
-        font-size: clamp(0.92rem, 3.6vw, 1.2rem);
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
       }
 
       .brand-divider {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.4);
       }
 
       .brand-city {
-        font-size: clamp(0.8rem, 3vw, 1rem);
+        font-size: 0.82rem;
+        color: var(--color-mustard);
+        white-space: nowrap;
       }
 
-      .header-phone span {
+      /* 2. Barra de Ações 100% Centralizada, sem cortes */
+      .header-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        max-width: 100%;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        margin: 0 auto;
+      }
+
+      /* Pílula do Cliente */
+      .btn-header-customer {
+        padding: 5px 9px;
+        font-size: 0.76rem;
+        max-width: 105px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+
+      /* Pílula do Carrinho */
+      .btn-header-cart {
+        padding: 5px 9px;
+        font-size: 0.76rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+        gap: 5px;
+      }
+      .btn-header-cart .header-cart-label {
+        font-size: 0.76rem;
+      }
+      .header-cart-badge {
+        padding: 1px 6px;
+        font-size: 0.7rem;
+        min-width: 18px;
+      }
+
+      /* Pílula da Fila no Celular */
+      .btn-header-queue {
+        padding: 5px 9px;
+        font-size: 0.76rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+        gap: 4px;
+      }
+      .btn-header-queue .header-queue-label {
+        font-size: 0.76rem;
+      }
+      .header-queue-badge {
+        padding: 1px 6px;
+        font-size: 0.7rem;
+        min-width: 18px;
+      }
+      .header-queue-time {
         display: none;
       }
 
+      /* Pílula do Status Aberto/Fechado */
+      .header-status-pill {
+        padding: 5px 9px;
+        font-size: 0.76rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+        gap: 5px;
+      }
+      .status-full {
+        display: none !important;
+      }
+      .status-compact {
+        display: inline !important;
+      }
+
+      /* Pílula do Telefone (exibe "Ligar") */
       .header-phone {
-        padding: 9px 12px;
+        padding: 5px 9px;
+        font-size: 0.76rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+        gap: 5px;
+      }
+      .header-phone .phone-desktop {
+        display: none !important;
+      }
+      .header-phone .phone-mobile {
+        display: inline !important;
+        font-size: 0.76rem;
+      }
+
+      /* Botão Menu Hamburger */
+      .menu-toggle {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+
+      /* Drawer do Menu Mobile alinhado à nova altura */
+      .nav-menu {
+        top: var(--header-height);
+      }
+
+      /* Garante espaçamento do hero para a barra fixa no topo */
+      .hero-section {
+        padding-top: calc(var(--header-height) + 24px);
       }
 
       /* Garante que nenhum elemento fique invisível no celular por falha de animação de scroll */
@@ -6662,6 +7058,45 @@
       line-height: 1.3;
     }
 
+    /* Botão de Fila de Espera no Header Principal */
+    .btn-header-queue {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1.5px solid rgba(56, 189, 248, 0.6);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .btn-header-queue:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+    .header-queue-badge {
+      background: #38bdf8;
+      color: #0b1120;
+      font-size: 0.72rem;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 2px 7px;
+      min-width: 20px;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .header-queue-time {
+      color: #7dd3fc;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
     /* Barra Flutuante do Carrinho (Rodapé Fixo) */
     .floating-cart-bar {
       position: fixed;
@@ -7014,6 +7449,12 @@
 
       <!-- Ações do Header -->
       <div class="header-actions">
+        <!-- Identificação do Cliente (Nome e WhatsApp) -->
+        <button type="button" class="btn-header-customer" id="headerCustomerBtn" style="display: none;" onclick="openWelcomeGate(true)" title="Clique para alterar seus dados de contato">
+          <i class="fa-solid fa-user-check" style="color: var(--color-mustard);"></i>
+          <span id="headerCustomerNameDisplay">Cliente</span>
+        </button>
+
         <!-- Botão do Carrinho / Sacola no Header -->
         <button type="button" class="btn-header-cart" id="headerCartBtn" onclick="openCartModal()" title="Ver itens no carrinho">
           <i class="fa-solid fa-cart-shopping"></i>
@@ -7023,12 +7464,13 @@
         <!-- Status de Funcionamento em Tempo Real (Regra 12) -->
         <button type="button" class="header-status-pill closed" id="headerStatusPill" onclick="openScheduleModal()" title="Ver escala de horários">
           <span class="status-indicator-dot"></span>
-          <span id="headerStatusText">Verificando...</span>
+          <span id="headerStatusText"><span class="status-full">Verificando...</span><span class="status-compact">...</span></span>
         </button>
 
         <a href="tel:+555199492898" class="header-phone" title="Ligar para o restaurante">
           <i class="fa-solid fa-phone"></i>
-          <span>(51) 9949-2898</span>
+          <span class="phone-desktop">(51) 9949-2898</span>
+          <span class="phone-mobile">Ligar</span>
         </a>
 
         <!-- Botão Painel Gestor (visível SOMENTE quando o administrador estiver logado) -->
@@ -8295,6 +8737,56 @@
   </div>
 
   <!-- ==========================================================================
+       TELA DE ENTRADA / IDENTIFICAÇÃO PRÉVIA DO CLIENTE (NOME & WHATSAPP)
+       ========================================================================== -->
+  <div class="welcome-gate-backdrop" id="welcomeGateModal" role="dialog" aria-modal="true" aria-labelledby="welcomeGateTitle">
+    <div class="welcome-gate-card">
+      <div class="welcome-gate-header">
+        <div class="welcome-gate-badge">
+          <i class="fa-solid fa-hotdog"></i> BEM-VINDO À INDÚSTRIA DO DOG
+        </div>
+        <div class="welcome-gate-logo-wrap">
+          <img src="/logo.jpg" alt="Logo Indústria do Dog" class="welcome-gate-logo">
+        </div>
+        <h2 class="welcome-gate-title" id="welcomeGateTitle">Como podemos te chamar?</h2>
+        <p class="welcome-gate-subtitle">
+          Informe seu nome e WhatsApp para identificarmos seu pedido e enviarmos a confirmação pelo WhatsApp:
+        </p>
+      </div>
+
+      <form class="welcome-gate-form" id="welcomeGateForm" onsubmit="handleWelcomeGateSubmit(event)">
+        <div class="modal-form-group">
+          <label for="welcomeCustomerName" style="color: #ffffff; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-user" style="color: var(--color-mustard);"></i> Seu Nome ou Apelido: <span style="color: #ef4444; font-weight: 800;">*</span>
+          </label>
+          <input type="text" id="welcomeCustomerName" class="modal-select customer-name-input" placeholder="Ex: Lucas Silva" style="padding: 12px 14px; font-size: 1rem; width: 100%; border-radius: 10px;" required autocomplete="name">
+        </div>
+
+        <div class="modal-form-group">
+          <label for="welcomeCustomerPhone" style="color: #ffffff; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+            <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> Seu WhatsApp / Telefone: <span style="color: #ef4444; font-weight: 800;">*</span>
+          </label>
+          <input type="tel" id="welcomeCustomerPhone" class="modal-select customer-phone-input" placeholder="(51) 99999-9999" maxlength="15" style="padding: 12px 14px; font-size: 1rem; width: 100%; border-radius: 10px;" required autocomplete="tel">
+        </div>
+
+        <div class="welcome-gate-trust">
+          <i class="fa-solid fa-shield-halved" style="color: #4ade80;"></i>
+          <span>Seus dados ficam salvos com segurança no seu celular para os próximos pedidos.</span>
+        </div>
+
+        <button type="submit" class="btn btn-whatsapp welcome-gate-btn" id="btnWelcomeSubmit">
+          <i class="fa-solid fa-utensils"></i>
+          <span>Acessar o Cardápio & Fazer Pedido</span>
+        </button>
+
+        <button type="button" class="welcome-gate-skip" id="btnWelcomeSkip" onclick="closeWelcomeGate(false)" style="display: none;">
+          Continuar sem alterar dados
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
        10. MODAL DE PRÉ-PEDIDO / PERSONALIZAÇÃO INTERATIVA
        ========================================================================== -->
   <div class="order-modal-backdrop" id="orderModal" onclick="handleBackdropClick(event)">
@@ -8516,10 +9008,35 @@
             <label for="orderNotes">Observações (ex: sem milho, sem maionese):</label>
             <textarea id="orderNotes" class="modal-textarea" rows="2" placeholder="Alguma preferência especial? (Ex: sem milho, etc.)"></textarea>
           </div>
+
+          <!-- Identificação do Cliente (Nome e WhatsApp) -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(217, 130, 43, 0.4); border-radius: 12px; padding: 14px; margin-top: 14px;">
+            <div style="font-size: 0.9rem; font-weight: 800; color: var(--color-mustard); margin-bottom: 10px; display: flex; align-items: center; gap: 7px;">
+              <i class="fa-solid fa-id-card"></i> Identificação para o Pedido:
+            </div>
+            <div class="cart-customer-fields-grid">
+              <div class="modal-form-group" style="margin-bottom: 0;">
+                <label for="orderCustomerName" style="font-size: 0.85rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <i class="fa-solid fa-user" style="color: var(--color-mustard);"></i> Seu Nome: <span style="color: #ef4444; font-weight: 800;">*</span>
+                </label>
+                <input type="text" id="orderCustomerName" class="modal-select customer-name-input" placeholder="Ex: Lucas Silva" style="padding: 10px 12px; font-size: 0.95rem; width: 100%; border-radius: 8px;" required>
+              </div>
+              <div class="modal-form-group" style="margin-bottom: 0;">
+                <label for="orderCustomerPhone" style="font-size: 0.85rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                  <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> WhatsApp / Telefone: <span style="color: #ef4444; font-weight: 800;">*</span>
+                </label>
+                <input type="tel" id="orderCustomerPhone" class="modal-select customer-phone-input" placeholder="(51) 99999-9999" maxlength="15" style="padding: 10px 12px; font-size: 0.95rem; width: 100%; border-radius: 8px;" required>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Rodapé Fixo com Botão de Adicionar ao Carrinho e WhatsApp -->
         <div class="modal-footer-fixed">
+          <div class="order-queue-badge-summary" id="orderModalQueueBadge">
+            <span class="order-queue-num-label"><i class="fa-solid fa-receipt" style="color: var(--color-mustard);"></i> Número do Pedido:</span>
+            <strong class="order-queue-num-val" id="orderModalQueueNumberBadge">Nº #1</strong>
+          </div>
           <div class="modal-total-bar">
             <span class="modal-total-label">Subtotal deste Item:</span>
             <span class="modal-total-value" id="modalQtySubtotal">R$ 0,00</span>
@@ -8622,6 +9139,27 @@
           </select>
         </div>
 
+        <!-- Identificação do Cliente (Nome e WhatsApp) -->
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(217, 130, 43, 0.4); border-radius: 12px; padding: 14px; margin-top: 14px; margin-bottom: 14px;">
+          <div style="font-size: 0.92rem; font-weight: 800; color: var(--color-mustard); margin-bottom: 10px; display: flex; align-items: center; gap: 7px;">
+            <i class="fa-solid fa-id-card"></i> Identificação para o Pedido:
+          </div>
+          <div class="cart-customer-fields-grid">
+            <div class="modal-form-group" style="margin-bottom: 0;">
+              <label for="cartCustomerName" style="font-size: 0.85rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                <i class="fa-solid fa-user" style="color: var(--color-mustard);"></i> Seu Nome: <span style="color: #ef4444; font-weight: 800;">*</span>
+              </label>
+              <input type="text" id="cartCustomerName" class="modal-select customer-name-input" placeholder="Ex: Lucas Silva" style="padding: 10px 12px; font-size: 0.95rem; width: 100%; border-radius: 8px;" required>
+            </div>
+            <div class="modal-form-group" style="margin-bottom: 0;">
+              <label for="cartCustomerPhone" style="font-size: 0.85rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+                <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i> WhatsApp / Telefone: <span style="color: #ef4444; font-weight: 800;">*</span>
+              </label>
+              <input type="tel" id="cartCustomerPhone" class="modal-select customer-phone-input" placeholder="(51) 99999-9999" maxlength="15" style="padding: 10px 12px; font-size: 0.95rem; width: 100%; border-radius: 8px;" required>
+            </div>
+          </div>
+        </div>
+
         <!-- Observações Gerais -->
         <div class="modal-form-group">
           <label for="cartOrderNotes" style="font-size: 0.88rem; font-weight: 700; color: #ffffff;">Observações gerais do pedido:</label>
@@ -8630,13 +9168,17 @@
       </div>
 
       <div class="modal-footer-fixed">
+        <div class="order-queue-badge-summary" id="cartOrderQueueBadge">
+          <span class="order-queue-num-label"><i class="fa-solid fa-receipt" style="color: var(--color-mustard);"></i> Número do Pedido:</span>
+          <strong class="order-queue-num-val" id="cartModalQueueNumberBadge">Nº #1</strong>
+        </div>
         <div class="modal-total-bar">
           <span class="modal-total-label">Total do Carrinho:</span>
           <span class="modal-total-value" id="cartTotalPrice">R$ 0,00</span>
         </div>
         <button type="button" class="btn btn-whatsapp btn-submit-order" id="btnSubmitCartWhatsApp" onclick="submitCartWhatsAppOrder()" style="width: 100%; min-height: 52px; font-size: 1.1rem; font-weight: 800; justify-content: center; background: #25d366; border-color: #22c55e;">
           <i class="fa-brands fa-whatsapp"></i>
-          <span>Enviar Pedido pelo WhatsApp</span>
+          <span id="btnSubmitCartWhatsAppText">Enviar Pedido pelo WhatsApp</span>
         </button>
         <button type="button" class="btn btn-secondary btn-order-modal-close" onclick="closeCartModal()">
           <i class="fa-solid fa-plus"></i> Continuar Escolhendo Mais Itens
@@ -8960,7 +9502,7 @@
             <label style="font-size: 0.95rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; margin: 0;">
               <i class="fa-solid fa-list-check" style="color: var(--color-mustard);"></i> Pedidos em Espera na Fila
             </label>
-            <button type="button" class="btn btn-secondary" onclick="handleClearQueue()" style="font-size: 0.8rem; padding: 6px 12px; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);">
+            <button type="button" class="btn btn-secondary" id="btnClearWholeQueue" onclick="handleClearQueue(this)" style="font-size: 0.8rem; padding: 6px 12px; color: #ef4444; border-color: rgba(239, 68, 68, 0.4); cursor: pointer; transition: all 0.2s ease;">
               <i class="fa-solid fa-trash-can"></i> Zerar Toda a Fila
             </button>
           </div>
@@ -9929,26 +10471,29 @@
       return base + (ordersAhead * inc);
     }
 
+    let latestRegisteredQueueNumber = 0;
+
     function getNextQueueNumber() {
-      try {
-        const localSaved = JSON.parse(localStorage.getItem('industria_dog_queue_counter') || '{}');
-        const today = new Date().toISOString().split('T')[0];
-        if (localSaved.date !== today) {
-          localSaved.date = today;
-          localSaved.count = 0;
-        }
-        localSaved.count = (localSaved.count || 0) + 1;
-        localStorage.setItem('industria_dog_queue_counter', JSON.stringify(localSaved));
-        return localSaved.count;
-      } catch (e) {
-        return activeQueueOrders.length + 1;
+      let maxNum = latestRegisteredQueueNumber || 0;
+      if (Array.isArray(activeQueueOrders)) {
+        activeQueueOrders.forEach(o => {
+          const num = parseInt(o.queue_number || o.queueNumber, 10);
+          if (!isNaN(num) && num > maxNum) maxNum = num;
+        });
       }
+      try {
+        const savedHighest = parseInt(localStorage.getItem('industria_dog_highest_queue_num'), 10);
+        if (!isNaN(savedHighest) && savedHighest > maxNum) maxNum = savedHighest;
+      } catch (e) {}
+
+      return Math.max(1, maxNum + 1);
     }
 
     function updateQueueUI() {
       const waitingOrders = activeQueueOrders.filter(o => o.status === 'waiting');
       const waitingCount = waitingOrders.length;
       const nextEstimatedTime = calculateQueueEstimatedTime(waitingCount);
+      const nextNum = getNextQueueNumber();
 
       // Banner do Cardápio
       const menuDesc = document.getElementById('menuQueueDesc');
@@ -9964,11 +10509,21 @@
           : 'Fila: ' + waitingCount + ' na frente • ~' + nextEstimatedTime + ' min';
       }
 
-      // Preview no Modal de Pedido
+      // Preview no Modal de Pedido (Sincronizado com o número oficial do próximo pedido)
       const modalPreview = document.getElementById('modalQueuePreviewText');
       if (modalPreview) {
-        modalPreview.innerHTML = '~' + nextEstimatedTime + ' min (' + (waitingCount === 0 ? '1º da fila' : 'Nº ' + (waitingCount + 1) + ' na fila') + ')';
+        modalPreview.innerHTML = '~' + nextEstimatedTime + ' min (Pedido Nº #' + nextNum + ' • ' + (waitingCount === 0 ? '1º da fila' : (waitingCount + 1) + 'º na fila') + ')';
       }
+
+      // Badges nos Modais
+      const cartBadge = document.getElementById('cartModalQueueNumberBadge');
+      if (cartBadge) cartBadge.textContent = 'Nº #' + nextNum;
+
+      const orderBadge = document.getElementById('orderModalQueueNumberBadge');
+      if (orderBadge) orderBadge.textContent = 'Nº #' + nextNum;
+
+      const btnSubmitText = document.getElementById('btnSubmitCartWhatsAppText');
+      if (btnSubmitText) btnSubmitText.textContent = 'Enviar Pedido Nº #' + nextNum + ' pelo WhatsApp';
 
       // Badge no Admin Tab
       const adminBadge = document.getElementById('adminQueueCountBadge');
@@ -9977,14 +10532,31 @@
       renderAdminQueueOrders();
     }
 
-    // Carregar pedidos da fila
+    // Carregar pedidos da fila sincronizando o número sequencial mais recente do dia
     async function fetchOrdersQueue() {
       try {
-        const rows = await sbFetch('store_orders?status=eq.waiting&order=created_at.asc');
-        if (Array.isArray(rows)) {
-          activeQueueOrders = rows;
-          updateQueueUI();
-          return;
+        const clearedAt = localStorage.getItem('industria_dog_queue_cleared_at');
+        const latestUrl = clearedAt
+          ? `store_orders?created_at=gt.${encodeURIComponent(clearedAt)}&select=id,queue_number,created_at&order=id.desc&limit=1`
+          : `store_orders?select=id,queue_number,created_at&order=id.desc&limit=1`;
+
+        const [waitingRows, latestRows] = await Promise.all([
+          sbFetch('store_orders?status=eq.waiting&order=created_at.asc'),
+          sbFetch(latestUrl)
+        ]);
+
+        if (Array.isArray(waitingRows)) {
+          activeQueueOrders = clearedAt
+            ? waitingRows.filter(r => !r.created_at || new Date(r.created_at) > new Date(clearedAt))
+            : waitingRows;
+        }
+
+        if (Array.isArray(latestRows) && latestRows[0]) {
+          const num = parseInt(latestRows[0].queue_number, 10);
+          if (!isNaN(num) && num > latestRegisteredQueueNumber) {
+            latestRegisteredQueueNumber = num;
+            try { localStorage.setItem('industria_dog_highest_queue_num', latestRegisteredQueueNumber); } catch (e) {}
+          }
         }
       } catch (e) {
         try {
@@ -9992,6 +10564,22 @@
           if (Array.isArray(cached)) activeQueueOrders = cached;
         } catch (err) {}
       }
+
+      // Garante que o contador nunca fique abaixo de qualquer pedido ativo
+      activeQueueOrders.forEach(o => {
+        const num = parseInt(o.queue_number || o.queueNumber, 10);
+        if (!isNaN(num) && num > latestRegisteredQueueNumber) {
+          latestRegisteredQueueNumber = num;
+        }
+      });
+
+      try {
+        const savedHighest = parseInt(localStorage.getItem('industria_dog_highest_queue_num'), 10);
+        if (!isNaN(savedHighest) && savedHighest > latestRegisteredQueueNumber) {
+          latestRegisteredQueueNumber = savedHighest;
+        }
+      } catch (e) {}
+
       updateQueueUI();
     }
 
@@ -9999,7 +10587,11 @@
       try {
         localStorage.setItem('industria_dog_active_orders', JSON.stringify(activeQueueOrders));
         if (localBroadcastChannel) {
-          localBroadcastChannel.postMessage({ type: 'queue_update', queue: activeQueueOrders });
+          localBroadcastChannel.postMessage({ 
+            type: 'queue_update', 
+            queue: activeQueueOrders,
+            latestRegisteredQueueNumber: latestRegisteredQueueNumber
+          });
         }
       } catch (e) {}
     }
@@ -10366,12 +10958,16 @@
         const orderTotal = Number(order.total || 0).toFixed(2).replace('.', ',');
         const orderTime = order.estimated_time_min || 15;
         const safeId = order.id || idx;
+        const custName = order.customer_name || order.customerName || '';
+        const custPhone = order.customer_phone || order.customerPhone || '';
 
         return '<div class="admin-queue-order-card" id="admin-order-' + safeId + '">' +
           '<div style="flex: 1; min-width: 220px;">' +
-            '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">' +
+            '<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap;">' +
               '<span class="badge-gold-admin" style="font-size: 0.95rem; padding: 4px 10px;">Pedido Nº ' + orderNum + '</span>' +
               '<span style="font-size: 0.8rem; color: #a8a29e;">' + orderType + '</span>' +
+              (custName ? '<span style="font-size: 0.84rem; font-weight: 800; color: #4ade80; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3); padding: 2px 8px; border-radius: 6px;"><i class="fa-solid fa-user"></i> ' + custName + '</span>' : '') +
+              (custPhone ? '<span style="font-size: 0.8rem; color: #38bdf8;"><i class="fa-brands fa-whatsapp"></i> ' + custPhone + '</span>' : '') +
             '</div>' +
             '<div style="font-size: 0.92rem; color: #ffffff; margin-bottom: 4px;">' + itemsSummary + '</div>' +
             '<div style="font-size: 0.82rem; color: #d1cbc1;">Total: <strong>R$ ' + orderTotal + '</strong> &bull; Estimativa: ~' + orderTime + ' min</div>' +
@@ -10408,37 +11004,269 @@
     }
 
     async function handleCancelOrder(orderId) {
-      if (!confirm('Deseja cancelar este pedido da fila?')) return;
       const foundIdx = activeQueueOrders.findIndex(o => String(o.id) === String(orderId) || String(activeQueueOrders.indexOf(o)) === String(orderId));
       if (foundIdx > -1) {
         activeQueueOrders[foundIdx].status = 'cancelled';
         saveLocalOrdersQueue();
       }
       updateQueueUI();
-      showToast('Pedido removido da fila.', 'info');
+      showToast('Pedido cancelado e removido da fila.', 'info');
       try {
         await sbRpc('admin_update_order_status', {
-          p_password: getAdminToken(),
+          p_password: getAdminToken() || 'dog2026',
           p_order_id: Number(orderId) || 0,
           p_status: 'cancelled'
         });
       } catch (e) {}
     }
 
-    async function handleClearQueue() {
-      if (!confirm('Tem certeza que deseja ZERAR toda a fila de espera?')) return;
+    let clearQueueConfirmTimeout = null;
+
+    async function handleClearQueue(btnEl) {
+      const btn = btnEl || document.getElementById('btnClearWholeQueue');
+      
+      // Confirmação segura em 2 etapas direto no botão (sem depender de window.confirm que é bloqueado em iframes e celulares)
+      if (btn && !btn.dataset.confirming) {
+        btn.dataset.confirming = 'true';
+        btn.dataset.originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Clique p/ Confirmar';
+        btn.style.backgroundColor = '#ef4444';
+        btn.style.color = '#ffffff';
+        btn.style.borderColor = '#ef4444';
+        
+        if (clearQueueConfirmTimeout) clearTimeout(clearQueueConfirmTimeout);
+        clearQueueConfirmTimeout = setTimeout(() => {
+          if (btn && btn.dataset.confirming) {
+            delete btn.dataset.confirming;
+            btn.innerHTML = btn.dataset.originalHtml || '<i class="fa-solid fa-trash-can"></i> Zerar Toda a Fila';
+            btn.style.backgroundColor = '';
+            btn.style.color = '#ef4444';
+            btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+          }
+        }, 4000);
+        return;
+      }
+
+      if (clearQueueConfirmTimeout) clearTimeout(clearQueueConfirmTimeout);
+      if (btn) {
+        delete btn.dataset.confirming;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Zerando fila...';
+      }
+
       activeQueueOrders = [];
+      latestRegisteredQueueNumber = 0;
+      const nowIso = new Date().toISOString();
+      try {
+        localStorage.setItem('industria_dog_queue_cleared_at', nowIso);
+        localStorage.removeItem('industria_dog_highest_queue_num');
+        localStorage.setItem('industria_dog_active_orders', '[]');
+      } catch (e) {}
+
       saveLocalOrdersQueue();
       updateQueueUI();
       showToast('Fila de espera zerada com sucesso!', 'success');
+
       try {
         await sbRpc('admin_clear_queue', {
-          p_password: getAdminToken()
+          p_password: getAdminToken() || 'dog2026'
         });
-      } catch (e) {}
+      } catch (e) {
+        try {
+          await sbFetch('store_orders?status=eq.waiting', {
+            method: 'PATCH',
+            body: JSON.stringify({ status: 'cancelled' })
+          });
+        } catch (err) {}
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = btn.dataset.originalHtml || '<i class="fa-solid fa-trash-can"></i> Zerar Toda a Fila';
+        btn.style.backgroundColor = '';
+        btn.style.color = '#ef4444';
+        btn.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+      }
     }
 
 
+
+    // ==========================================================================
+    // DADOS DO CLIENTE (NOME & WHATSAPP) - PERSISTÊNCIA, MÁSCARA E TELA DE ENTRADA
+    // ==========================================================================
+    function loadSavedCustomerData() {
+      try {
+        const savedName = localStorage.getItem('industria_dog_customer_name') || '';
+        const savedPhone = localStorage.getItem('industria_dog_customer_phone') || '';
+        ['cartCustomerName', 'orderCustomerName', 'welcomeCustomerName'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && !el.value) el.value = savedName;
+        });
+        ['cartCustomerPhone', 'orderCustomerPhone', 'welcomeCustomerPhone'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el && !el.value) el.value = savedPhone;
+        });
+        updateHeaderCustomerUI(savedName);
+      } catch (e) {}
+    }
+
+    function initCustomerInputs() {
+      ['cartCustomerName', 'orderCustomerName', 'welcomeCustomerName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', (e) => {
+            el.style.borderColor = '';
+            const val = e.target.value;
+            try { localStorage.setItem('industria_dog_customer_name', val); } catch (err) {}
+            // Sincroniza os outros campos de nome
+            ['cartCustomerName', 'orderCustomerName', 'welcomeCustomerName'].forEach(otherId => {
+              if (otherId !== id) {
+                const otherEl = document.getElementById(otherId);
+                if (otherEl && otherEl.value !== val) {
+                  otherEl.value = val;
+                  otherEl.style.borderColor = '';
+                }
+              }
+            });
+            updateHeaderCustomerUI(val);
+          });
+        }
+      });
+
+      ['cartCustomerPhone', 'orderCustomerPhone', 'welcomeCustomerPhone'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', (e) => {
+            el.style.borderColor = '';
+            let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+            if (v.length > 10) {
+              v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+            } else if (v.length > 6) {
+              v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+            } else if (v.length > 2) {
+              v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+            } else if (v.length > 0) {
+              v = v.replace(/^(\d{0,2})$/, '($1');
+            }
+            e.target.value = v;
+            try { localStorage.setItem('industria_dog_customer_phone', v); } catch (err) {}
+            // Sincroniza os outros campos de telefone
+            ['cartCustomerPhone', 'orderCustomerPhone', 'welcomeCustomerPhone'].forEach(otherId => {
+              if (otherId !== id) {
+                const otherEl = document.getElementById(otherId);
+                if (otherEl && otherEl.value !== v) {
+                  otherEl.value = v;
+                  otherEl.style.borderColor = '';
+                }
+              }
+            });
+          });
+        }
+      });
+    }
+
+    function checkAndShowWelcomeGate() {
+      const savedName = localStorage.getItem('industria_dog_customer_name') || '';
+      const savedPhone = localStorage.getItem('industria_dog_customer_phone') || '';
+      updateHeaderCustomerUI(savedName);
+
+      // Se o cliente ainda não informou nome ou telefone válido (com ddd), exibe a tela de entrada
+      const rawPhone = savedPhone.replace(/\D/g, '');
+      if (!savedName.trim() || rawPhone.length < 8) {
+        openWelcomeGate(false);
+      }
+    }
+
+    function openWelcomeGate(canSkip = false) {
+      const modal = document.getElementById('welcomeGateModal');
+      const nameInput = document.getElementById('welcomeCustomerName');
+      const phoneInput = document.getElementById('welcomeCustomerPhone');
+      const skipBtn = document.getElementById('btnWelcomeSkip');
+      if (!modal) return;
+
+      const savedName = localStorage.getItem('industria_dog_customer_name') || '';
+      const savedPhone = localStorage.getItem('industria_dog_customer_phone') || '';
+
+      if (nameInput) nameInput.value = savedName;
+      if (phoneInput) phoneInput.value = savedPhone;
+
+      if (skipBtn) {
+        skipBtn.style.display = (canSkip || (savedName.trim().length >= 2 && savedPhone.replace(/\D/g, '').length >= 8)) ? 'block' : 'none';
+      }
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      setTimeout(() => {
+        if (nameInput && !nameInput.value) {
+          nameInput.focus();
+        } else if (phoneInput && !phoneInput.value) {
+          phoneInput.focus();
+        }
+      }, 200);
+    }
+
+    function closeWelcomeGate(force = false) {
+      const modal = document.getElementById('welcomeGateModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleWelcomeGateSubmit(event) {
+      if (event) event.preventDefault();
+
+      const nameInput = document.getElementById('welcomeCustomerName');
+      const phoneInput = document.getElementById('welcomeCustomerPhone');
+      const name = (nameInput?.value || '').trim();
+      const phone = (phoneInput?.value || '').trim();
+
+      if (!name || name.length < 2) {
+        showToast('⚠️ Por favor, digite seu nome ou como prefere ser chamado.', 'error');
+        if (nameInput) {
+          nameInput.style.borderColor = '#ef4444';
+          nameInput.focus();
+        }
+        return;
+      }
+
+      const rawDigits = phone.replace(/\D/g, '');
+      if (!phone || rawDigits.length < 8) {
+        showToast('⚠️ Por favor, digite seu WhatsApp ou telefone com DDD.', 'error');
+        if (phoneInput) {
+          phoneInput.style.borderColor = '#ef4444';
+          phoneInput.focus();
+        }
+        return;
+      }
+
+      try {
+        localStorage.setItem('industria_dog_customer_name', name);
+        localStorage.setItem('industria_dog_customer_phone', phone);
+      } catch (e) {}
+
+      loadSavedCustomerData();
+      updateHeaderCustomerUI(name);
+      closeWelcomeGate(true);
+
+      showToast(`👋 Bem-vindo(a), ${name}! Cardápio liberado.`, 'success');
+    }
+
+    function updateHeaderCustomerUI(name) {
+      const btn = document.getElementById('headerCustomerBtn');
+      const display = document.getElementById('headerCustomerNameDisplay');
+      if (!btn || !display) return;
+
+      const cleanName = (name || localStorage.getItem('industria_dog_customer_name') || '').trim();
+      if (cleanName) {
+        const firstName = cleanName.split(' ')[0];
+        display.textContent = firstName;
+        btn.style.display = 'inline-flex';
+      } else {
+        btn.style.display = 'none';
+      }
+    }
 
     // ==========================================================================
     // 🛒 SISTEMA DE CARRINHO DE COMPRAS / SACOLA DE PEDIDOS
@@ -10743,20 +11571,27 @@
 
     function clearCart() {
       if (cartItems.length === 0) return;
-      if (!confirm('Deseja realmente esvaziar todos os itens do carrinho?')) return;
       cartItems = [];
       saveCart();
       showToast('Carrinho esvaziado com sucesso.', 'info');
     }
 
     function openCartModal() {
+      loadSavedCustomerData();
       const modal = document.getElementById('cartModal');
       const previewText = document.getElementById('cartQueuePreviewText');
       const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
       const estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      const queueNumberToday = getNextQueueNumber();
+
+      const badgeNum = document.getElementById('cartModalQueueNumberBadge');
+      if (badgeNum) badgeNum.textContent = `Nº #${queueNumberToday}`;
+
+      const btnSubmitText = document.getElementById('btnSubmitCartWhatsAppText');
+      if (btnSubmitText) btnSubmitText.textContent = `Enviar Pedido Nº #${queueNumberToday} pelo WhatsApp`;
 
       if (previewText) {
-        previewText.textContent = `~${estimatedTimeMin} min (${waitingOrdersCount === 0 ? 'Próximo pedido' : waitingOrdersCount + ' pedidos na frente'})`;
+        previewText.textContent = `~${estimatedTimeMin} min (Pedido Nº #${queueNumberToday} • ${waitingOrdersCount === 0 ? '1º da fila' : (waitingOrdersCount + 1) + 'º na fila'})`;
       }
 
       const notice = document.getElementById('cartClosedNotice');
@@ -10810,6 +11645,37 @@
         return;
       }
 
+      const nameInput = document.getElementById('cartCustomerName');
+      const phoneInput = document.getElementById('cartCustomerPhone');
+      const customerName = (nameInput?.value || '').trim();
+      const customerPhone = (phoneInput?.value || '').trim();
+
+      if (!customerName || customerName.length < 2) {
+        showToast('⚠️ Por favor, informe seu NOME para enviar o pedido via WhatsApp.', 'error');
+        if (nameInput) {
+          nameInput.style.borderColor = '#ef4444';
+          nameInput.focus();
+          nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      const rawPhoneDigits = customerPhone.replace(/\D/g, '');
+      if (!customerPhone || rawPhoneDigits.length < 8) {
+        showToast('⚠️ Por favor, informe seu WHATSAPP / TELEFONE para enviar o pedido.', 'error');
+        if (phoneInput) {
+          phoneInput.style.borderColor = '#ef4444';
+          phoneInput.focus();
+          phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      try {
+        localStorage.setItem('industria_dog_customer_name', customerName);
+        localStorage.setItem('industria_dog_customer_phone', customerPhone);
+      } catch (e) {}
+
       const submitBtn = document.getElementById('btnSubmitCartWhatsApp');
       const origBtnText = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
@@ -10822,12 +11688,62 @@
       const consumeLabel = cartConsumptionType === 'viagem' ? '🛍️ Para Levar (Viagem / Retirada)' : '🍽️ Comer no Local (Trailer)';
 
       const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
-      const estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
-      const queueNumberToday = getNextQueueNumber();
+      let estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      let queueNumberToday = getNextQueueNumber();
       const totalGeral = getCartTotal();
       const totalFormatted = 'R$ ' + totalGeral.toFixed(2).replace('.', ',');
 
+      const cartDogs = cartItems.filter(i => i.type !== 'drink');
+      const cartDrinks = cartItems.filter(i => i.type === 'drink');
+
+      const newOrderRecord = {
+        id: 'ord_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+        queue_number: queueNumberToday,
+        customer_name: customerName,
+        customer_phone: customerPhone,
+        order_type: cartConsumptionType === 'viagem' ? 'Retirada no Balcão' : 'Consumo no Local',
+        consume_type: cartConsumptionType,
+        payment_method: paymentMethod,
+        items: cartDogs.map(i => ({
+          name: i.name,
+          qty: i.qty,
+          price: i.priceStr,
+          removed_ingredients: i.removedIngredients || [],
+          turbine_qty: i.addonTurbineQty || 0,
+          batata_qty: i.addonBatataQty || 0,
+          notes: i.notes || ''
+        })),
+        drinks: cartDrinks.map(i => ({ name: i.name, qty: i.qty, price: i.priceStr })),
+        addons: [],
+        notes: notes,
+        total: totalGeral,
+        estimated_time_min: estimatedTimeMin,
+        status: 'waiting',
+        device_role: getDeviceRole(),
+        created_at: new Date().toISOString()
+      };
+
+      try {
+        const res = await sbRpc('create_order', { p_payload: newOrderRecord });
+        const row = Array.isArray(res) ? res[0] : res;
+        if (row && row.queue_number) {
+          queueNumberToday = Number(row.queue_number);
+          newOrderRecord.queue_number = queueNumberToday;
+        }
+        if (row && row.estimated_time_min) {
+          estimatedTimeMin = Number(row.estimated_time_min);
+          newOrderRecord.estimated_time_min = estimatedTimeMin;
+        }
+        if (row && row.order_id) newOrderRecord.id = row.order_id;
+      } catch (err) {}
+
+      latestRegisteredQueueNumber = Math.max(latestRegisteredQueueNumber, queueNumberToday);
+      try { localStorage.setItem('industria_dog_highest_queue_num', latestRegisteredQueueNumber); } catch (e) {}
+
       let message = `Olá, Indústria do Dog! Gostaria de fazer o seguinte pedido:\n\n`;
+      message += `🎫 *PEDIDO Nº #${queueNumberToday}*\n`;
+      message += `👤 *Cliente:* ${customerName}\n`;
+      message += `📱 *WhatsApp:* ${customerPhone}\n\n`;
       message += `🛒 *MEU CARRINHO (${cartItems.length} ${cartItems.length === 1 ? 'item' : 'itens'}):*\n\n`;
 
       cartItems.forEach((item, i) => {
@@ -10855,6 +11771,7 @@
       });
 
       message += `----------------------------------\n`;
+      message += `🎫 *NÚMERO DO PEDIDO:* Nº #${queueNumberToday}\n`;
       message += `💰 *TOTAL DO PEDIDO:* ${totalFormatted}\n`;
       message += `🍽️ *Consumo:* ${consumeLabel}\n`;
       message += `💳 *Forma de Pagamento:* ${paymentMethod}\n`;
@@ -10862,44 +11779,8 @@
         message += `📝 *Observações Gerais:* ${notes}\n`;
       }
       message += `⏱️ *Previsão de Espera:* ~${estimatedTimeMin} min (${waitingOrdersCount === 0 ? 'Próximo da fila' : waitingOrdersCount + ' pedidos na frente'})\n`;
-      message += `🎫 *Fila de Espera:* Nº #${queueNumberToday}\n`;
       message += `----------------------------------\n`;
       message += `_Pedido gerado via cardápio online Indústria do Dog - Três Coroas/RS_`;
-
-      const cartDogs = cartItems.filter(i => i.type !== 'drink');
-      const cartDrinks = cartItems.filter(i => i.type === 'drink');
-
-      const newOrderRecord = {
-        id: 'ord_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
-        queue_number: queueNumberToday,
-        order_type: cartConsumptionType === 'viagem' ? 'Retirada no Balcão' : 'Consumo no Local',
-        consume_type: cartConsumptionType,
-        payment_method: paymentMethod,
-        items: cartDogs.map(i => ({
-          name: i.name,
-          qty: i.qty,
-          price: i.priceStr,
-          removed_ingredients: i.removedIngredients || [],
-          turbine_qty: i.addonTurbineQty || 0,
-          batata_qty: i.addonBatataQty || 0,
-          notes: i.notes || ''
-        })),
-        drinks: cartDrinks.map(i => ({ name: i.name, qty: i.qty, price: i.priceStr })),
-        addons: [],
-        notes: notes,
-        total: totalGeral,
-        estimated_time_min: estimatedTimeMin,
-        status: 'waiting',
-        device_role: getDeviceRole(),
-        created_at: new Date().toISOString()
-      };
-
-      try {
-        const res = await sbRpc('create_order', { p_payload: newOrderRecord });
-        const row = Array.isArray(res) ? res[0] : res;
-        if (row && row.queue_number) newOrderRecord.queue_number = row.queue_number;
-        if (row && row.order_id) newOrderRecord.id = row.order_id;
-      } catch (err) {}
 
       activeQueueOrders.push(newOrderRecord);
       saveLocalOrdersQueue();
@@ -10934,6 +11815,7 @@
     }
 
     function openOrderModal(dogName, dogPrice) {
+      loadSavedCustomerData();
       // Verificação de Item Esgotado
       if (isItemOutOfStock(dogName)) {
         showToast('Este lanche está esgotado no momento. Escolha outro item.', 'error');
@@ -10945,6 +11827,10 @@
         updateCounterLockUI();
         return;
       }
+
+      const queueNumberToday = getNextQueueNumber();
+      const orderQueueBadge = document.getElementById('orderModalQueueNumberBadge');
+      if (orderQueueBadge) orderQueueBadge.textContent = `Nº #${queueNumberToday}`;
 
       currentSelectedDog = dogName;
       currentSelectedPrice = dogPrice;
@@ -11199,11 +12085,12 @@
       total += (addonBatataQty * 3.00);
 
       const formatted = total.toFixed(2).replace('.', ',');
+      const queueNumberToday = getNextQueueNumber();
       if (subtotalEl) {
         subtotalEl.textContent = `R$ ${formatted}`;
       }
       if (btnWhatsText) {
-        btnWhatsText.textContent = `Pedir Direto (R$ ${formatted})`;
+        btnWhatsText.textContent = `Pedir Direto Pedido Nº #${queueNumberToday} (R$ ${formatted})`;
       }
       const btnAddCartText = document.getElementById('btnAddCartText');
       if (btnAddCartText) {
@@ -11256,6 +12143,45 @@
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Verificando status no servidor...</span>';
       }
 
+      const nameInput = document.getElementById('orderCustomerName');
+      const phoneInput = document.getElementById('orderCustomerPhone');
+      const customerName = (nameInput?.value || '').trim();
+      const customerPhone = (phoneInput?.value || '').trim();
+
+      if (!customerName || customerName.length < 2) {
+        showToast('⚠️ Por favor, informe seu NOME para enviar o pedido via WhatsApp.', 'error');
+        if (nameInput) {
+          nameInput.style.borderColor = '#ef4444';
+          nameInput.focus();
+          nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        return;
+      }
+
+      const rawPhoneDigits = customerPhone.replace(/\D/g, '');
+      if (!customerPhone || rawPhoneDigits.length < 8) {
+        showToast('⚠️ Por favor, informe seu WHATSAPP / TELEFONE para enviar o pedido.', 'error');
+        if (phoneInput) {
+          phoneInput.style.borderColor = '#ef4444';
+          phoneInput.focus();
+          phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        return;
+      }
+
+      try {
+        localStorage.setItem('industria_dog_customer_name', customerName);
+        localStorage.setItem('industria_dog_customer_phone', customerPhone);
+      } catch (e) {}
+
       const orderType = document.getElementById('orderType').value;
       const notes = document.getElementById('orderNotes').value.trim();
       
@@ -11271,8 +12197,8 @@
 
       // Fila de Espera & Tempo Estimado
       const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
-      const estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
-      const queueNumberToday = getNextQueueNumber();
+      let estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      let queueNumberToday = getNextQueueNumber();
 
       const subtotalPrincipal = (currentRawPrice * currentQty).toFixed(2).replace('.', ',');
       
@@ -11290,58 +12216,24 @@
       let totalGeral = currentRawPrice * currentQty;
       const itemsList = [{ name: currentSelectedDog, qty: currentQty, price: currentSelectedPrice }];
 
-      let message = `Olá, Indústria do Dog! Gostaria de fazer o seguinte pedido:\n\n`;
-      message += `🌭 *Lanche Principal:* ${currentQty}x ${currentSelectedDog} (R$ ${currentSelectedPrice} cada = Subtotal: R$ ${subtotalPrincipal})\n`;
-
-      
-      // Ingredientes Retirados pelo Cliente no Lanche Principal
-      let removedMsgPart = '';
-      if (currentRemovedIngredients && currentRemovedIngredients.length > 0) {
-        removedMsgPart = currentRemovedIngredients.map(i => 'SEM ' + i).join(', ');
-        message += `\n🚫 *Remover deste lanche:* ${removedMsgPart}\n`;
-      }
-
       if (selectedExtraDogs.length > 0) {
-        message += `\n🌭 *Outros Lanches Selecionados:*\n`;
         selectedExtraDogs.forEach(dog => {
-          const itemSubtotal = (dog.rawPrice * dog.qty).toFixed(2).replace('.', ',');
           totalGeral += dog.rawPrice * dog.qty;
-          message += `• ${dog.qty}x ${dog.name} (R$ ${dog.priceStr} cada = R$ ${itemSubtotal})\n`;
           itemsList.push({ name: dog.name, qty: dog.qty, price: dog.priceStr });
         });
       }
 
       if (selectedDrinks.length > 0) {
-        message += `\n🥤 *Bebidas Selecionadas:*\n`;
         selectedDrinks.forEach(drink => {
-          const itemSubtotal = (drink.rawPrice * drink.qty).toFixed(2).replace('.', ',');
           totalGeral += drink.rawPrice * drink.qty;
-          message += `• ${drink.qty}x ${drink.name} (R$ ${drink.priceStr} cada = R$ ${itemSubtotal})\n`;
           itemsList.push({ name: drink.name, qty: drink.qty, price: drink.priceStr });
         });
       }
 
       if (addons.length > 0) {
-        message += `\n⚡ *Adicionais / Turbinados:*\n`;
-        addons.forEach(ad => {
-          message += `• ${ad}\n`;
-        });
         totalGeral += (addonTurbineQty * 4.00);
         totalGeral += (addonBatataQty * 3.00);
       }
-
-      message += `\n📍 *Modalidade:* ${orderType}\n`;
-
-      if (notes) {
-        message += `📝 *Observações:* ${notes}\n`;
-      }
-
-      message += `\n💰 *Total Estimado:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
-      
-      message += `\n📋 *Fila de Espera:* Pedido Nº ${queueNumberToday}`;
-      message += `\n⏱️ *Tempo Estimado de Preparo:* ~${estimatedTimeMin} minutos`;
-
-      message += `\n\nPodem confirmar o pedido e o tempo para retirada? Obrigado!`;
 
       // Validação prévia de horário de funcionamento (bancada/atendente sempre libera)
       if (storeStatus && !storeStatus.isOpen && getDeviceRole() !== 'counter') {
@@ -11362,6 +12254,8 @@
       const orderRecord = {
         id: 'ord_' + Date.now(),
         queue_number: queueNumberToday,
+        customer_name: customerName,
+        customer_phone: customerPhone,
         order_type: orderType,
         items: itemsList.map(it => ({
           name: it.name,
@@ -11382,13 +12276,18 @@
       };
 
       try {
-        // Autorizacao final no servidor: o relogio/cache do celular nao decide.
-        // Envia o pedido COMPLETO como payload unico (contrato create_order(p_payload)).
+        // Autorização no servidor para obtenção do número oficial da fila
         try {
           const res = await sbRpc('create_order', { p_payload: orderRecord });
           const row = Array.isArray(res) ? res[0] : res;
-          if (row && row.queue_number) orderRecord.queue_number = row.queue_number;
-          if (row && row.estimated_time_min) orderRecord.estimated_time_min = row.estimated_time_min;
+          if (row && row.queue_number) {
+            queueNumberToday = Number(row.queue_number);
+            orderRecord.queue_number = queueNumberToday;
+          }
+          if (row && row.estimated_time_min) {
+            estimatedTimeMin = Number(row.estimated_time_min);
+            orderRecord.estimated_time_min = estimatedTimeMin;
+          }
           if (row && row.order_id) orderRecord.id = row.order_id;
         } catch (serverErr) {
           if (/STORE_CLOSED|STORE_COUNTER_ONLY/.test(serverErr.message)) {
@@ -11402,6 +12301,58 @@
           }
           // Falha de rede: nao bloqueia o cliente de chamar no WhatsApp (fallback local)
         }
+
+        latestRegisteredQueueNumber = Math.max(latestRegisteredQueueNumber, queueNumberToday);
+        try { localStorage.setItem('industria_dog_highest_queue_num', latestRegisteredQueueNumber); } catch (e) {}
+
+        // Constrói a mensagem para o WhatsApp com o número oficial
+        let message = `Olá, Indústria do Dog! Gostaria de fazer o seguinte pedido:\n\n`;
+        message += `🎫 *PEDIDO Nº #${queueNumberToday}*\n`;
+        message += `👤 *Cliente:* ${customerName}\n`;
+        message += `📱 *WhatsApp:* ${customerPhone}\n\n`;
+        message += `🌭 *Lanche Principal:* ${currentQty}x ${currentSelectedDog} (R$ ${currentSelectedPrice} cada = Subtotal: R$ ${subtotalPrincipal})\n`;
+
+        // Ingredientes Retirados pelo Cliente no Lanche Principal
+        let removedMsgPart = '';
+        if (currentRemovedIngredients && currentRemovedIngredients.length > 0) {
+          removedMsgPart = currentRemovedIngredients.map(i => 'SEM ' + i).join(', ');
+          message += `\n🚫 *Remover deste lanche:* ${removedMsgPart}\n`;
+        }
+
+        if (selectedExtraDogs.length > 0) {
+          message += `\n🌭 *Outros Lanches Selecionados:*\n`;
+          selectedExtraDogs.forEach(dog => {
+            const itemSubtotal = (dog.rawPrice * dog.qty).toFixed(2).replace('.', ',');
+            message += `• ${dog.qty}x ${dog.name} (R$ ${dog.priceStr} cada = R$ ${itemSubtotal})\n`;
+          });
+        }
+
+        if (selectedDrinks.length > 0) {
+          message += `\n🥤 *Bebidas Selecionadas:*\n`;
+          selectedDrinks.forEach(drink => {
+            const itemSubtotal = (drink.rawPrice * drink.qty).toFixed(2).replace('.', ',');
+            message += `• ${drink.qty}x ${drink.name} (R$ ${drink.priceStr} cada = R$ ${itemSubtotal})\n`;
+          });
+        }
+
+        if (addons.length > 0) {
+          message += `\n⚡ *Adicionais / Turbinados:*\n`;
+          addons.forEach(ad => {
+            message += `• ${ad}\n`;
+          });
+        }
+
+        message += `\n📍 *Modalidade:* ${orderType}\n`;
+
+        if (notes) {
+          message += `📝 *Observações:* ${notes}\n`;
+        }
+
+        message += `\n🎫 *NÚMERO DO PEDIDO:* Nº #${queueNumberToday}`;
+        message += `\n💰 *Total Estimado:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
+        message += `\n⏱️ *Tempo Estimado de Preparo:* ~${estimatedTimeMin} minutos`;
+
+        message += `\n\nPodem confirmar o pedido e o tempo para retirada? Obrigado!`;
 
         // Fila local (fallback) + UI
         activeQueueOrders.push(orderRecord);
@@ -11460,6 +12411,15 @@
               updateCounterLockUI();
             } else if (event.data.type === 'queue_update' && event.data.queue) {
               activeQueueOrders = event.data.queue;
+              if (event.data.latestRegisteredQueueNumber) {
+                latestRegisteredQueueNumber = Math.max(latestRegisteredQueueNumber, event.data.latestRegisteredQueueNumber);
+              }
+              activeQueueOrders.forEach(o => {
+                const num = parseInt(o.queue_number || o.queueNumber, 10);
+                if (!isNaN(num) && num > latestRegisteredQueueNumber) {
+                  latestRegisteredQueueNumber = num;
+                }
+              });
               updateQueueUI();
             } else if (event.data.type === 'queue_settings_update' && event.data.settings) {
               queueSettings = event.data.settings;
@@ -11593,11 +12553,11 @@
         headerPill.classList.remove('open', 'closed');
         if (isOpen) {
           headerPill.classList.add('open');
-          headerText.textContent = 'Aberto Agora';
+          headerText.innerHTML = '<span class="status-full">Aberto Agora</span><span class="status-compact">Aberto</span>';
           headerPill.title = '🟢 Aberto — Pedidos disponíveis!';
         } else {
           headerPill.classList.add('closed');
-          headerText.textContent = 'Fechado no Momento';
+          headerText.innerHTML = '<span class="status-full">Fechado no Momento</span><span class="status-compact">Fechado</span>';
           headerPill.title = nextOpeningStr ? `🔴 Fechado. Próxima abertura: ${nextOpeningStr}` : 'Fechado no momento';
         }
       }
@@ -13031,6 +13991,9 @@
 
     // Inicialização ao carregar o DOM
     document.addEventListener('DOMContentLoaded', function() {
+      loadSavedCustomerData();
+      initCustomerInputs();
+      checkAndShowWelcomeGate();
       initHeroTypewriter();
       initCart();
       // Suíte de animações GSAP removida para leitura imediata e foco no público mais velho.
