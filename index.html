@@ -712,7 +712,12 @@
 
     .hero-title .highlight-red {
       color: #e63925;
-      display: inline-block;
+      display: inline;
+    }
+
+    .hero-title .hero-title-end {
+      white-space: nowrap !important;
+      display: inline;
     }
 
     .hero-title .highlight-gold {
@@ -7620,7 +7625,7 @@
         </div>
 
         <h1 class="hero-title" id="heroTitle" aria-label="O VERDADEIRO HOT DOG ARTESANAL. SABOR BRUTAL, NADA DE COMUM.">
-          <div class="line"><span class="line-inner" id="heroTypewriterLine"><span id="heroTypewriterTarget">O VERDADEIRO <span class="highlight-red">HOT DOG ARTESANAL</span>.</span><span class="typewriter-cursor" id="heroTypewriterCursor" aria-hidden="true"></span></span></div>
+          <div class="line"><span class="line-inner" id="heroTypewriterLine"><span id="heroTypewriterTarget">O VERDADEIRO <span class="highlight-red">HOT DOG </span><span class="hero-title-end"><span class="highlight-red">ARTESANAL</span>.</span></span><span class="typewriter-cursor" id="heroTypewriterCursor" aria-hidden="true"></span></span></div>
           <div class="line"><span class="line-inner" id="heroSubLine">SABOR BRUTAL, <span class="highlight-gold">NADA DE COMUM</span>.</span></div>
         </h1>
 
@@ -14155,11 +14160,13 @@
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         if (cursor) cursor.style.display = 'none';
         if (subLine) { subLine.style.opacity = '1'; subLine.style.transform = 'none'; }
+        target.innerHTML = 'O VERDADEIRO <span class="highlight-red">HOT DOG </span><span class="hero-title-end"><span class="highlight-red">ARTESANAL</span>.</span>';
         return;
       }
 
       const prefix = "O VERDADEIRO ";
-      const highlight = "HOT DOG ARTESANAL";
+      const highlightPart1 = "HOT DOG ";
+      const highlightPart2 = "ARTESANAL";
       const suffix = ".";
 
       // Estado inicial limpo para início da digitação
@@ -14171,7 +14178,7 @@
       }
 
       let charIndex = 0;
-      const totalChars = prefix.length + highlight.length + suffix.length;
+      const totalChars = prefix.length + highlightPart1.length + highlightPart2.length + suffix.length;
 
       // Início após breve respiro (220ms) para captura de atenção imediata
       setTimeout(() => {
@@ -14180,20 +14187,26 @@
 
           if (charIndex <= prefix.length) {
             target.innerHTML = prefix.substring(0, charIndex);
-          } else if (charIndex <= prefix.length + highlight.length) {
-            const hlPart = highlight.substring(0, charIndex - prefix.length);
-            target.innerHTML = prefix + '<span class="highlight-red">' + hlPart + '</span>';
+          } else if (charIndex <= prefix.length + highlightPart1.length) {
+            const hl1 = highlightPart1.substring(0, charIndex - prefix.length);
+            target.innerHTML = prefix + '<span class="highlight-red">' + hl1 + '</span>';
+          } else if (charIndex <= prefix.length + highlightPart1.length + highlightPart2.length) {
+            const hl2 = highlightPart2.substring(0, charIndex - prefix.length - highlightPart1.length);
+            target.innerHTML = prefix + '<span class="highlight-red">' + highlightPart1 + '</span><span class="hero-title-end"><span class="highlight-red">' + hl2 + '</span></span>';
           } else {
-            target.innerHTML = prefix + '<span class="highlight-red">' + highlight + '</span>' + suffix;
+            // Conclusão com o ponto final colado na palavra ARTESANAL sem quebra
+            target.innerHTML = prefix + '<span class="highlight-red">' + highlightPart1 + '</span><span class="hero-title-end"><span class="highlight-red">' + highlightPart2 + '</span>.</span>';
           }
 
           if (charIndex < totalChars) {
             // Cadência suave e humana de digitação (45ms a 85ms)
             const nextChar = (charIndex < prefix.length) 
               ? prefix[charIndex] 
-              : (charIndex < prefix.length + highlight.length) 
-                ? highlight[charIndex - prefix.length] 
-                : suffix;
+              : (charIndex < prefix.length + highlightPart1.length) 
+                ? highlightPart1[charIndex - prefix.length] 
+                : (charIndex < prefix.length + highlightPart1.length + highlightPart2.length)
+                  ? highlightPart2[charIndex - prefix.length - highlightPart1.length]
+                  : suffix;
             const delay = (nextChar === ' ') ? 85 : (charIndex === prefix.length) ? 95 : 46;
             setTimeout(typeChar, delay);
           } else {
@@ -14208,6 +14221,7 @@
             if (cursor) {
               setTimeout(() => {
                 cursor.classList.add('finished');
+                cursor.style.display = 'none';
               }, 2200);
             }
           }
