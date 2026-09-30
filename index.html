@@ -4554,25 +4554,25 @@
         border-radius: 8px;
       }
 
-      /* Rodapé Compacto ("pode diminuir um pouco a parte de baixo") */
+      /* Rodapé Compacto ("pode diminuir mais ainda o bloco") */
       .modal-footer-fixed {
-        padding: 7px 12px 9px 12px;
-        gap: 5px;
+        padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px)) 12px !important;
+        gap: 4px !important;
         box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.6);
       }
 
       .modal-total-bar {
-        padding-bottom: 3px;
+        padding-bottom: 2px;
         margin-bottom: 0;
       }
 
       .modal-total-label {
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         letter-spacing: 0.05em;
       }
 
       .modal-total-value {
-        font-size: 1.32rem;
+        font-size: 1.15rem;
         text-shadow: none;
       }
 
@@ -4622,7 +4622,8 @@
         gap: 12px;
       }
       .modal-footer-fixed {
-        padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)) 16px;
+        padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px)) 12px !important;
+        gap: 4px !important;
       }
       .modal-addons-group {
         display: flex;
@@ -6013,10 +6014,10 @@
         box-sizing: border-box !important;
       }
       .modal-footer-fixed {
-        padding: 12px 14px !important;
-        gap: 8px !important;
+        padding: 5px 10px calc(5px + env(safe-area-inset-bottom, 0px)) 10px !important;
+        gap: 3px !important;
       }
-      .modal-footer-fixed button {
+      .modal-footer-fixed .btn:not(.btn-order-modal-close) {
         width: 100% !important;
         box-sizing: border-box !important;
       }
@@ -7453,6 +7454,14 @@
         <button type="button" class="btn-header-customer" id="headerCustomerBtn" style="display: none;" onclick="openWelcomeGate(true)" title="Clique para alterar seus dados de contato">
           <i class="fa-solid fa-user-check" style="color: var(--color-mustard);"></i>
           <span id="headerCustomerNameDisplay">Cliente</span>
+        </button>
+
+        <!-- Botão de Espera (Fila) no Header Principal -->
+        <button type="button" class="btn-header-queue" id="headerQueueBtn" onclick="openQueueModal()" title="Ver fila de espera e tempo estimado em tempo real">
+          <i class="fa-solid fa-users-line" style="color: #38bdf8;"></i>
+          <span class="header-queue-label">Fila</span>
+          <span class="header-queue-badge" id="headerQueueBadge">0</span>
+          <span class="header-queue-time" id="headerQueueTime">~15 min</span>
         </button>
 
         <!-- Botão do Carrinho / Sacola no Header -->
@@ -9031,30 +9040,31 @@
           </div>
         </div>
 
-        <!-- Rodapé Fixo com Botão de Adicionar ao Carrinho e WhatsApp -->
+        <!-- Rodapé Fixo Super Compacto com Botão de Adicionar ao Carrinho e WhatsApp -->
         <div class="modal-footer-fixed">
-          <div class="order-queue-badge-summary" id="orderModalQueueBadge">
-            <span class="order-queue-num-label"><i class="fa-solid fa-receipt" style="color: var(--color-mustard);"></i> Número do Pedido:</span>
-            <strong class="order-queue-num-val" id="orderModalQueueNumberBadge">Nº #1</strong>
+          <div class="order-queue-badge-summary" id="orderModalQueueBadge" style="padding: 3px 8px; margin-bottom: 2px; border-radius: 6px;">
+            <span class="order-queue-num-label" style="font-size: 0.72rem;"><i class="fa-solid fa-receipt" style="color: var(--color-mustard);"></i> Número do Pedido:</span>
+            <strong class="order-queue-num-val" id="orderModalQueueNumberBadge" style="font-size: 0.82rem; padding: 1px 6px; border-radius: 4px;">Nº #1</strong>
           </div>
-          <div class="modal-total-bar">
-            <span class="modal-total-label">Subtotal deste Item:</span>
-            <span class="modal-total-value" id="modalQtySubtotal">R$ 0,00</span>
+          <div class="modal-total-bar" style="padding-bottom: 2px; margin-bottom: 1px;">
+            <span class="modal-total-label" style="font-size: 0.65rem;">Subtotal deste Item:</span>
+            <span class="modal-total-value" id="modalQtySubtotal" style="font-size: 1.1rem;">R$ 0,00</span>
           </div>
-          <div style="display: flex; gap: 8px; flex-direction: column; width: 100%;">
-            <button type="button" class="btn btn-whatsapp" id="btnAddToCart" onclick="addItemToCartFromModal()" style="width: 100%; min-height: 50px; font-size: 1.05rem; font-weight: 800; justify-content: center; background: #22c55e; border-color: #4ade80;">
+          <div style="display: flex; gap: 4px; flex-direction: column; width: 100%;">
+            <!-- Botão Principal: Adicionar ao Carrinho (Ultra Compacto) -->
+            <button type="button" class="btn btn-whatsapp" id="btnAddToCart" onclick="addItemToCartFromModal()" style="width: 100%; min-height: 35px; font-size: 0.84rem; font-weight: 800; justify-content: center; background: #22c55e; border-color: #4ade80; padding: 6px 10px; border-radius: 6px; gap: 5px;">
               <i class="fa-solid fa-cart-plus"></i>
               <span id="btnAddCartText">Adicionar ao Carrinho</span>
             </button>
-            <div style="display: flex; gap: 8px;">
-              <button type="submit" class="btn btn-secondary" id="btnSubmitWhatsApp" style="flex: 1; min-height: 44px; justify-content: center; font-size: 0.85rem;">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span id="btnWhatsText">Pedir Direto pelo WhatsApp</span>
-              </button>
-              <button type="button" class="btn btn-secondary btn-order-modal-close" onclick="closeOrderModal()" style="min-height: 44px; padding: 0 16px;">
-                Continuar Vendo
-              </button>
-            </div>
+            <!-- Botão Secundário: Pedir Direto pelo WhatsApp (Compacto) -->
+            <button type="submit" class="btn btn-secondary" id="btnSubmitWhatsApp" style="width: 100%; min-height: 30px; justify-content: center; font-size: 0.76rem; padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 4px;">
+              <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i>
+              <span id="btnWhatsText">Pedir Direto pelo WhatsApp</span>
+            </button>
+            <!-- Botão Continuar Vendo (Alinhado e Discreto) -->
+            <button type="button" class="btn-order-modal-close" onclick="closeOrderModal()" style="width: auto; align-self: center; margin-top: 1px; padding: 2px 6px; font-size: 0.70rem; border: none; background: transparent; color: #a8a29e; text-decoration: underline; cursor: pointer;">
+              ← Continuar Vendo o Cardápio
+            </button>
           </div>
         </div>
       </form>
@@ -9313,6 +9323,71 @@
           <span>Ver Cardápio</span>
         </button>
         <button type="button" class="btn btn-secondary" onclick="closeScheduleModal()" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem;">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL DE FILA DE ESPERA EM TEMPO REAL (CLIENTE)
+       ========================================================================== -->
+  <div class="order-modal-backdrop" id="queueModal" onclick="handleQueueBackdropClick(event)">
+    <div class="order-modal schedule-modal-card" role="dialog" aria-modal="true" aria-labelledby="queueModalTitle">
+      <button class="modal-close-btn" onclick="closeQueueModal()" aria-label="Fechar fila">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header-fixed">
+        <span class="section-eyebrow" style="color: #38bdf8; margin-bottom: 2px; font-size: 0.75rem;">
+          <i class="fa-solid fa-users-line"></i> Acompanhamento em Tempo Real
+        </span>
+        <h3 id="queueModalTitle" style="font-size: 1.35rem; color: #ffffff; margin: 0;">Fila de Espera no Trailer</h3>
+      </div>
+
+      <div class="modal-body-scrollable">
+        <!-- Card de Destaque com Métricas da Fila -->
+        <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(217, 130, 43, 0.1)); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 16px; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="status-indicator-dot" style="background-color: #38bdf8; box-shadow: 0 0 10px #38bdf8;"></span>
+              <span id="queueModalStatusLabel" style="font-weight: 800; font-size: 0.92rem; color: #ffffff;">Status da Fila</span>
+            </div>
+            <span class="badge-gold-admin" id="queueModalNextBadge" style="font-size: 0.85rem; padding: 3px 10px;">Próximo: Nº #1</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+            <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; text-align: center;">
+              <div style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Tempo Estimado</div>
+              <div id="queueModalEstimatedTime" style="font-size: 1.35rem; font-weight: 900; color: #38bdf8;">~15 min</div>
+            </div>
+            <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; text-align: center;">
+              <div style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Pedidos na Frente</div>
+              <div id="queueModalWaitingCount" style="font-size: 1.35rem; font-weight: 900; color: var(--color-mustard);">0</div>
+            </div>
+          </div>
+
+          <p id="queueModalMsg" style="font-size: 0.82rem; color: #e2e8f0; margin: 0; line-height: 1.4;">
+            Nenhum pedido aguardando no momento. Seu lanche entra em preparo imediato!
+          </p>
+        </div>
+
+        <!-- Lista de Pedidos Ativos na Fila -->
+        <h4 style="font-size: 0.9rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-list-ol" style="color: var(--color-mustard);"></i> Pedidos em Preparo Agora
+        </h4>
+
+        <div id="queueModalList" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px;">
+          <!-- Injetado dinamicamente -->
+        </div>
+      </div>
+
+      <div class="modal-footer-fixed">
+        <button type="button" class="btn btn-whatsapp" onclick="closeQueueModal(); scrollToMenu();" style="width: 100%; justify-content: center; padding: 12px 20px;">
+          <i class="fa-solid fa-utensils"></i>
+          <span>Fazer Pedido no Cardápio</span>
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeQueueModal()" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem;">
           Fechar
         </button>
       </div>
@@ -10528,6 +10603,21 @@
       // Badge no Admin Tab
       const adminBadge = document.getElementById('adminQueueCountBadge');
       if (adminBadge) adminBadge.textContent = waitingCount;
+
+      // Badge na Barra Superior do Gestor (Resolve a divergência de contagem)
+      const topBarQueueCount = document.getElementById('topBarQueueCount');
+      if (topBarQueueCount) topBarQueueCount.textContent = waitingCount;
+
+      // Botão de Espera (Fila) no Header Principal
+      const headerQueueBadge = document.getElementById('headerQueueBadge');
+      if (headerQueueBadge) headerQueueBadge.textContent = waitingCount;
+
+      const headerQueueTime = document.getElementById('headerQueueTime');
+      if (headerQueueTime) headerQueueTime.textContent = '~' + nextEstimatedTime + ' min';
+
+      if (typeof updateQueueModalUI === 'function') {
+        updateQueueModalUI();
+      }
 
       renderAdminQueueOrders();
     }
@@ -12832,6 +12922,92 @@
     function scrollToMenu() {
       const menu = document.getElementById('cardapio');
       if (menu) menu.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // ==========================================================================
+    // MODAL DE FILA DE ESPERA (CLIENTE)
+    // ==========================================================================
+    function openQueueModal() {
+      const modal = document.getElementById('queueModal');
+      updateQueueModalUI();
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      if (typeof fetchOrdersQueue === 'function') {
+        fetchOrdersQueue();
+      }
+    }
+
+    function closeQueueModal() {
+      const modal = document.getElementById('queueModal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleQueueBackdropClick(event) {
+      if (event.target && event.target.id === 'queueModal') {
+        closeQueueModal();
+      }
+    }
+
+    function updateQueueModalUI() {
+      const waitingOrders = (activeQueueOrders || []).filter(o => o.status === 'waiting');
+      const waitingCount = waitingOrders.length;
+      const nextEstimatedTime = typeof calculateQueueEstimatedTime === 'function' ? calculateQueueEstimatedTime(waitingCount) : 15;
+      const nextNum = typeof getNextQueueNumber === 'function' ? getNextQueueNumber() : 1;
+
+      const nextBadge = document.getElementById('queueModalNextBadge');
+      if (nextBadge) nextBadge.textContent = 'Próximo: Nº #' + nextNum;
+
+      const estEl = document.getElementById('queueModalEstimatedTime');
+      if (estEl) estEl.textContent = '~' + nextEstimatedTime + ' min';
+
+      const waitEl = document.getElementById('queueModalWaitingCount');
+      if (waitEl) waitEl.textContent = waitingCount;
+
+      const msgEl = document.getElementById('queueModalMsg');
+      if (msgEl) {
+        msgEl.textContent = waitingCount === 0
+          ? 'Nenhum pedido aguardando no momento. Seu lanche entra em preparo imediato!'
+          : waitingCount + ' pedido(s) aguardando preparo no trailer.';
+      }
+
+      const listContainer = document.getElementById('queueModalList');
+      if (!listContainer) return;
+
+      if (waitingCount === 0) {
+        listContainer.innerHTML = '<div style="text-align: center; padding: 22px 14px; color: #94a3b8; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px dashed rgba(255,255,255,0.1);">' +
+          '<i class="fa-solid fa-mug-hot" style="font-size: 1.8rem; color: #38bdf8; margin-bottom: 8px; display: block;"></i>' +
+          '<strong>Fila totalmente livre no momento!</strong><br><span style="font-size: 0.78rem;">Faça seu pedido e ele será preparado na hora com prioridade máxima.</span>' +
+        '</div>';
+        return;
+      }
+
+      listContainer.innerHTML = waitingOrders.map((order, idx) => {
+        const orderNum = order.queue_number || order.queueNumber || (idx + 1);
+        const orderType = order.order_type || order.orderType || 'Consumo no Local';
+        const orderTime = order.estimated_time_min || 15;
+        const custName = (order.customer_name || order.customerName || 'Cliente').split(' ')[0];
+
+        return '<div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; width: 100%; box-sizing: border-box;">' +
+          '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">' +
+            '<div style="display: flex; align-items: center; gap: 8px; min-width: 0;">' +
+              '<span style="width: 26px; height: 26px; border-radius: 50%; background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0;">' + (idx + 1) + 'º</span>' +
+              '<strong style="font-size: 0.94rem; color: #ffffff; white-space: nowrap;">Pedido Nº #' + orderNum + '</strong>' +
+            '</div>' +
+            '<span style="font-size: 0.72rem; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; padding: 3px 8px; font-weight: 700; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">' +
+              '<i class="fa-solid fa-fire-burner"></i> Em preparo (~' + orderTime + ' min)' +
+            '</span>' +
+          '</div>' +
+          '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.76rem; color: #94a3b8; padding-left: 34px;">' +
+            '<span style="display: inline-flex; align-items: center; gap: 4px; color: #cbd5e1;"><i class="fa-regular fa-user" style="color: var(--color-mustard); font-size: 0.74rem;"></i> Cliente: <strong style="color: #ffffff;">' + custName + '</strong></span>' +
+            '<span style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 4px; color: #e2e8f0; font-size: 0.72rem; white-space: nowrap;">' + orderType + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
     }
 
     // Modal de Horários do Cliente
