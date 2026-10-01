@@ -10272,6 +10272,29 @@
       } catch (e) {}
     }
 
+    // Pedidos que o cliente já retirou/concluiu — não voltam da fila ao vivo
+    const DISMISSED_ORDERS_KEY = 'industria_dog_dismissed_orders';
+    function getDismissedOrderKeys() {
+      try {
+        const list = JSON.parse(localStorage.getItem(DISMISSED_ORDERS_KEY) || '[]');
+        return Array.isArray(list) ? list.map(String) : [];
+      } catch (e) { return []; }
+    }
+    function isOrderDismissed(order) {
+      if (!order) return false;
+      const keys = getDismissedOrderKeys();
+      const id = String(order.id || '');
+      const num = String(order.queue_number || order.queueNumber || '');
+      return (!!id && keys.includes(id)) || (!!num && keys.includes(num));
+    }
+    function addDismissedOrder(orderId, orderNum) {
+      try {
+        const keys = getDismissedOrderKeys();
+        [orderId, orderNum].forEach(k => { k = String(k || ''); if (k && !keys.includes(k)) keys.push(k); });
+        localStorage.setItem(DISMISSED_ORDERS_KEY, JSON.stringify(keys.slice(-100)));
+      } catch (e) {}
+    }
+
     function isMyOrder(order) {
       if (!order) return false;
       try {
@@ -10337,6 +10360,7 @@
       let readyOrderNum = null;
 
       myHistory.forEach(myOrder => {
+        if (isOrderDismissed(myOrder)) return;
         const live = (activeQueueOrders || []).find(o => 
           String(o.id) === String(myOrder.id) || 
           String(o.queue_number || o.queueNumber) === String(myOrder.queue_number || myOrder.queueNumber)
@@ -10409,6 +10433,7 @@
     }
 
     function handleClientDismissReadyOrder(orderId, orderNum) {
+      addDismissedOrder(orderId, orderNum);
       try {
         const list = getClientOwnOrders().filter(o => 
           String(o.id) !== String(orderId) && 
@@ -13684,7 +13709,7 @@
 
         // 2. Sincroniza com os pedidos ativos da chapa (se for o pedido deste cliente)
         (activeQueueOrders || []).forEach(liveOrder => {
-          if (isMyOrder(liveOrder)) {
+          if (isMyOrder(liveOrder) && !isOrderDismissed(liveOrder)) {
             const key = String(liveOrder.id || liveOrder.queue_number || liveOrder.queueNumber);
             const existing = myOrdersMap.get(key) || {};
             const merged = { ...existing, ...liveOrder };
@@ -13695,7 +13720,7 @@
 
         // 3. Filtra pedidos ativos ou prontos recentes
         const myOrdersList = Array.from(myOrdersMap.values()).filter(o => {
-          return o.status === 'waiting' || o.status === 'preparing' || o.status === 'ready';
+          return (o.status === 'waiting' || o.status === 'preparing' || o.status === 'ready') && !isOrderDismissed(o);
         });
 
         // Se o cliente ainda não fez nenhum pedido
