@@ -19,7 +19,19 @@ import {
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+
+// Servir arquivos públicos (como capa.jpg, logo.jpg) de forma explícita
+app.use('/capa.jpg', (req, res) => {
+  const capaPath = path.resolve(process.cwd(), 'public', 'capa.jpg');
+  if (fs.existsSync(capaPath)) {
+    res.setHeader('Cache-Control', 'public, max-age=60');
+    return res.sendFile(capaPath);
+  }
+  const logoPath = path.resolve(process.cwd(), 'public', 'logo.jpg');
+  return res.sendFile(logoPath);
+});
 
 // Middleware de verificação de autenticação de administrador
 function requireAdminAuth(req: Request, res: Response, next: () => void) {
@@ -288,6 +300,42 @@ app.post('/api/orders/validate', (req: Request, res: Response) => {
     message: 'Estabelecimento aberto. Pedido permitido.',
     currentTime: storeStatus.currentTime
   });
+});
+
+// API: Upload de Capa do Link (Preview do WhatsApp / Redes Sociais)
+app.post('/api/upload-cover', (req: Request, res: Response) => {
+  try {
+    const { imageBase64 } = req.body;
+    if (!imageBase64 || typeof imageBase64 !== 'string') {
+      return res.status(400).json({ success: false, message: 'Nenhuma imagem enviada ou formato inválido.' });
+    }
+
+    const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    const publicDir = path.resolve(process.cwd(), 'public');
+    if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir, { recursive: true });
+    }
+    const publicPath = path.resolve(publicDir, 'capa.jpg');
+    fs.writeFileSync(publicPath, buffer);
+
+    const distDir = path.resolve(process.cwd(), 'dist');
+    if (fs.existsSync(distDir)) {
+      const distPath = path.resolve(distDir, 'capa.jpg');
+      fs.writeFileSync(distPath, buffer);
+    }
+
+    console.log('[Indústria do Dog] Nova capa do link salva com sucesso em public/capa.jpg');
+    res.json({
+      success: true,
+      message: 'Capa do link atualizada com sucesso!',
+      url: '/capa.jpg?t=' + Date.now()
+    });
+  } catch (err: any) {
+    console.error('Erro ao salvar capa do link:', err);
+    res.status(500).json({ success: false, message: err.message || 'Erro ao processar imagem.' });
+  }
 });
 
 // API: Finalização e Registro de Pedido

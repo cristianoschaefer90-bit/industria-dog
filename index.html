@@ -8,12 +8,24 @@
   <link rel="icon" type="image/jpeg" href="/logo.jpg">
   <link rel="apple-touch-icon" href="/logo.jpg">
   
-  <!-- Open Graph / Redes Sociais -->
-  <meta property="og:title" content="Indústria do Dog - Hot Dogs Artesanais | Três Coroas - RS">
-  <meta property="og:description" content="Lanches artesanais brutais, ambiente acolhedor e entrega rápida. Avaliação 5,0 estrelas no Google. Peça já pelo WhatsApp!">
+  <!-- Open Graph / Redes Sociais & WhatsApp Link Preview (Regra de Capa Oficial) -->
   <meta property="og:type" content="website">
+  <meta property="og:title" content="Indústria do Dog - O Melhor do Dog em Três Coroas">
+  <meta property="og:description" content="Trailer Fast Food no Centro de Três Coroas - RS. Hot dogs artesanais recheados, prensados na chapa e maionese caseira. Peça pelo site e retire sem fila!">
+  <meta property="og:site_name" content="Indústria do Dog">
   <meta property="og:locale" content="pt_BR">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1619740455993-9e612b1af08a?q=80&w=1200&auto=format&fit=crop">
+  <meta property="og:image" content="https://ais-pre-xbkiul3o43kne2epz572em-684336047339.us-east1.run.app/capa.jpg">
+  <meta property="og:image:secure_url" content="https://ais-pre-xbkiul3o43kne2epz572em-684336047339.us-east1.run.app/capa.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Trailer Indústria do Dog em Três Coroas - RS">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Indústria do Dog - O Melhor do Dog em Três Coroas">
+  <meta name="twitter:description" content="Trailer Fast Food no Centro de Três Coroas - RS. Hot dogs artesanais turbinados e maionese caseira.">
+  <meta name="twitter:image" content="https://ais-pre-xbkiul3o43kne2epz572em-684336047339.us-east1.run.app/capa.jpg">
 
   <!-- Google Fonts: Bebas Neue (Títulos fortes), Fraunces (Citações e destaque nobre), Plus Jakarta Sans (Texto limpo) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -815,8 +827,10 @@
 
     .trust-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
+      max-width: 780px;
+      margin: 0 auto;
     }
 
     .trust-item {
@@ -3251,12 +3265,12 @@
     }
 
     .drink-chip-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #e2ded9;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 6px 14px;
       border-radius: 9999px;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -7507,7 +7521,6 @@
         <ul class="nav-menu" id="navMenu">
           <li><a href="#cardapio" onclick="toggleCategoryAccordion('lanches')" class="nav-link" style="color: var(--color-mustard); font-weight: 700;"><i class="fa-solid fa-utensils" style="margin-right: 4px;"></i> Cardápio</a></li>
           <li><a href="#cardapio" onclick="toggleCategoryAccordion('bebidas')" class="nav-link" style="color: #38bdf8; font-weight: 700;"><i class="fa-solid fa-bottle-water" style="margin-right: 4px;"></i> Bebidas</a></li>
-          <li><a href="#sobre" class="nav-link">O Diferencial</a></li>
           <li><a href="#depoimentos" class="nav-link">Avaliações</a></li>
           <li><a href="javascript:void(0)" onclick="openScheduleModal()" class="nav-link"><i class="fa-regular fa-clock" style="color: var(--color-mustard);"></i> Horários</a></li>
           <li><a href="#instagram" class="nav-link"><i class="fa-brands fa-instagram" style="color: #e6683c;"></i> Instagram</a></li>
@@ -7542,12 +7555,6 @@
           <span class="status-indicator-dot"></span>
           <span id="headerStatusText"><span class="status-full">Verificando...</span><span class="status-compact">...</span></span>
         </button>
-
-        <a href="tel:+555199492898" class="header-phone" title="Ligar para o restaurante">
-          <i class="fa-solid fa-phone"></i>
-          <span class="phone-desktop">(51) 9949-2898</span>
-          <span class="phone-mobile">Ligar</span>
-        </a>
       </div>
     </div>
   </header>
@@ -7624,14 +7631,7 @@
           </div>
         </div>
 
-        <h1 class="hero-title" id="heroTitle" aria-label="O VERDADEIRO HOT DOG ARTESANAL. SABOR BRUTAL, NADA DE COMUM.">
-          <div class="line"><span class="line-inner" id="heroTypewriterLine"><span id="heroTypewriterTarget">O VERDADEIRO <span class="highlight-red">HOT DOG </span><span class="hero-title-end"><span class="highlight-red">ARTESANAL</span>.</span></span><span class="typewriter-cursor" id="heroTypewriterCursor" aria-hidden="true"></span></span></div>
-          <div class="line"><span class="line-inner" id="heroSubLine">SABOR BRUTAL, <span class="highlight-gold">NADA DE COMUM</span>.</span></div>
-        </h1>
-
-        <p class="hero-subtitle">
-          Criado para quem valoriza comida de verdade e não aceita lanche sem graça.
-        </p>
+        <h1 class="sr-only">Indústria do Dog - Hot Dogs Artesanais em Três Coroas</h1>
 
         <div class="hero-cta-group">
           <a href="#cardapio" 
@@ -7703,32 +7703,6 @@
               <span class="trust-desc">Domingo a Sexta (Sábado Fechado)</span>
             </div>
           </div>
-
-          <!-- Item 3: Local e Viagem -->
-          <div class="trust-item">
-            <div class="trust-icon">
-              <i class="fa-solid fa-truck-fast"></i>
-            </div>
-            <div class="trust-texts">
-              <div class="trust-title">
-                <span>Local & Viagem</span>
-              </div>
-              <span class="trust-desc">Trailer fast food com cobertura</span>
-            </div>
-          </div>
-
-          <!-- Item 4: Artesanal -->
-          <div class="trust-item">
-            <div class="trust-icon">
-              <i class="fa-solid fa-medal"></i>
-            </div>
-            <div class="trust-texts">
-              <div class="trust-title">
-                <span>Receita Autoral</span>
-              </div>
-              <span class="trust-desc">Pães selados e ingredientes premium</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -7745,7 +7719,7 @@
       <div class="container">
         <div class="text-center">
           <span class="section-eyebrow" style="background: rgba(217, 130, 43, 0.15); border: 1px solid var(--color-mustard); color: var(--color-mustard);">
-            <i class="fa-solid fa-utensils"></i> Feito na Hora & Ingredientes Nobres
+            <i class="fa-solid fa-utensils"></i> Feito na Hora & Ingredientes Frescos
           </span>
           <h2 class="section-title">CARDÁPIO OFICIAL DA CASA</h2>
           <p class="section-subtitle">
@@ -7788,7 +7762,7 @@
               <i class="fa-solid fa-hotdog"></i>
             </div>
             <div class="category-nav-info">
-              <span class="category-nav-title">1. LANCHES & HOT DOGS</span>
+              <span class="category-nav-title">1. CACHORROS-QUENTES</span>
               <span class="category-nav-subtitle">11 opções artesanais caprichadas</span>
             </div>
             <div class="category-nav-arrow">
@@ -7817,12 +7791,12 @@
             <div class="menu-board-branding">
               <img src="/logo.jpg" alt="Logo Indústria do Dog" class="menu-board-logo">
               <div>
-                <span class="menu-board-tagline">TRAILER FAST FOOD COM COBERTURA</span>
+                <span class="menu-board-tagline">TRAILER FAST FOOD</span>
                 <h3 class="menu-board-title">INDÚSTRIA DO DOG</h3>
               </div>
             </div>
             <div class="menu-board-badge">
-              <i class="fa-solid fa-fire"></i> Salsichas Especiais & Maionese Caseira
+              <i class="fa-solid fa-fire"></i> O MELHOR DO DOG EM TRÊS COROAS
             </div>
           </div>
 
@@ -8244,11 +8218,23 @@
                 </div>
                 <div class="pix-body">
                   <p>
-                    Aceitamos <strong>Pix</strong>, dinheiro e cartões de débito/crédito. Faça seu pedido em minutos e enviamos a chave ou QR Code direto no WhatsApp!
+                    Aceitamos <strong>Pix</strong>, dinheiro e cartões de débito/crédito. Pague com rapidez e envie o comprovante!
                   </p>
+                  
+                  <div style="background: rgba(0, 0, 0, 0.4); border: 1.5px solid rgba(0, 189, 174, 0.35); border-radius: 8px; padding: 10px 12px; margin: 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                    <div>
+                      <span style="display: block; font-size: 0.68rem; color: #a8a29e; text-transform: uppercase;">Chave Pix (Celular):</span>
+                      <strong style="font-size: 1.05rem; color: #00bdae;">5199492898</strong>
+                      <span style="display: block; font-size: 0.72rem; color: #d1cbc1;">(51) 9949-2898 • Cristiano Schaefer</span>
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="copyPixKey('5199492898', this)" style="min-height: 38px; padding: 6px 12px; font-size: 0.8rem; border-color: rgba(0, 189, 174, 0.5); color: #00bdae; gap: 6px; font-weight: 700;">
+                      <i class="fa-regular fa-copy"></i> <span>Copiar</span>
+                    </button>
+                  </div>
+
                   <div class="pix-features">
                     <span><i class="fa-solid fa-check"></i> Preparo ágil</span>
-                    <span><i class="fa-solid fa-check"></i> Consumo no local ou viagem</span>
+                    <span><i class="fa-solid fa-check"></i> Pedidos para viagem</span>
                   </div>
                 </div>
               </div>
@@ -8267,65 +8253,6 @@
 
           </div>
 
-        </div>
-      </div>
-    </section>
-
-    <!-- ==========================================================================
-         4. SOBRE / DIFERENCIAIS (Trailer Fast Food com Cobertura)
-         ========================================================================== -->
-    <section class="about-section" id="sobre">
-      <div class="container">
-        <div class="text-center">
-          <span class="section-eyebrow">
-            <i class="fa-solid fa-award"></i> O Padrão Indústria do Dog
-          </span>
-          <h2 class="section-title">NÃO É SÓ UM LANCHE. É UMA EXPERIÊNCIA.</h2>
-          <p class="section-subtitle">
-            Cansado daqueles cachorros-quentes encharcados e sem personalidade? Aqui nós transformamos o clássico dog em um super DOGÃO com ingredientes de primeira linha.
-          </p>
-        </div>
-
-        <div class="features-grid">
-          <!-- Card: Trailer Fast Food com Cobertura -->
-          <div class="feature-card fade-in-on-scroll" style="max-width: 680px; width: 100%;">
-            <div class="feature-icon-wrapper">
-              <i class="fa-solid fa-truck-fast"></i>
-            </div>
-            <h3 class="feature-title">Trailer Fast Food com Cobertura</h3>
-            <p class="feature-text">
-              Trailer com área coberta e mesas bem no Centro de Três Coroas para saborear seu lanche no local com proteção e conforto, ou pedir para viagem com embalagem anti-umidade.
-            </p>
-            <ul class="feature-list">
-              <li><i class="fa-solid fa-check"></i> Localização central de fácil acesso</li>
-              <li><i class="fa-solid fa-check"></i> Mesas protegidas sob área coberta</li>
-              <li><i class="fa-solid fa-check"></i> Embalagem térmica especial para viagem</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Banner de Ambiance / Experiência -->
-        <div class="ambiance-banner fade-in-on-scroll">
-          <div class="ambiance-info">
-            <span class="section-eyebrow" style="color: var(--color-brick-red);">
-              <i class="fa-solid fa-location-dot"></i> Centro de Três Coroas
-            </span>
-            <h3>O PONTO DE ENCONTRO PARA OS AMANTES DE UM LANCHE DE RESPEITO</h3>
-            <p>
-              Venha sentir o sabor do nosso DOGÃO no nosso trailer com cobertura.
-            </p>
-            <div class="ambiance-highlights">
-              <div class="ambiance-pill">
-                <i class="fa-solid fa-umbrella"></i> Área Coberta com Mesas
-              </div>
-              <div class="ambiance-pill">
-                <i class="fa-solid fa-truck-fast"></i> Trailer Fast Food
-              </div>
-              <div class="ambiance-pill">
-                <i class="fa-solid fa-motorcycle"></i> Retirada Rápida
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -8387,7 +8314,7 @@
               <i class="fa-solid fa-star"></i>
             </div>
             <p class="mini-review-text">
-              "Melhor cachorro-quente de Três Coroas! O Dog de Entreveiro e o Dog de Calabresa são bem caprichados, e a maionese caseira com o queijo ralado é espetacular. O espaço do trailer com cobertura é muito acolhedor e limpo."
+              "Melhor cachorro-quente de Três Coroas! O Dog de Entreveiro e o Dog de Calabresa são bem caprichados, e a maionese caseira com o queijo ralado é espetacular. O espaço do trailer é muito acolhedor e limpo."
             </p>
             <div class="mini-review-author">
               <span>Lucas F.</span>
@@ -8464,7 +8391,7 @@
                   O MELHOR DO DOG EM TRÊS COROAS 💥
                 </div>
                 <div class="instagram-bio-details">
-                  <span>📍 R. Fernando Ferrari, 508 - Centro, Três Coroas - RS</span>
+                  <span>📍 R. Fernando Ferrari, 453 - Centro, Três Coroas - RS</span>
                   <span>⏰ Dom a Sex: 18:30 às 23h (Sábados Fechado) • Peça pelo WhatsApp</span>
                 </div>
               </div>
@@ -8504,7 +8431,7 @@
                   <div class="contact-item-text">
                     <span class="contact-item-label">Endereço Físico</span>
                     <span class="contact-item-value">
-                      R. Fernando Ferrari, 508 - Centro<br>
+                      R. Fernando Ferrari, 453 - Centro<br>
                       Três Coroas - RS, 95660-000
                     </span>
                   </div>
@@ -8614,21 +8541,13 @@
             </div>
 
             <div class="location-actions">
-              <a href="https://www.google.com/maps/search/?api=1&query=R.+Fernando+Ferrari,+508+-+Centro,+Tr%C3%AAs+Coroas+-+RS" 
+              <a href="https://www.google.com/maps/search/?api=1&query=R.+Fernando+Ferrari,+453+-+Centro,+Tr%C3%AAs+Coroas+-+RS" 
                  target="_blank" 
                  rel="noopener noreferrer" 
                  class="btn btn-secondary" 
-                 style="flex: 1;">
+                 style="width: 100%; justify-content: center;">
                 <i class="fa-solid fa-route"></i>
                 <span>Como Chegar (GPS)</span>
-              </a>
-              <a href="https://wa.me/555199492898?text=Ol%C3%A1!%20Gostaria%20de%20reservar%20uma%20mesa%20ou%20fazer%20um%20pedido%20para%20retirada." 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
-                 class="btn btn-whatsapp" 
-                 style="flex: 1;">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span>Falar no WhatsApp</span>
               </a>
             </div>
           </div>
@@ -8637,7 +8556,7 @@
           <div class="map-container fade-in-on-scroll">
             <iframe 
               title="Localização da Indústria do Dog em Três Coroas"
-              src="https://maps.google.com/maps?q=R.+Fernando+Ferrari,+508+-+Centro,+Tr%C3%AAs+Coroas+-+RS&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+              src="https://maps.google.com/maps?q=R.+Fernando+Ferrari,+453+-+Centro,+Tr%C3%AAs+Coroas+-+RS&t=&z=16&ie=UTF8&iwloc=&output=embed" 
               loading="lazy" 
               allowfullscreen>
             </iframe>
@@ -8645,9 +8564,9 @@
             <div class="map-floating-card">
               <div class="map-card-text">
                 <strong>Indústria do Dog</strong>
-                <span>R. Fernando Ferrari, 508 - Centro</span>
+                <span>R. Fernando Ferrari, 453 - Centro</span>
               </div>
-              <a href="https://www.google.com/maps/search/?api=1&query=R.+Fernando+Ferrari,+508+-+Centro,+Tr%C3%AAs+Coroas+-+RS" 
+              <a href="https://www.google.com/maps/search/?api=1&query=R.+Fernando+Ferrari,+453+-+Centro,+Tr%C3%AAs+Coroas+-+RS" 
                  target="_blank" 
                  rel="noopener noreferrer" 
                  class="btn btn-primary" 
@@ -8675,17 +8594,14 @@
         </h2>
         
         <p class="final-cta-desc">
-          Faça seu pedido diretamente pelo WhatsApp e passe aqui para retirar sem fila. O hot dog artesanal que Três Coroas ama te espera.
+          Faça seu pedido diretamente pelo site e passe aqui para retirar sem fila.
         </p>
 
-        <a href="https://wa.me/555199492898?text=Ol%C3%A1!%20Estou%20com%20fome%20e%20gostaria%20de%20fazer%20meu%20pedido%20agora." 
-           target="_blank" 
-           rel="noopener noreferrer" 
-           class="btn btn-whatsapp btn-lg" 
+        <a href="#cardapio" 
+           class="btn btn-primary btn-lg" 
            id="finalCtaOrderBtn"
-           onclick="handleWhatsAppOrderBtnClick(event)"
            style="font-size: 1.15rem; padding: 20px 40px; justify-content: center; align-items: center;">
-          <i class="fa-brands fa-whatsapp" id="finalCtaOrderBtnIcon" style="font-size: 1.5rem;"></i>
+          <i class="fa-solid fa-utensils" id="finalCtaOrderBtnIcon" style="font-size: 1.5rem;"></i>
           <span id="finalCtaOrderBtnText">Fazer Meu Pedido</span>
         </a>
 
@@ -8696,7 +8612,7 @@
           </div>
           <div class="guarantee-item">
             <i class="fa-solid fa-shield-halved"></i>
-            <span>Ingredientes Frescos Selecionados</span>
+            <span>Ingredientes Frescos</span>
           </div>
           <div class="guarantee-item">
             <i class="fa-solid fa-temperature-arrow-up"></i>
@@ -8748,7 +8664,6 @@
           <h4 class="footer-column-title">Navegação</h4>
           <ul class="footer-links">
             <li><a href="#hero">Início</a></li>
-            <li><a href="#sobre">Nossos Diferenciais</a></li>
             <li><a href="#cardapio">Cardápio em Destaque</a></li>
             <li><a href="#depoimentos">Avaliações de Clientes</a></li>
             <li><a href="#instagram">Instagram (@industriadodog)</a></li>
@@ -8762,7 +8677,7 @@
           <ul class="footer-links">
             <li><strong style="color: #ffffff;">(51) 9949-2898</strong></li>
             <li><a href="https://www.instagram.com/industriadodog" target="_blank" rel="noopener noreferrer" style="color: var(--color-mustard);"><i class="fa-brands fa-instagram"></i> @industriadodog</a></li>
-            <li>R. Fernando Ferrari, 508</li>
+            <li>R. Fernando Ferrari, 453</li>
             <li>Centro, Três Coroas - RS</li>
             <li style="margin-top: 8px; color: var(--color-mustard);">Dom a Sex: 18:30 às 23h (Sábados Fechado)</li>
           </ul>
@@ -8782,25 +8697,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- ==========================================================================
-       9. BOTÃO DE WHATSAPP FIXO FLUTUANTE
-       ========================================================================== -->
-  <div class="whatsapp-floating-widget" id="whatsappFloating">
-    <div class="whatsapp-bubble-hint" id="whatsappFloatingHint">
-      Peça seu Dog em 1 minuto! 🌭
-    </div>
-    <a href="https://wa.me/555199492898?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20pedido%20na%20Ind%C3%BAstria%20do%20Dog." 
-       target="_blank" 
-       rel="noopener noreferrer" 
-       class="whatsapp-floating-btn" 
-       id="floatingWhatsAppBtn"
-       onclick="handleFloatingWhatsAppClick(event)"
-       aria-label="Fazer pedido via WhatsApp">
-      <i class="fa-brands fa-whatsapp"></i>
-      <span class="whatsapp-status-ping" id="floatingWhatsAppPing"></span>
-    </a>
-  </div>
 
   <!-- ==========================================================================
        TELA DE ENTRADA / IDENTIFICAÇÃO PRÉVIA DO CLIENTE (NOME & WHATSAPP)
@@ -8888,7 +8784,7 @@
               <span style="font-size: 0.88rem; color: #ffffff;">Previsão da Fila:</span>
             </div>
             <span style="font-size: 0.92rem; font-weight: 700; color: #f59e0b;" id="modalQueuePreviewText">
-              ~15 min (Próximo da fila)
+              ~4 min (Fila livre • 4 min por dog)
             </span>
           </div>
 
@@ -8948,74 +8844,69 @@
             </div>
           </div>
 
-          <!-- Adicionar outros lanches ao pedido via seleção -->
-          <div class="modal-form-group">
-            <label for="extraDogSelect" style="display: flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-plus-circle" style="color: var(--color-mustard);"></i> Deseja adicionar outros lanches ao mesmo pedido?
-            </label>
-            <div class="extra-dogs-selection-wrapper">
-              <select id="extraDogSelect" class="modal-select" onchange="handleAddExtraDog(this.value)">
-                <option value="">+ Toque aqui para adicionar outro lanche...</option>
-                <option value="Dog Tradicional Simples|14,00">Dog Tradicional Simples — R$ 14,00</option>
-                <option value="Dog Tradicional Duplo|16,00">Dog Tradicional Duplo — R$ 16,00</option>
-                <option value="Dog de Calabresa Simples|16,00">Dog de Calabresa Simples — R$ 16,00</option>
-                <option value="Dog de Calabresa Duplo|19,00">Dog de Calabresa Duplo — R$ 19,00</option>
-                <option value="Dog de Calabresa + Salsicha|18,00">Dog de Calabresa + Salsicha — R$ 18,00</option>
-                <option value="Dog de Frango|18,00">Dog de Frango — R$ 18,00</option>
-                <option value="Dog de Frango + Calabresa|21,00">Dog de Frango + Calabresa — R$ 21,00</option>
-                <option value="Dog de Frango + Salsicha|20,00">Dog de Frango + Salsicha — R$ 20,00</option>
-                <option value="Dog Frango + Calabresa + Salsicha|23,00">Dog Frango + Calabresa + Salsicha — R$ 23,00</option>
-                <option value="Dog de Entreveiro|26,00">Dog de Entreveiro — R$ 26,00</option>
-                <option value="Dog Sem Salsicha|13,00">Dog Sem Salsicha — R$ 13,00</option>
-              </select>
-              <div id="selectedExtraDogsList" class="selected-extra-dogs-list"></div>
-            </div>
-          </div>
-
-          <!-- Modalidade: Local ou Retirada -->
-          <div class="modal-form-group">
-            <label for="orderType">Como deseja consumir?</label>
-            <select id="orderType" class="modal-select">
-              <option value="Consumo no Local">Consumo no Local (Trailer com Cobertura)</option>
-              <option value="Retirada no Balcão">Para Viagem (Retirar no Balcão sem fila)</option>
-            </select>
-          </div>
-
-          <!-- Seção de Bebidas Geladas (Múltipla Escolha e Quantidades) -->
-          <div class="modal-form-group">
-            <label for="drinkSelect" style="display: flex; align-items: center; justify-content: space-between;">
-              <span style="display: flex; align-items: center; gap: 6px;">
-                <i class="fa-solid fa-wine-bottle" style="color: var(--color-mustard);"></i>
-                <span>Deseja adicionar bebidas ao pedido?</span>
-              </span>
-              <span style="font-size: 0.75rem; color: var(--color-text-muted);">Adicione quantas quiser</span>
-            </label>
-            <div class="extra-dogs-selection-wrapper">
-              <select id="drinkSelect" class="modal-select" onchange="handleAddDrink(this.value)">
-                <option value="">+ Toque aqui para escolher uma bebida...</option>
-                <option value="Coca Lata|6,50">Coca Lata — R$ 6,50</option>
-                <option value="Guaraná Lata|6,00">Guaraná Lata — R$ 6,00</option>
-                <option value="Fanta|6,50">Fanta — R$ 6,50</option>
-                <option value="Pepsi Lata|6,50">Pepsi Lata — R$ 6,50</option>
-                <option value="Cerveja Latão|7,00">Cerveja Latão — R$ 7,00</option>
-                <option value="Água|3,00">Água — R$ 3,00</option>
-                <option value="Coca 2L|15,00">Coca 2L — R$ 15,00</option>
-                <option value="Pepsi 2L|15,00">Pepsi 2L — R$ 15,00</option>
-                <option value="Fruki 2L|12,00">Fruki 2L — R$ 12,00</option>
-              </select>
-
-              <!-- Atalhos rápidos para as bebidas mais pedidas -->
-              <div class="quick-drinks-chips">
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Coca Lata|6,50')">+ Coca Lata</button>
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Guaraná Lata|6,00')">+ Guaraná</button>
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Cerveja Latão|7,00')">+ Cerveja</button>
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Água|3,00')">+ Água</button>
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Coca 2L|15,00')">+ Coca 2L</button>
-                <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Fruki 2L|12,00')">+ Fruki 2L</button>
+          <!-- Caixa em Volta em Destaque: Adicionar outros lanches e bebidas -->
+          <div style="background: rgba(217, 130, 43, 0.08); border: 2px solid var(--color-mustard); border-radius: 12px; padding: 14px 16px; margin: 16px 0; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);">
+            <!-- Adicionar outros lanches ao pedido via seleção -->
+            <div class="modal-form-group" style="margin-bottom: 14px;">
+              <label for="extraDogSelect" style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 0.94rem; color: #ffffff; margin-bottom: 8px;">
+                <i class="fa-solid fa-plus-circle" style="color: var(--color-mustard); font-size: 1.05rem;"></i>
+                <span>DESEJA ADICIONAR OUTROS LANCHES AO MESMO PEDIDO?</span>
+              </label>
+              <div class="extra-dogs-selection-wrapper">
+                <select id="extraDogSelect" class="modal-select" onchange="handleAddExtraDog(this.value)" style="font-weight: 800; color: #ffffff; font-size: 0.94rem;">
+                  <option value="" style="font-weight: 800;">+ Toque aqui para adicionar outro lanche...</option>
+                  <option value="Dog Tradicional Simples|14,00">Dog Tradicional Simples — R$ 14,00</option>
+                  <option value="Dog Tradicional Duplo|16,00">Dog Tradicional Duplo — R$ 16,00</option>
+                  <option value="Dog de Calabresa Simples|16,00">Dog de Calabresa Simples — R$ 16,00</option>
+                  <option value="Dog de Calabresa Duplo|19,00">Dog de Calabresa Duplo — R$ 19,00</option>
+                  <option value="Dog de Calabresa + Salsicha|18,00">Dog de Calabresa + Salsicha — R$ 18,00</option>
+                  <option value="Dog de Frango|18,00">Dog de Frango — R$ 18,00</option>
+                  <option value="Dog de Frango + Calabresa|21,00">Dog de Frango + Calabresa — R$ 21,00</option>
+                  <option value="Dog de Frango + Salsicha|20,00">Dog de Frango + Salsicha — R$ 20,00</option>
+                  <option value="Dog Frango + Calabresa + Salsicha|23,00">Dog Frango + Calabresa + Salsicha — R$ 23,00</option>
+                  <option value="Dog de Entreveiro|26,00">Dog de Entreveiro — R$ 26,00</option>
+                  <option value="Dog Sem Salsicha|13,00">Dog Sem Salsicha — R$ 13,00</option>
+                </select>
+                <div id="selectedExtraDogsList" class="selected-extra-dogs-list"></div>
               </div>
+            </div>
 
-              <!-- Lista de Bebidas Selecionadas -->
-              <div id="selectedDrinksList" class="selected-extra-dogs-list"></div>
+            <!-- Seção de Bebidas Geladas (Múltipla Escolha e Quantidades) -->
+            <div class="modal-form-group" style="margin-bottom: 0;">
+              <label for="drinkSelect" style="display: flex; align-items: center; justify-content: space-between; font-weight: 800; font-size: 0.94rem; color: #ffffff; margin-bottom: 8px;">
+                <span style="display: flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-wine-bottle" style="color: var(--color-mustard); font-size: 1.05rem;"></i>
+                  <span>DESEJA ADICIONAR BEBIDAS AO PEDIDO?</span>
+                </span>
+                <span style="font-size: 0.76rem; font-weight: 800; color: var(--color-mustard); background: rgba(217, 130, 43, 0.18); padding: 2px 8px; border-radius: 6px;">ADICIONE QUANTAS QUISER</span>
+              </label>
+              <div class="extra-dogs-selection-wrapper">
+                <select id="drinkSelect" class="modal-select" onchange="handleAddDrink(this.value)" style="font-weight: 800; color: #ffffff; font-size: 0.94rem;">
+                  <option value="" style="font-weight: 800;">+ Toque aqui para escolher uma bebida...</option>
+                  <option value="Coca Lata|6,50">Coca Lata — R$ 6,50</option>
+                  <option value="Guaraná Lata|6,00">Guaraná Lata — R$ 6,00</option>
+                  <option value="Fanta|6,50">Fanta — R$ 6,50</option>
+                  <option value="Pepsi Lata|6,50">Pepsi Lata — R$ 6,50</option>
+                  <option value="Cerveja Latão|7,00">Cerveja Latão — R$ 7,00</option>
+                  <option value="Água|3,00">Água — R$ 3,00</option>
+                  <option value="Coca 2L|15,00">Coca 2L — R$ 15,00</option>
+                  <option value="Pepsi 2L|15,00">Pepsi 2L — R$ 15,00</option>
+                  <option value="Fruki 2L|12,00">Fruki 2L — R$ 12,00</option>
+                </select>
+
+                <!-- Atalhos rápidos para as bebidas mais pedidas -->
+                <div class="quick-drinks-chips">
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Coca Lata|6,50')" style="font-weight: 800; color: #ffffff;">+ Coca Lata</button>
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Guaraná Lata|6,00')" style="font-weight: 800; color: #ffffff;">+ Guaraná</button>
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Cerveja Latão|7,00')" style="font-weight: 800; color: #ffffff;">+ Cerveja</button>
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Água|3,00')" style="font-weight: 800; color: #ffffff;">+ Água</button>
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Coca 2L|15,00')" style="font-weight: 800; color: #ffffff;">+ Coca 2L</button>
+                  <button type="button" class="drink-chip-btn" onclick="handleAddDrink('Fruki 2L|12,00')" style="font-weight: 800; color: #ffffff;">+ Fruki 2L</button>
+                </div>
+
+                <!-- Lista de Bebidas Selecionadas -->
+                <div id="selectedDrinksList" class="selected-extra-dogs-list"></div>
+              </div>
             </div>
           </div>
 
@@ -9024,9 +8915,9 @@
             <label style="display: flex; align-items: center; justify-content: space-between;">
               <span style="display: flex; align-items: center; gap: 6px;">
                 <i class="fa-solid fa-bolt" style="color: var(--color-mustard);"></i>
-                <span>Turbinar lanches ou batata extra:</span>
+                <span>Turbinar Dog (Opcional):</span>
               </span>
-              <span style="font-size: 0.68rem; color: var(--color-text-muted);">Escolha a quantidade</span>
+              <span style="font-size: 0.68rem; color: var(--color-text-muted);">Adicional especial</span>
             </label>
             <div class="modal-addons-group">
               <!-- Card Turbinar Dog com Quantidade -->
@@ -9043,25 +8934,6 @@
                   </button>
                   <span class="addon-qty-val" id="addonTurbineQty">0</span>
                   <button type="button" class="btn-addon-qty" onclick="adjustAddonQty('turbine', 1)" aria-label="Aumentar Turbinar">
-                    <i class="fa-solid fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Card Batata Extra com Quantidade -->
-              <div class="addon-card-item" id="addonBatataCard">
-                <div class="addon-card-info">
-                  <span class="addon-card-title">
-                    <i class="fa-solid fa-box-archive" style="color: var(--color-mustard);"></i> Batata Extra
-                  </span>
-                  <span class="addon-card-desc">+R$ 3,00 cada (porção crocante)</span>
-                </div>
-                <div class="addon-qty-controls">
-                  <button type="button" class="btn-addon-qty" onclick="adjustAddonQty('batata', -1)" aria-label="Diminuir Batata Extra">
-                    <i class="fa-solid fa-minus"></i>
-                  </button>
-                  <span class="addon-qty-val" id="addonBatataQty">0</span>
-                  <button type="button" class="btn-addon-qty" onclick="adjustAddonQty('batata', 1)" aria-label="Aumentar Batata Extra">
                     <i class="fa-solid fa-plus"></i>
                   </button>
                 </div>
@@ -9169,7 +9041,7 @@
             <span style="font-size: 0.88rem; color: #ffffff;">Previsão da Fila:</span>
           </div>
           <span style="font-size: 0.92rem; font-weight: 700; color: #f59e0b;" id="cartQueuePreviewText">
-            ~15 min (Próximo da fila)
+            ~4 min (Fila livre • 4 min por dog)
           </span>
         </div>
 
@@ -9178,18 +9050,16 @@
           <!-- Gerado dinamicamente via JS -->
         </div>
 
-        <!-- Opção de Consumo (Local / Viagem) -->
-        <div class="modal-form-group" style="margin-top: 16px;">
-          <label style="font-size: 0.88rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-            <i class="fa-solid fa-utensils" style="color: var(--color-mustard);"></i> Como deseja receber seu pedido?
-          </label>
-          <div style="display: flex; gap: 10px;">
-            <button type="button" class="btn btn-secondary active-consumption" id="btnCartConsumeLocal" onclick="setCartConsumeType('local')" style="flex: 1; min-height: 44px; justify-content: center; font-size: 0.9rem;">
-              🍽️ Comer no Local
-            </button>
-            <button type="button" class="btn btn-secondary" id="btnCartConsumeViagem" onclick="setCartConsumeType('viagem')" style="flex: 1; min-height: 44px; justify-content: center; font-size: 0.9rem;">
-              🛍️ Para Levar (Viagem)
-            </button>
+        <!-- Opção de Consumo (Exclusivamente Para Levar / Viagem) -->
+        <div class="modal-form-group" style="margin-top: 14px;">
+          <div style="background: rgba(217, 130, 43, 0.12); border: 1.5px solid rgba(217, 130, 43, 0.45); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;">
+            <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(217, 130, 43, 0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.15rem; color: var(--color-mustard);">
+              <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div>
+              <div style="font-size: 0.95rem; font-weight: 800; color: #ffffff;">🛍️ Para Levar (Viagem / Retirada no Balcão)</div>
+              <div style="font-size: 0.76rem; color: #d1cbc1;">Seu pedido será embalado e você retira rapidamente no trailer.</div>
+            </div>
           </div>
         </div>
 
@@ -9198,12 +9068,41 @@
           <label style="font-size: 0.88rem; font-weight: 700; color: #ffffff; display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
             <i class="fa-solid fa-wallet" style="color: var(--color-mustard);"></i> Forma de Pagamento no Trailer:
           </label>
-          <select id="cartPaymentMethod" class="modal-select">
-            <option value="Pix">Pix (Chave ou QR Code enviado no WhatsApp)</option>
+          <select id="cartPaymentMethod" class="modal-select" onchange="handleCartPaymentMethodChange(this.value)">
+            <option value="Pix">Pix (Chave Celular: 51 9949-2898)</option>
             <option value="Cartão de Débito">Cartão de Débito (Maquininha no balcão)</option>
             <option value="Cartão de Crédito">Cartão de Crédito (Maquininha no balcão)</option>
             <option value="Dinheiro">Dinheiro</option>
           </select>
+
+          <!-- Card de Dados do Pix com Botão Copiar -->
+          <div id="cartPixDetailsCard" class="cart-pix-card" style="margin-top: 10px; background: rgba(0, 189, 174, 0.08); border: 1.5px solid rgba(0, 189, 174, 0.45); border-radius: 10px; padding: 12px 14px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i class="fa-brands fa-pix" style="color: #00bdae; font-size: 1.25rem;"></i>
+                <span style="font-size: 0.92rem; font-weight: 800; color: #ffffff;">Chave Pix da Indústria do Dog</span>
+              </div>
+              <span style="font-size: 0.72rem; font-weight: 700; color: #00bdae; background: rgba(0, 189, 174, 0.16); padding: 3px 8px; border-radius: 6px;">Chave Celular</span>
+            </div>
+
+            <div style="background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(0, 189, 174, 0.25); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+              <div>
+                <span style="display: block; font-size: 0.7rem; color: #a8a29e; text-transform: uppercase;">Chave Pix (Celular):</span>
+                <strong style="font-size: 1.12rem; color: #00bdae; letter-spacing: 0.03em;" id="cartPixDisplayKey">5199492898</strong>
+                <span style="display: block; font-size: 0.72rem; color: #d1cbc1;">(51) 9949-2898</span>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="copyPixKey('5199492898', this)" style="min-height: 40px; padding: 6px 14px; font-size: 0.84rem; border-color: rgba(0, 189, 174, 0.55); color: #00bdae; gap: 6px; font-weight: 700;">
+                <i class="fa-regular fa-copy"></i> <span>Copiar Chave</span>
+              </button>
+            </div>
+
+            <div style="font-size: 0.78rem; color: #d1cbc1; line-height: 1.45;">
+              <span style="display: block;">👤 <strong>Beneficiário:</strong> Cristiano Schaefer / Indústria do Dog</span>
+              <span style="display: block; color: var(--color-mustard); margin-top: 4px;">
+                <i class="fa-solid fa-circle-check"></i> Você pode fazer o Pix e anexar o comprovante na conversa do WhatsApp!
+              </span>
+            </div>
+          </div>
         </div>
 
         <!-- Identificação do Cliente (Nome e WhatsApp) -->
@@ -9558,6 +9457,47 @@
           <button type="button" class="admin-tab-btn" id="tabBtnLock" onclick="switchAdminTab('lock')">
             <i class="fa-solid fa-lock"></i> 4. Trava Balcão
           </button>
+          <button type="button" class="admin-tab-btn" id="tabBtnCover" onclick="switchAdminTab('cover')">
+            <i class="fa-solid fa-image"></i> 5. Capa do Link
+          </button>
+        </div>
+
+        <!-- ABA 5: CAPA DO LINK (WHATSAPP & REDES SOCIAIS) -->
+        <div id="adminTabContentCover" style="display: none; margin-bottom: 20px;">
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(217, 130, 43, 0.3); border-radius: 12px; padding: 18px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <label style="font-size: 1rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <i class="fa-solid fa-image" style="color: var(--color-mustard);"></i> Foto de Capa do Link (Preview do WhatsApp)
+              </label>
+              <span class="badge-gold-admin">Open Graph Ativo</span>
+            </div>
+            <p style="font-size: 0.85rem; color: #d1cbc1; line-height: 1.5; margin-bottom: 14px;">
+              Essa é a imagem que aparece no balão de prévia quando você compartilha o site no <strong>WhatsApp, Instagram ou Facebook</strong>.
+            </p>
+
+            <!-- Preview Card Estilo WhatsApp -->
+            <div style="background: #1e1c1a; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); max-width: 460px; margin: 0 auto 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+              <div style="width: 100%; height: 210px; background: #0c0b0a; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
+                <img id="adminCoverPreviewImg" src="/capa.jpg" alt="Preview da Capa do Link" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='/logo.jpg'">
+                <div style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px;">
+                  1200 &times; 630 (HD)
+                </div>
+              </div>
+              <div style="padding: 12px 14px; background: #151413;">
+                <strong style="color: #fff; font-size: 0.95rem; display: block;">Indústria do Dog - O Melhor do Dog em Três Coroas</strong>
+                <span style="color: #a8a29e; font-size: 0.8rem; display: block; margin-top: 3px;">Trailer Fast Food no Centro • Hot dogs artesanais recheados e prensados</span>
+              </div>
+            </div>
+
+            <!-- Upload Input -->
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+              <input type="file" id="coverFileInput" accept="image/*" style="display: none;" onchange="handleCoverFileSelected(event)">
+              <button type="button" class="btn btn-primary" onclick="document.getElementById('coverFileInput').click()" style="width: 100%; max-width: 460px; justify-content: center; padding: 14px 20px;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Carregar Nova Foto de Capa (PNG/JPG)
+              </button>
+              <span id="coverUploadStatus" style="font-size: 0.82rem; color: #a8a29e; text-align: center;">Clique para selecionar a foto do trailer e atualizar a capa em tempo real.</span>
+            </div>
+          </div>
         </div>
 
         <!-- ABA 2: TRAVA DE PEDIDOS (SOMENTE BALCÃO) & FUNÇÃO DO APARELHO -->
@@ -10595,12 +10535,59 @@
     }
 
     // ==========================================================================
-    // 4. FILA DE ESPERA COM TEMPO ESTIMADO CRESCENTE
+    // 4. FILA DE ESPERA (4 MINUTOS POR DOG & LIMITE DE 15 DOGS)
     // ==========================================================================
-    function calculateQueueEstimatedTime(ordersAhead) {
-      const base = queueSettings.baseTime || 15;
-      const inc = queueSettings.incTime || 4;
-      return base + (ordersAhead * inc);
+    function getTotalWaitingDogsCount() {
+      let count = 0;
+      const waitingOrders = (activeQueueOrders || []).filter(o => o.status === 'waiting' || o.status === 'preparing');
+      waitingOrders.forEach(order => {
+        if (Array.isArray(order.items) && order.items.length > 0) {
+          order.items.forEach(item => {
+            if (item.type !== 'drink') {
+              count += Number(item.qty || 1);
+            }
+          });
+        } else if (order.qty) {
+          count += Number(order.qty || 1);
+        } else {
+          count += 1;
+        }
+      });
+      return count;
+    }
+
+    // Média de tempo: exatamente 4 minutos por quantidade de dog na fila
+    function calculateQueueEstimatedTime(dogsCount) {
+      const dogs = (typeof dogsCount === 'number') ? dogsCount : getTotalWaitingDogsCount();
+      if (dogs <= 0) return 4; // Fila livre: preparo do lanche leva ~4 min
+      return dogs * 4; // 4 minutos por dog
+    }
+
+    let isDogLimitBlocked = false;
+    try {
+      isDogLimitBlocked = localStorage.getItem('industria_dog_limit_blocked') === 'true';
+    } catch (e) {}
+
+    function checkDogQueueLimit(totalWaitingDogs, waitingOrdersCount) {
+      // Quando chegar em 15 dogs que foram pedidos -> BLOQUEIA
+      if (totalWaitingDogs >= 15) {
+        if (!isDogLimitBlocked) {
+          isDogLimitBlocked = true;
+          try { localStorage.setItem('industria_dog_limit_blocked', 'true'); } catch (e) {}
+          if (localBroadcastChannel) {
+            localBroadcastChannel.postMessage({ type: 'dog_limit_block', isBlocked: true, totalDogs: totalWaitingDogs });
+          }
+        }
+      } 
+      // Quando baixar para 7 pedidos / 7 dogs ou menos -> LIBERA O SITE NORMAL DE NOVO
+      else if (isDogLimitBlocked && (totalWaitingDogs <= 7 || waitingOrdersCount <= 7)) {
+        isDogLimitBlocked = false;
+        try { localStorage.setItem('industria_dog_limit_blocked', 'false'); } catch (e) {}
+        if (localBroadcastChannel) {
+          localBroadcastChannel.postMessage({ type: 'dog_limit_block', isBlocked: false, totalDogs: totalWaitingDogs });
+        }
+        showToast('🎉 Fila liberada! Novos pedidos disponíveis no site.', 'success');
+      }
     }
 
     let latestRegisteredQueueNumber = 0;
@@ -10622,29 +10609,55 @@
     }
 
     function updateQueueUI() {
-      const waitingOrders = activeQueueOrders.filter(o => o.status === 'waiting');
+      const waitingOrders = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing');
       const waitingCount = waitingOrders.length;
-      const nextEstimatedTime = calculateQueueEstimatedTime(waitingCount);
+      const totalWaitingDogs = getTotalWaitingDogsCount();
+      const nextEstimatedTime = calculateQueueEstimatedTime(totalWaitingDogs);
       const nextNum = getNextQueueNumber();
+
+      // Verifica limite de 15 dogs / liberação em 7
+      checkDogQueueLimit(totalWaitingDogs, waitingCount);
 
       // Banner do Cardápio
       const menuDesc = document.getElementById('menuQueueDesc');
       const menuPillText = document.getElementById('menuQueuePillText');
       if (menuDesc) {
-        menuDesc.textContent = waitingCount === 0 
-          ? 'Nenhum pedido na frente no momento. Preparo imediato!'
-          : waitingCount + ' pedido(s) em preparo na sua frente no trailer.';
+        if (isDogLimitBlocked) {
+          menuDesc.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} dogs na chapa):</strong> Limite de 15 dogs atingido! Novos pedidos serão liberados automaticamente quando baixar para 7 lanches.`;
+        } else if (totalWaitingDogs === 0) {
+          menuDesc.textContent = 'Nenhum pedido na frente no momento. Preparo imediato (~4 min por dog)!';
+        } else {
+          menuDesc.textContent = `${totalWaitingDogs} lanche(s) em preparo na fila no trailer (~${nextEstimatedTime} min • média de 4 min por dog).`;
+        }
       }
       if (menuPillText) {
-        menuPillText.textContent = waitingCount === 0 
-          ? 'Fila Livre • ~' + nextEstimatedTime + ' min'
-          : 'Fila: ' + waitingCount + ' na frente • ~' + nextEstimatedTime + ' min';
+        if (isDogLimitBlocked) {
+          menuPillText.textContent = `Fila Pausada (${totalWaitingDogs} dogs) • Volta em 7`;
+        } else if (totalWaitingDogs === 0) {
+          menuPillText.textContent = `Fila Livre • ~4 min`;
+        } else {
+          menuPillText.textContent = `Fila: ${totalWaitingDogs} dogs • ~${nextEstimatedTime} min`;
+        }
       }
 
-      // Preview no Modal de Pedido (Sincronizado com o número oficial do próximo pedido)
+      // Preview no Modal de Pedido
       const modalPreview = document.getElementById('modalQueuePreviewText');
       if (modalPreview) {
-        modalPreview.innerHTML = '~' + nextEstimatedTime + ' min (Pedido Nº #' + nextNum + ' • ' + (waitingCount === 0 ? '1º da fila' : (waitingCount + 1) + 'º na fila') + ')';
+        if (isDogLimitBlocked) {
+          modalPreview.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7 pedidos`;
+        } else {
+          modalPreview.innerHTML = `~${nextEstimatedTime} min (Pedido Nº #${nextNum} • ${totalWaitingDogs === 0 ? '1º da fila' : totalWaitingDogs + ' dog(s) na frente • 4 min/dog'})`;
+        }
+      }
+
+      // Preview no Carrinho
+      const cartQueueText = document.getElementById('cartQueuePreviewText');
+      if (cartQueueText) {
+        if (isDogLimitBlocked) {
+          cartQueueText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7`;
+        } else {
+          cartQueueText.textContent = `~${nextEstimatedTime} min (${totalWaitingDogs === 0 ? 'Próximo da fila' : totalWaitingDogs + ' dog(s) na frente • 4 min/dog'})`;
+        }
       }
 
       // Badges nos Modais
@@ -10659,15 +10672,15 @@
 
       // Badge no Admin Tab
       const adminBadge = document.getElementById('adminQueueCountBadge');
-      if (adminBadge) adminBadge.textContent = waitingCount;
+      if (adminBadge) adminBadge.textContent = totalWaitingDogs + ' dogs (' + waitingCount + ' ped)';
 
-      // Badge na Barra Superior do Gestor (Resolve a divergência de contagem)
+      // Badge na Barra Superior do Gestor
       const topBarQueueCount = document.getElementById('topBarQueueCount');
-      if (topBarQueueCount) topBarQueueCount.textContent = waitingCount;
+      if (topBarQueueCount) topBarQueueCount.textContent = totalWaitingDogs;
 
       // Botão de Espera (Fila) no Header Principal
       const headerQueueBadge = document.getElementById('headerQueueBadge');
-      if (headerQueueBadge) headerQueueBadge.textContent = waitingCount;
+      if (headerQueueBadge) headerQueueBadge.textContent = totalWaitingDogs;
 
       const headerQueueTime = document.getElementById('headerQueueTime');
       if (headerQueueTime) headerQueueTime.textContent = '~' + nextEstimatedTime + ' min';
@@ -10676,6 +10689,7 @@
         updateQueueModalUI();
       }
 
+      updateCounterLockUI();
       renderAdminQueueOrders();
     }
 
@@ -10744,21 +10758,38 @@
     }
 
     // ==========================================================================
-    // 6. TRAVA GLOBAL DE PEDIDOS (SOMENTE BALCÃO)
+    // 6. TRAVA DE PEDIDOS (MANUAL OU AUTOMÁTICA POR LIMITE DE 15 DOGS)
     // ==========================================================================
     function updateCounterLockUI() {
-      const isLocked = isCounterLockActive;
+      const totalWaitingDogs = typeof getTotalWaitingDogsCount === 'function' ? getTotalWaitingDogsCount() : 0;
+      const isLimitLocked = isDogLimitBlocked;
+      const isManualLocked = isCounterLockActive;
+      const isLocked = isManualLocked || isLimitLocked;
       const role = getDeviceRole();
       const heroLockAlert = document.getElementById('heroCounterLockAlert');
       const menuLockAlert = document.getElementById('menuCounterLockAlert');
       const modalLockAlert = document.getElementById('modalCounterLockAlert');
       const submitBtn = document.getElementById('btnSubmitWhatsApp');
+      const btnAddCart = document.getElementById('btnAddToCart');
+      const btnSubmitCart = document.getElementById('btnSubmitCartWhatsApp');
 
       const isClientLocked = isLocked && role !== 'counter';
 
-      if (heroLockAlert) heroLockAlert.style.display = isClientLocked ? 'flex' : 'none';
-      if (menuLockAlert) menuLockAlert.style.display = isClientLocked ? 'flex' : 'none';
-      if (modalLockAlert) modalLockAlert.style.display = isClientLocked ? 'flex' : 'none';
+      const lockTitle = isLimitLocked 
+        ? `Fila Temporariamente Pausada: Limite de 15 Dogs Atingido!`
+        : `Pedidos pelo App Temporariamente Pausados`;
+      const lockDesc = isLimitLocked
+        ? `Estamos com ${totalWaitingDogs} lanches sendo preparados no trailer a todo vapor! Novos pedidos serão liberados automaticamente assim que a fila baixar para 7 lanches. Acompanhe a fila logo abaixo!`
+        : `Atendimento exclusivo no balcão físico do trailer. Peça direto para a nossa equipe!`;
+
+      [heroLockAlert, menuLockAlert, modalLockAlert].forEach(alertEl => {
+        if (!alertEl) return;
+        alertEl.style.display = isClientLocked ? 'flex' : 'none';
+        const strongEl = alertEl.querySelector('.counter-lock-text strong');
+        const pEl = alertEl.querySelector('.counter-lock-text p');
+        if (strongEl) strongEl.textContent = lockTitle;
+        if (pEl) pEl.textContent = lockDesc;
+      });
 
       // Atualiza botões de pedido nos cards do cardápio se o cliente estiver travado
       const dogButtons = document.querySelectorAll('.btn-dog-order');
@@ -10768,7 +10799,9 @@
         if (isOut) return;
         if (isClientLocked) {
           btn.disabled = true;
-          btn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Balcão</span>';
+          btn.innerHTML = isLimitLocked 
+            ? '<i class="fa-solid fa-hourglass-half"></i> <span>Fila Cheia</span>'
+            : '<i class="fa-solid fa-lock"></i> <span>Balcão</span>';
         } else {
           btn.disabled = false;
           btn.innerHTML = '<i class="fa-solid fa-cart-plus"></i> <span>+ Carrinho</span>';
@@ -10779,10 +10812,39 @@
       if (submitBtn) {
         if (isClientLocked) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i> <span>Pedidos Somente no Balcão</span>';
+          submitBtn.innerHTML = isLimitLocked 
+            ? '<i class="fa-solid fa-hourglass-half"></i> <span>Fila Cheia (15 Dogs em Preparo)</span>'
+            : '<i class="fa-solid fa-lock"></i> <span>Pedidos Somente no Balcão</span>';
         } else if (storeStatus && storeStatus.isOpen) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> <span>Confirmar & Enviar Pedido</span>';
+        }
+      }
+
+      // Botão adicionar ao carrinho no modal
+      if (btnAddCart) {
+        if (isClientLocked) {
+          btnAddCart.disabled = true;
+          btnAddCart.innerHTML = isLimitLocked
+            ? '<i class="fa-solid fa-hourglass-half"></i> <span>Fila Cheia (15 Dogs na Chapa)</span>'
+            : '<i class="fa-solid fa-lock"></i> <span>Pedidos no Balcão</span>';
+        } else {
+          btnAddCart.disabled = false;
+          if (typeof updateSubtotal === 'function') updateSubtotal();
+        }
+      }
+
+      // Botão de envio na sacola / carrinho
+      if (btnSubmitCart) {
+        if (isClientLocked) {
+          btnSubmitCart.disabled = true;
+          btnSubmitCart.innerHTML = isLimitLocked
+            ? '<i class="fa-solid fa-hourglass-half"></i> <span>Fila Cheia (15 Dogs) - Libera em 7</span>'
+            : '<i class="fa-solid fa-lock"></i> <span>Pedidos Somente no Balcão</span>';
+        } else {
+          btnSubmitCart.disabled = false;
+          const nextNum = getNextQueueNumber();
+          btnSubmitCart.innerHTML = `<i class="fa-brands fa-whatsapp"></i> <span id="btnSubmitCartWhatsAppText">Enviar Pedido Nº #${nextNum} pelo WhatsApp</span>`;
         }
       }
 
@@ -10792,9 +10854,19 @@
       const btnLock = document.getElementById('btnAdminLockCounterOnly');
 
       if (lockBadge) {
-        lockBadge.textContent = isLocked ? 'TRAVADO (Somente Balcão)' : 'Liberado para Todos';
-        lockBadge.style.background = isLocked ? '#dc2626' : 'rgba(217, 130, 43, 0.15)';
-        lockBadge.style.color = isLocked ? '#ffffff' : 'var(--color-mustard)';
+        if (isLimitLocked) {
+          lockBadge.textContent = `AUTO-BLOQUEIO (${totalWaitingDogs} dogs na fila • Libera em 7)`;
+          lockBadge.style.background = '#f59e0b';
+          lockBadge.style.color = '#1c1917';
+        } else if (isManualLocked) {
+          lockBadge.textContent = 'TRAVADO MANUALMENTE (Somente Balcão)';
+          lockBadge.style.background = '#dc2626';
+          lockBadge.style.color = '#ffffff';
+        } else {
+          lockBadge.textContent = 'Liberado para Todos';
+          lockBadge.style.background = 'rgba(217, 130, 43, 0.15)';
+          lockBadge.style.color = 'var(--color-mustard)';
+        }
       }
 
       if (btnUnlock && btnLock) {
@@ -10870,7 +10942,7 @@
 
     function switchAdminTab(tabName) {
       const target = tabName || "stock";
-      const tabs = ["stock", "schedule", "lock", "queue"];
+      const tabs = ["stock", "schedule", "lock", "queue", "cover"];
       tabs.forEach(t => {
         const btn = document.getElementById("tabBtn" + t.charAt(0).toUpperCase() + t.slice(1));
         const content = document.getElementById("adminTabContent" + t.charAt(0).toUpperCase() + t.slice(1));
@@ -10884,6 +10956,41 @@
         updateDeviceRoleUI();
         updateCounterLockUI();
       }
+    }
+
+    async function handleCoverFileSelected(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const statusEl = document.getElementById('coverUploadStatus');
+      const previewImg = document.getElementById('adminCoverPreviewImg');
+      if (statusEl) statusEl.textContent = 'Enviando imagem...';
+
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const base64 = e.target.result;
+          const res = await fetch('/api/upload-cover', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageBase64: base64 })
+          });
+          const data = await res.json();
+          if (data.success) {
+            if (previewImg) previewImg.src = data.url;
+            if (statusEl) {
+              statusEl.innerHTML = '<span style="color: #4ade80; font-weight: 700;">✓ Foto de capa atualizada com sucesso! O preview do WhatsApp já está ativo com a nova foto.</span>';
+            }
+            showToast('Foto da capa do link atualizada com sucesso!', 'success');
+          } else {
+            if (statusEl) statusEl.textContent = data.message || 'Erro ao enviar imagem.';
+            showToast(data.message || 'Erro ao enviar imagem', 'error');
+          }
+        } catch (err) {
+          if (statusEl) statusEl.textContent = 'Erro de conexão ao enviar imagem.';
+          showToast('Erro de conexão ao enviar imagem', 'error');
+        }
+      };
+      reader.readAsDataURL(file);
     }
 
     function renderAdminStockTable() {
@@ -11420,7 +11527,7 @@
     // ==========================================================================
     const CART_STORAGE_KEY = 'industria_dog_cart_v1';
     let cartItems = [];
-    let cartConsumptionType = 'local'; // 'local' | 'viagem'
+    let cartConsumptionType = 'viagem'; // Todos os pedidos configurados para viagem / retirada
 
     function initCart() {
       try {
@@ -11510,8 +11617,11 @@
         showToast('Este lanche está esgotado no momento. Escolha outro item.', 'error');
         return;
       }
-      if (isCounterLockActive && getDeviceRole() !== 'counter') {
-        showToast('Pedidos pelo app temporariamente suspensos. Atendimento no balcão!', 'error');
+      if ((isCounterLockActive || isDogLimitBlocked) && getDeviceRole() !== 'counter') {
+        const msg = isDogLimitBlocked
+          ? 'Fila cheia no momento! Limite de 15 dogs atingido no trailer. Novos pedidos serão liberados assim que a fila baixar para 7 lanches.'
+          : 'Pedidos pelo app temporariamente suspensos. Atendimento no balcão!';
+        showToast(msg, 'error');
         updateCounterLockUI();
         return;
       }
@@ -11529,7 +11639,7 @@
         qty: currentQty,
         removedIngredients: currentRemovedIngredients ? [...currentRemovedIngredients] : [],
         addonTurbineQty: addonTurbineQty || 0,
-        addonBatataQty: addonBatataQty || 0,
+        addonBatataQty: 0,
         notes: notes
       };
       cartItems.push(dogItem);
@@ -11544,7 +11654,7 @@
             priceStr: extra.priceStr,
             rawPrice: extra.rawPrice,
             qty: extra.qty || 1,
-            removedIngredients: [],
+            removedIngredients: (extra.removedIngredients && extra.removedIngredients.length > 0) ? [...extra.removedIngredients] : [],
             addonTurbineQty: 0,
             addonBatataQty: 0,
             notes: ''
@@ -11712,6 +11822,61 @@
       container.innerHTML = html;
     }
 
+    function handleCartAddExtraDog(value) {
+      if (!value) return;
+      const parts = value.split('|');
+      const name = parts[0];
+      const priceStr = parts[1];
+      const rawPrice = parseFloat(priceStr.replace(',', '.')) || 0;
+
+      cartItems.push({
+        id: 'cart_dog_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        type: 'dog',
+        name: name,
+        priceStr: priceStr,
+        rawPrice: rawPrice,
+        qty: 1,
+        removedIngredients: [],
+        addonTurbineQty: 0,
+        addonBatataQty: 0,
+        notes: ''
+      });
+      saveCart();
+      renderCartItems();
+      showToast(`🌭 ${name} adicionado à sacola!`, 'success');
+
+      const sel = document.getElementById('cartExtraDogSelect');
+      if (sel) sel.value = '';
+    }
+
+    function handleCartAddDrink(value) {
+      if (!value) return;
+      const parts = value.split('|');
+      const name = parts[0];
+      const priceStr = parts[1];
+      const rawPrice = parseFloat(priceStr.replace(',', '.')) || 0;
+
+      const existing = cartItems.find(i => i.type === 'drink' && i.name === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cartItems.push({
+          id: 'cart_drink_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+          type: 'drink',
+          name: name,
+          priceStr: priceStr,
+          rawPrice: rawPrice,
+          qty: 1
+        });
+      }
+      saveCart();
+      renderCartItems();
+      showToast(`🥤 ${name} adicionado à sacola!`, 'success');
+
+      const sel = document.getElementById('cartDrinkSelect');
+      if (sel) sel.value = '';
+    }
+
     function adjustCartItemQty(index, delta) {
       if (!cartItems[index]) return;
       cartItems[index].qty = (cartItems[index].qty || 1) + delta;
@@ -11741,8 +11906,9 @@
       loadSavedCustomerData();
       const modal = document.getElementById('cartModal');
       const previewText = document.getElementById('cartQueuePreviewText');
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
-      const estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      const totalWaitingDogs = getTotalWaitingDogsCount();
+      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
+      const estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
       const queueNumberToday = getNextQueueNumber();
 
       const badgeNum = document.getElementById('cartModalQueueNumberBadge');
@@ -11752,7 +11918,11 @@
       if (btnSubmitText) btnSubmitText.textContent = `Enviar Pedido Nº #${queueNumberToday} pelo WhatsApp`;
 
       if (previewText) {
-        previewText.textContent = `~${estimatedTimeMin} min (Pedido Nº #${queueNumberToday} • ${waitingOrdersCount === 0 ? '1º da fila' : (waitingOrdersCount + 1) + 'º na fila'})`;
+        if (isDogLimitBlocked) {
+          previewText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7`;
+        } else {
+          previewText.textContent = `~${estimatedTimeMin} min (Pedido Nº #${queueNumberToday} • ${totalWaitingDogs === 0 ? 'Fila livre • 4 min por dog' : totalWaitingDogs + ' dog(s) na fila • 4 min por dog'})`;
+        }
       }
 
       const notice = document.getElementById('cartClosedNotice');
@@ -11794,12 +11964,58 @@
       }
     }
 
+    function handleCartPaymentMethodChange(method) {
+      const pixCard = document.getElementById('cartPixDetailsCard');
+      if (pixCard) {
+        pixCard.style.display = (method === 'Pix') ? 'block' : 'none';
+      }
+    }
+
+    function copyPixKey(key, btnEl) {
+      if (!key) key = '5199492898';
+      const cleanKey = key.replace(/\D/g, '') || key;
+      const doSuccess = () => {
+        showToast('Chave Pix copiada com sucesso!', 'success');
+        if (btnEl) {
+          const origHtml = btnEl.innerHTML;
+          btnEl.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copiado!</span>';
+          btnEl.style.borderColor = '#00bdae';
+          btnEl.style.color = '#00bdae';
+          setTimeout(() => {
+            btnEl.innerHTML = origHtml;
+            btnEl.style.borderColor = '';
+            btnEl.style.color = '';
+          }, 2500);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(cleanKey).then(doSuccess).catch(() => {
+          fallbackCopyText(cleanKey, doSuccess);
+        });
+      } else {
+        fallbackCopyText(cleanKey, doSuccess);
+      }
+    }
+
+    function fallbackCopyText(text, cb) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (cb) cb();
+      } catch (e) {
+        showToast(`Chave Pix: ${text}`, 'info');
+      }
+    }
+
     function setCartConsumeType(type) {
-      cartConsumptionType = type;
-      const btnLocal = document.getElementById('btnCartConsumeLocal');
-      const btnViagem = document.getElementById('btnCartConsumeViagem');
-      if (btnLocal) btnLocal.classList.toggle('active-consumption', type === 'local');
-      if (btnViagem) btnViagem.classList.toggle('active-consumption', type === 'viagem');
+      cartConsumptionType = 'viagem';
     }
 
     async function submitCartWhatsAppOrder() {
@@ -11851,6 +12067,16 @@
 
       const submitBtn = document.getElementById('btnSubmitCartWhatsApp');
       const origBtnText = submitBtn ? submitBtn.innerHTML : '';
+
+      if ((isCounterLockActive || isDogLimitBlocked) && getDeviceRole() !== 'counter') {
+        const msg = isDogLimitBlocked
+          ? 'Fila cheia no momento! Limite de 15 dogs atingido no trailer. Novos pedidos serão liberados assim que a fila baixar para 7 lanches.'
+          : 'Pedidos pelo app temporariamente suspensos. Atendimento no balcão!';
+        showToast(msg, 'error');
+        updateCounterLockUI();
+        return;
+      }
+
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Registrando pedido...</span>';
@@ -11860,8 +12086,9 @@
       const notes = document.getElementById('cartOrderNotes') ? document.getElementById('cartOrderNotes').value.trim() : '';
       const consumeLabel = cartConsumptionType === 'viagem' ? '🛍️ Para Levar (Viagem / Retirada)' : '🍽️ Comer no Local (Trailer)';
 
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
-      let estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      const totalWaitingDogs = getTotalWaitingDogsCount();
+      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
+      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
       let queueNumberToday = getNextQueueNumber();
       const totalGeral = getCartTotal();
       const totalFormatted = 'R$ ' + totalGeral.toFixed(2).replace('.', ',');
@@ -11948,6 +12175,10 @@
       message += `💰 *TOTAL DO PEDIDO:* ${totalFormatted}\n`;
       message += `🍽️ *Consumo:* ${consumeLabel}\n`;
       message += `💳 *Forma de Pagamento:* ${paymentMethod}\n`;
+      if (paymentMethod === 'Pix') {
+        message += `🔑 *Chave Pix (Celular):* 5199492898 (Cristiano Schaefer)\n`;
+        message += `📲 *Comprovante:* Enviarei o comprovante do Pix aqui no WhatsApp!\n`;
+      }
       if (notes) {
         message += `📝 *Observações Gerais:* ${notes}\n`;
       }
@@ -11994,9 +12225,12 @@
         showToast('Este lanche está esgotado no momento. Escolha outro item.', 'error');
         return;
       }
-      // Verificação de Trava Global (Apenas Bancada)
-      if (isCounterLockActive && getDeviceRole() !== 'counter') {
-        showToast('Pedidos pelo app temporariamente suspensos. Atendimento no balcão!', 'error');
+      // Verificação de Trava Global (Apenas Bancada) ou Limite de 15 Dogs
+      if ((isCounterLockActive || isDogLimitBlocked) && getDeviceRole() !== 'counter') {
+        const msg = isDogLimitBlocked
+          ? 'Fila cheia no momento! Limite de 15 dogs atingido no trailer. Novos pedidos serão liberados assim que a fila baixar para 7 lanches.'
+          : 'Pedidos pelo app temporariamente suspensos. Atendimento no balcão!';
+        showToast(msg, 'error');
         updateCounterLockUI();
         return;
       }
@@ -12064,17 +12298,14 @@
       const priceStr = parts[1];
       const rawPrice = parseFloat(priceStr.replace(',', '.')) || 0;
 
-      const existing = selectedExtraDogs.find(d => d.name === name);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        selectedExtraDogs.push({
-          name: name,
-          priceStr: priceStr,
-          rawPrice: rawPrice,
-          qty: 1
-        });
-      }
+      // Cada lanche adicionado ganha seu próprio registro e customização de ingredientes
+      selectedExtraDogs.push({
+        name: name,
+        priceStr: priceStr,
+        rawPrice: rawPrice,
+        qty: 1,
+        removedIngredients: []
+      });
 
       const select = document.getElementById('extraDogSelect');
       if (select) select.value = '';
@@ -12099,6 +12330,21 @@
       updateSubtotal();
     }
 
+    function toggleRemoveExtraDogIngredient(dogIndex, ingredient) {
+      if (!selectedExtraDogs[dogIndex]) return;
+      if (!selectedExtraDogs[dogIndex].removedIngredients) {
+        selectedExtraDogs[dogIndex].removedIngredients = [];
+      }
+      const list = selectedExtraDogs[dogIndex].removedIngredients;
+      const pos = list.indexOf(ingredient);
+      if (pos > -1) {
+        list.splice(pos, 1);
+      } else {
+        list.push(ingredient);
+      }
+      renderSelectedExtraDogs();
+    }
+
     function renderSelectedExtraDogs() {
       const container = document.getElementById('selectedExtraDogsList');
       if (!container) return;
@@ -12108,26 +12354,71 @@
         return;
       }
 
-      container.innerHTML = selectedExtraDogs.map((dog, idx) => `
-        <div class="selected-extra-dog-item">
-          <div class="selected-extra-dog-info">
-            <span class="selected-extra-dog-name">🌭 ${dog.name}</span>
-            <span class="selected-extra-dog-price">R$ ${(dog.rawPrice * dog.qty).toFixed(2).replace('.', ',')} (${dog.qty}x R$ ${dog.priceStr})</span>
+      container.innerHTML = selectedExtraDogs.map((dog, idx) => {
+        const dogData = DOGS_CATALOG[dog.name];
+        const ingredients = (dogData && dogData.ingredients) ? dogData.ingredients : [];
+        const removed = dog.removedIngredients || [];
+
+        let chipsHtml = '';
+        if (ingredients.length > 0) {
+          chipsHtml = `
+            <div class="extra-dog-ingredients-section" style="margin-top: 10px; padding: 10px 12px; background: rgba(0, 0, 0, 0.28); border: 1px solid rgba(217, 130, 43, 0.25); border-radius: 8px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 4px;">
+                <span style="font-size: 0.78rem; font-weight: 700; color: var(--color-mustard); display: inline-flex; align-items: center; gap: 5px;">
+                  <i class="fa-solid fa-scissors"></i> Tirar ingredientes deste lanche:
+                </span>
+                <span style="font-size: 0.7rem; color: #a8a29e;">Toque no ✕ para retirar</span>
+              </div>
+              <div class="ingredient-chips-grid" style="margin-top: 4px; gap: 6px;">
+                ${ingredients.map(ing => {
+                  const isRemoved = removed.includes(ing);
+                  const safeIng = escapeQuotes(ing);
+                  return `
+                    <button type="button" 
+                            class="btn-ingredient-chip ${isRemoved ? 'is-removed' : ''}" 
+                            onclick="toggleRemoveExtraDogIngredient(${idx}, '${safeIng}')"
+                            style="min-height: 38px; padding: 6px 10px; font-size: 0.84rem;"
+                            title="${isRemoved ? 'Clique para manter ' + ing : 'Clique para tirar ' + ing}">
+                      <span class="chip-name">${ing}</span>
+                      <span class="chip-x-icon" style="width: 18px; height: 18px; font-size: 0.65rem;"><i class="fa-solid fa-xmark"></i></span>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              ${removed.length > 0 ? `
+                <div class="ingredient-removed-summary" style="display: flex; margin-top: 8px; font-size: 0.78rem; padding: 6px 10px;">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+                  <span>Este lanche será preparado <strong>SEM ${removed.join(', SEM ')}</strong></span>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        return `
+          <div class="selected-extra-dog-item" style="flex-direction: column; align-items: stretch;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 8px;">
+              <div class="selected-extra-dog-info">
+                <span class="selected-extra-dog-name">🌭 ${dog.name}</span>
+                <span class="selected-extra-dog-price">R$ ${(dog.rawPrice * dog.qty).toFixed(2).replace('.', ',')} (${dog.qty}x R$ ${dog.priceStr})</span>
+              </div>
+              <div class="selected-extra-dog-controls">
+                <button type="button" class="btn-extra-qty" onclick="adjustExtraDogQty(${idx}, -1)" aria-label="Diminuir quantidade de ${dog.name}">
+                  <i class="fa-solid fa-minus"></i>
+                </button>
+                <span class="extra-dog-qty-number">${dog.qty}</span>
+                <button type="button" class="btn-extra-qty" onclick="adjustExtraDogQty(${idx}, 1)" aria-label="Aumentar quantidade de ${dog.name}">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+                <button type="button" class="btn-extra-remove" onclick="removeExtraDog(${idx})" title="Remover lanche" aria-label="Remover">
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </div>
+            </div>
+            ${chipsHtml}
           </div>
-          <div class="selected-extra-dog-controls">
-            <button type="button" class="btn-extra-qty" onclick="adjustExtraDogQty(${idx}, -1)" aria-label="Diminuir quantidade de ${dog.name}">
-              <i class="fa-solid fa-minus"></i>
-            </button>
-            <span class="extra-dog-qty-number">${dog.qty}</span>
-            <button type="button" class="btn-extra-qty" onclick="adjustExtraDogQty(${idx}, 1)" aria-label="Aumentar quantidade de ${dog.name}">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button type="button" class="btn-extra-remove" onclick="removeExtraDog(${idx})" title="Remover lanche" aria-label="Remover">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     // Gerenciamento de Bebidas Selecionadas
@@ -12208,8 +12499,6 @@
     function adjustAddonQty(type, delta) {
       if (type === 'turbine') {
         addonTurbineQty = Math.max(0, Math.min(30, addonTurbineQty + delta));
-      } else if (type === 'batata') {
-        addonBatataQty = Math.max(0, Math.min(30, addonBatataQty + delta));
       }
       renderAddons();
       updateSubtotal();
@@ -12217,26 +12506,15 @@
 
     function renderAddons() {
       const turbineQtyEl = document.getElementById('addonTurbineQty');
-      const batataQtyEl = document.getElementById('addonBatataQty');
       const turbineCard = document.getElementById('addonTurbineCard');
-      const batataCard = document.getElementById('addonBatataCard');
 
       if (turbineQtyEl) turbineQtyEl.textContent = addonTurbineQty;
-      if (batataQtyEl) batataQtyEl.textContent = addonBatataQty;
 
       if (turbineCard) {
         if (addonTurbineQty > 0) {
           turbineCard.classList.add('active');
         } else {
           turbineCard.classList.remove('active');
-        }
-      }
-
-      if (batataCard) {
-        if (addonBatataQty > 0) {
-          batataCard.classList.add('active');
-        } else {
-          batataCard.classList.remove('active');
         }
       }
     }
@@ -12255,7 +12533,6 @@
 
       // Soma adicionais selecionados com suas quantidades
       total += (addonTurbineQty * 4.00);
-      total += (addonBatataQty * 3.00);
 
       const formatted = total.toFixed(2).replace('.', ',');
       const queueNumberToday = getNextQueueNumber();
@@ -12355,22 +12632,28 @@
         localStorage.setItem('industria_dog_customer_phone', customerPhone);
       } catch (e) {}
 
-      const orderType = document.getElementById('orderType').value;
-      const notes = document.getElementById('orderNotes').value.trim();
+      const orderTypeEl = document.getElementById('orderType');
+      const orderType = orderTypeEl ? orderTypeEl.value : 'Para Viagem (Retirada no Balcão)';
+      const notes = (document.getElementById('orderNotes')?.value || '').trim();
       
-      // Verificação de Trava de Balcão
-      if (isCounterLockActive && getDeviceRole() !== 'counter') {
-        showToast('Pedidos pelo app temporariamente suspensos. Atendimento exclusivo no balcão do trailer!', 'error');
+      // Verificação de Trava de Balcão ou Limite de 15 Dogs
+      if ((isCounterLockActive || isDogLimitBlocked) && getDeviceRole() !== 'counter') {
+        const msg = isDogLimitBlocked
+          ? 'Fila cheia no trailer! Limite de 15 dogs atingido. Novos pedidos serão liberados assim que a fila baixar para 7 lanches.'
+          : 'Pedidos pelo app temporariamente suspensos. Atendimento exclusivo no balcão do trailer!';
+        showToast(msg, 'error');
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnHtml;
         }
+        updateCounterLockUI();
         return;
       }
 
-      // Fila de Espera & Tempo Estimado
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting').length;
-      let estimatedTimeMin = calculateQueueEstimatedTime(waitingOrdersCount);
+      // Fila de Espera & Tempo Estimado (4 min por dog)
+      const totalWaitingDogs = getTotalWaitingDogsCount();
+      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
+      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
       let queueNumberToday = getNextQueueNumber();
 
       const subtotalPrincipal = (currentRawPrice * currentQty).toFixed(2).replace('.', ',');
@@ -12381,18 +12664,24 @@
         const subTurbine = (addonTurbineQty * 4.00).toFixed(2).replace('.', ',');
         addons.push(`${addonTurbineQty}x Turbinar Dog (+R$ 4,00 cada = R$ ${subTurbine}: dobro de recheio & queijo)`);
       }
-      if (addonBatataQty > 0) {
-        const subBatata = (addonBatataQty * 3.00).toFixed(2).replace('.', ',');
-        addons.push(`${addonBatataQty}x Batata Palha Extra (+R$ 3,00 cada = R$ ${subBatata})`);
-      }
 
       let totalGeral = currentRawPrice * currentQty;
-      const itemsList = [{ name: currentSelectedDog, qty: currentQty, price: currentSelectedPrice }];
+      const itemsList = [{ 
+        name: currentSelectedDog, 
+        qty: currentQty, 
+        price: currentSelectedPrice,
+        removedIngredients: currentRemovedIngredients ? currentRemovedIngredients.slice() : []
+      }];
 
       if (selectedExtraDogs.length > 0) {
         selectedExtraDogs.forEach(dog => {
           totalGeral += dog.rawPrice * dog.qty;
-          itemsList.push({ name: dog.name, qty: dog.qty, price: dog.priceStr });
+          itemsList.push({ 
+            name: dog.name, 
+            qty: dog.qty, 
+            price: dog.priceStr,
+            removedIngredients: dog.removedIngredients ? dog.removedIngredients.slice() : []
+          });
         });
       }
 
@@ -12405,7 +12694,6 @@
 
       if (addons.length > 0) {
         totalGeral += (addonTurbineQty * 4.00);
-        totalGeral += (addonBatataQty * 3.00);
       }
 
       // Validação prévia de horário de funcionamento (bancada/atendente sempre libera)
@@ -12434,9 +12722,9 @@
           name: it.name,
           qty: it.qty,
           price: it.price,
-          removed_ingredients: (it.name === currentSelectedDog) ? currentRemovedIngredients.slice() : [],
+          removed_ingredients: it.removedIngredients || [],
           turbine_qty: (it.name === currentSelectedDog) ? addonTurbineQty : 0,
-          batata_qty: (it.name === currentSelectedDog) ? addonBatataQty : 0
+          batata_qty: 0
         })),
         drinks: selectedDrinks.map(d => ({ name: d.name, qty: d.qty, price: d.priceStr })),
         addons: addons,
@@ -12497,6 +12785,9 @@
           selectedExtraDogs.forEach(dog => {
             const itemSubtotal = (dog.rawPrice * dog.qty).toFixed(2).replace('.', ',');
             message += `• ${dog.qty}x ${dog.name} (R$ ${dog.priceStr} cada = R$ ${itemSubtotal})\n`;
+            if (dog.removedIngredients && dog.removedIngredients.length > 0) {
+              message += `   🚫 *Remover deste lanche:* SEM ${dog.removedIngredients.join(', SEM ')}\n`;
+            }
           });
         }
 
@@ -12593,6 +12884,10 @@
                   latestRegisteredQueueNumber = num;
                 }
               });
+              updateQueueUI();
+            } else if (event.data.type === 'dog_limit_block') {
+              isDogLimitBlocked = !!event.data.isBlocked;
+              updateCounterLockUI();
               updateQueueUI();
             } else if (event.data.type === 'queue_settings_update' && event.data.settings) {
               queueSettings = event.data.settings;
@@ -12805,8 +13100,8 @@
       const finalCtaIcon = document.getElementById('finalCtaOrderBtnIcon');
       if (finalCtaBtn) {
         if (isOpen) {
-          finalCtaBtn.className = 'btn btn-whatsapp btn-lg';
-          if (finalCtaIcon) finalCtaIcon.className = 'fa-brands fa-whatsapp';
+          finalCtaBtn.className = 'btn btn-primary btn-lg';
+          if (finalCtaIcon) finalCtaIcon.className = 'fa-solid fa-utensils';
           if (finalCtaText) finalCtaText.textContent = 'Fazer Meu Pedido';
         } else {
           finalCtaBtn.className = 'btn btn-secondary btn-lg';
@@ -13035,9 +13330,10 @@
     }
 
     function updateQueueModalUI() {
-      const waitingOrders = (activeQueueOrders || []).filter(o => o.status === 'waiting');
+      const waitingOrders = (activeQueueOrders || []).filter(o => o.status === 'waiting' || o.status === 'preparing');
       const waitingCount = waitingOrders.length;
-      const nextEstimatedTime = typeof calculateQueueEstimatedTime === 'function' ? calculateQueueEstimatedTime(waitingCount) : 15;
+      const totalWaitingDogs = typeof getTotalWaitingDogsCount === 'function' ? getTotalWaitingDogsCount() : 0;
+      const nextEstimatedTime = typeof calculateQueueEstimatedTime === 'function' ? calculateQueueEstimatedTime(totalWaitingDogs) : 4;
       const nextNum = typeof getNextQueueNumber === 'function' ? getNextQueueNumber() : 1;
 
       const nextBadge = document.getElementById('queueModalNextBadge');
@@ -13047,13 +13343,17 @@
       if (estEl) estEl.textContent = '~' + nextEstimatedTime + ' min';
 
       const waitEl = document.getElementById('queueModalWaitingCount');
-      if (waitEl) waitEl.textContent = waitingCount;
+      if (waitEl) waitEl.textContent = `${totalWaitingDogs} dogs (${waitingCount} ped)`;
 
       const msgEl = document.getElementById('queueModalMsg');
       if (msgEl) {
-        msgEl.textContent = waitingCount === 0
-          ? 'Nenhum pedido aguardando no momento. Seu lanche entra em preparo imediato!'
-          : waitingCount + ' pedido(s) aguardando preparo no trailer.';
+        if (isDogLimitBlocked) {
+          msgEl.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} dogs):</strong> Limite de 15 dogs atingido! Novos pedidos serão liberados assim que a fila baixar para 7 lanches.`;
+        } else if (totalWaitingDogs === 0) {
+          msgEl.textContent = 'Nenhum pedido aguardando no momento. Seu lanche entra em preparo imediato (~4 min por dog)!';
+        } else {
+          msgEl.textContent = `${totalWaitingDogs} cachorro(s)-quente(s) em preparo na fila no trailer (média de 4 min por dog).`;
+        }
       }
 
       const listContainer = document.getElementById('queueModalList');
@@ -14081,7 +14381,7 @@
 
         // Entradas editoriais dos demais blocos do Hero
         gsap.fromTo(
-          '.hero-status-card, .hero-subtitle, .hero-cta-group, .hero-social-proof-micro',
+          '.hero-status-card, .hero-cta-group, .hero-social-proof-micro',
           { opacity: 0, y: 28 },
           {
             opacity: 1,
@@ -14095,7 +14395,7 @@
 
         // Parallax no título durante o scroll: yPercent: -22
         // E redução de opacidade até aproximadamente 0.15 conforme sai da tela
-        if (typeof ScrollTrigger !== 'undefined') {
+        if (typeof ScrollTrigger !== 'undefined' && document.getElementById('heroTitle')) {
           gsap.fromTo('#heroTitle',
             { opacity: 1, yPercent: 0 },
             {
