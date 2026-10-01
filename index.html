@@ -6754,6 +6754,19 @@
       font-weight: 900;
     }
 
+    .btn-ingredient-chip.is-core-fixed {
+      background: rgba(217, 130, 43, 0.1) !important;
+      border: 1.5px solid rgba(217, 130, 43, 0.5) !important;
+      color: #fef08a !important;
+      cursor: not-allowed;
+      user-select: none;
+    }
+
+    .btn-ingredient-chip.is-core-fixed:hover {
+      background: rgba(217, 130, 43, 0.16) !important;
+      border-color: var(--color-mustard) !important;
+    }
+
     .ingredient-removed-summary {
       margin-top: 10px;
       padding: 8px 12px;
@@ -9315,10 +9328,10 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
             <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; text-align: center;">
               <div style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Tempo Estimado</div>
-              <div id="queueModalEstimatedTime" style="font-size: 1.35rem; font-weight: 900; color: #38bdf8;">~15 min</div>
+              <div id="queueModalEstimatedTime" style="font-size: 1.35rem; font-weight: 900; color: #38bdf8;">~4 min</div>
             </div>
             <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; text-align: center;">
-              <div style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Pedidos na Frente</div>
+              <div style="font-size: 0.72rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Lanches na Frente</div>
               <div id="queueModalWaitingCount" style="font-size: 1.35rem; font-weight: 900; color: var(--color-mustard);">0</div>
             </div>
           </div>
@@ -9544,28 +9557,30 @@
 
         <!-- ABA 3: FILA DE ESPERA AO VIVO & CONFIGURAÇÃO DE TEMPOS -->
         <div id="adminTabContentQueue" style="display: none; margin-bottom: 20px;">
-          <!-- Configuração de Tempos -->
-          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px;">
-            <label style="font-size: 0.95rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <i class="fa-solid fa-stopwatch" style="color: var(--color-mustard);"></i> Configurar Estimativa de Tempo
-            </label>
+          <!-- Configuração de Tempos (Por Quantidade de Lanches) -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1.5px solid rgba(217, 130, 43, 0.3); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;">
+              <label style="font-size: 0.95rem; font-weight: 800; color: #ffffff; display: flex; align-items: center; gap: 8px; margin: 0;">
+                <i class="fa-solid fa-stopwatch" style="color: var(--color-mustard);"></i> Tempo de Espera por Quantidade de Lanches
+              </label>
+              <span class="badge-gold-admin">Cálculo por Lanche (Não por Pedido)</span>
+            </div>
+            <p style="font-size: 0.84rem; color: #d1cbc1; line-height: 1.5; margin-bottom: 12px;">
+              O tempo da fila é calculado multiplicando a <strong>quantidade total de lanches/dogs</strong> em preparo pelo tempo médio de cada um na chapa.
+            </p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
-              <div style="flex: 1; min-width: 140px;">
-                <label style="font-size: 0.78rem; color: #a8a29e; display: block; margin-bottom: 4px;">Tempo Base Inicial (min):</label>
-                <input type="number" id="inputQueueBaseTime" class="modal-select" value="15" min="1" max="120" style="padding: 8px 12px; font-size: 0.95rem;">
+              <div style="flex: 1; min-width: 180px;">
+                <label style="font-size: 0.78rem; color: #a8a29e; display: block; margin-bottom: 4px;">Minutos de Preparo por Lanche/Dog:</label>
+                <input type="number" id="inputQueueIncTime" class="modal-select" value="4" min="1" max="30" style="padding: 8px 12px; font-size: 0.95rem;">
               </div>
-              <div style="flex: 1; min-width: 140px;">
-                <label style="font-size: 0.78rem; color: #a8a29e; display: block; margin-bottom: 4px;">+ Adicional por Pedido na Frente (min):</label>
-                <input type="number" id="inputQueueIncTime" class="modal-select" value="4" min="0" max="60" style="padding: 8px 12px; font-size: 0.95rem;">
-              </div>
-              <div style="display: flex; align-items: flex-end; padding-top: 20px;">
-                <button type="button" class="btn btn-secondary" onclick="saveAdminQueueSettings()" style="min-height: 44px; padding: 8px 18px;">
-                  <i class="fa-solid fa-floppy-disk"></i> Salvar Tempos
+              <div style="display: flex; align-items: flex-end; padding-top: 18px;">
+                <button type="button" class="btn btn-primary" onclick="saveAdminQueueSettings()" style="min-height: 44px; padding: 8px 20px;">
+                  <i class="fa-solid fa-floppy-disk"></i> Salvar Tempo por Lanche
                 </button>
               </div>
             </div>
-            <p style="font-size: 0.78rem; color: #a8a29e; margin-top: 8px;">
-              Fórmula: <em>Tempo Estimado = Base + (Pedidos na frente &times; Adicional)</em>
+            <p style="font-size: 0.78rem; color: #a8a29e; margin-top: 10px;">
+              Fórmula Ativa: <em>Tempo Estimado = Quantidade de Lanches &times; Minutos por Lanche (padrão: 4 min/dog)</em>
             </p>
           </div>
 
@@ -10248,7 +10263,7 @@
     // ==========================================================================
     let stockState = {}; // { [itemName]: boolean (true = disponível, false = esgotado) }
     let isCounterLockActive = false; // Trava global de pedidos (somente balcão)
-    let queueSettings = { baseTime: 15, incTime: 4 }; // Tempo base 15min + 4min por pedido na frente
+    let queueSettings = { timePerDog: 4, incTime: 4 }; // Tempo de espera calculado por quantidade de lanches (4 min por dog/lanche)
     let activeQueueOrders = []; // Fila ativa de pedidos [{ id, queueNumber, orderType, items, total, status, createdAt }]
     let currentRemovedIngredients = []; // Ingredientes removidos do lanche principal selecionado
 
@@ -10469,7 +10484,39 @@
 
     // ==========================================================================
     // 5. REMOÇÃO DE INGREDIENTES NO MODAL (TOQUE COM X)
+    // O ingrediente principal de qualquer lanche é fixo e NÃO pode ser retirado
     // ==========================================================================
+    const CORE_DOG_INGREDIENTS = {
+      'Dog Tradicional Simples': ['Uma Salsicha'],
+      'Dog Tradicional Duplo': ['Duas Salsichas'],
+      'Dog de Calabresa Simples': ['Salsicha Calabresa'],
+      'Dog de Calabresa Duplo': ['Duas Calabresas'],
+      'Dog de Calabresa + Salsicha': ['Uma Salsicha', 'Uma Calabresa'],
+      'Dog de Frango': ['Frango Desfiado'],
+      'Dog de Frango + Calabresa': ['Frango Desfiado', 'Calabresa Fatiada'],
+      'Dog de Frango + Salsicha': ['Frango Desfiado', 'Uma Salsicha'],
+      'Dog Frango + Calabresa + Salsicha': ['Frango Desfiado', 'Calabresa', 'Salsicha Tradicional'],
+      'Dog de Entreveiro': ['Entreveiro da Casa'],
+      'Dog Sem Salsicha': ['Pão Especial']
+    };
+
+    function isCoreIngredient(dogName, ingredient) {
+      if (!dogName || !ingredient) return false;
+      const list = CORE_DOG_INGREDIENTS[dogName];
+      if (list && list.includes(ingredient)) return true;
+      const lowerDog = dogName.toLowerCase();
+      const lowerIng = ingredient.toLowerCase();
+      if (lowerDog.includes('frango') && lowerIng.includes('frango')) return true;
+      if (lowerDog.includes('calabresa') && (lowerIng.includes('calabresa') || lowerIng.includes('calabresas'))) return true;
+      if (lowerDog.includes('entreveiro') && lowerIng.includes('entreveiro')) return true;
+      if (lowerDog.includes('salsicha') && lowerIng.includes('salsicha')) return true;
+      return false;
+    }
+
+    function notifyCoreIngredientFixed(ingredient, dogName) {
+      showToast('O ingrediente principal (' + ingredient + ') não pode ser retirado do ' + (dogName || 'lanche') + '.', 'warning');
+    }
+
     function renderIngredientRemovalChips(dogName) {
       const container = document.getElementById('ingredientChipsGrid');
       const box = document.getElementById('ingredientRemovalContainer');
@@ -10489,8 +10536,18 @@
       currentRemovedIngredients = [];
 
       container.innerHTML = dogData.ingredients.map(ing => {
+        const isCore = isCoreIngredient(dogName, ing);
         const safeId = escapeId(ing);
         const safeIng = escapeQuotes(ing);
+        const safeDog = escapeQuotes(dogName);
+
+        if (isCore) {
+          return '<button type="button" class="btn-ingredient-chip is-core-fixed" id="chip-ing-' + safeId + '" onclick="notifyCoreIngredientFixed(\'' + safeIng + '\', \'' + safeDog + '\')" title="Ingrediente principal obrigatório do lanche">' +
+            '<span class="chip-name"><i class="fa-solid fa-lock" style="font-size: 0.72rem; color: var(--color-mustard); margin-right: 4px;"></i>' + ing + '</span>' +
+            '<span class="chip-fixed-badge" style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 4px; background: rgba(217, 130, 43, 0.2); color: var(--color-mustard); border: 1px solid rgba(217, 130, 43, 0.4); font-weight: 800;">Principal</span>' +
+          '</button>';
+        }
+
         return '<button type="button" class="btn-ingredient-chip" id="chip-ing-' + safeId + '" onclick="toggleRemoveIngredient(\'' + safeIng + '\')">' +
           '<span class="chip-name">' + ing + '</span>' +
           '<span class="chip-x-icon" title="Tirar este ingrediente"><i class="fa-solid fa-xmark"></i></span>' +
@@ -10501,6 +10558,11 @@
     }
 
     function toggleRemoveIngredient(ingredient) {
+      if (isCoreIngredient(currentSelectedDog, ingredient)) {
+        notifyCoreIngredientFixed(ingredient, currentSelectedDog);
+        return;
+      }
+
       const chip = document.getElementById('chip-ing-' + escapeId(ingredient));
       const summaryBox = document.getElementById('ingredientRemovedSummary');
       const summaryText = document.getElementById('ingredientRemovedSummaryText');
@@ -10556,11 +10618,14 @@
       return count;
     }
 
-    // Média de tempo: exatamente 4 minutos por quantidade de dog na fila
-    function calculateQueueEstimatedTime(dogsCount) {
-      const dogs = (typeof dogsCount === 'number') ? dogsCount : getTotalWaitingDogsCount();
-      if (dogs <= 0) return 4; // Fila livre: preparo do lanche leva ~4 min
-      return dogs * 4; // 4 minutos por dog
+    // O tempo de espera é calculado estritamente por QUANTIDADE DE LANCHES (DOGS), NUNCA por pedido
+    function calculateQueueEstimatedTime(dogsWaitingCount, currentOrderDogs = 0) {
+      const dogsInQueue = (typeof dogsWaitingCount === 'number') ? dogsWaitingCount : getTotalWaitingDogsCount();
+      const orderDogs = Number(currentOrderDogs) || 0;
+      const timePerDog = (queueSettings && queueSettings.timePerDog) || (queueSettings && queueSettings.incTime) || 4;
+      const totalDogs = dogsInQueue + orderDogs;
+      if (totalDogs <= 0) return timePerDog; // Fila livre: preparo de 1 lanche leva o tempo base do dog
+      return totalDogs * timePerDog;
     }
 
     let isDogLimitBlocked = false;
@@ -10579,8 +10644,8 @@
           }
         }
       } 
-      // Quando baixar para 7 pedidos / 7 dogs ou menos -> LIBERA O SITE NORMAL DE NOVO
-      else if (isDogLimitBlocked && (totalWaitingDogs <= 7 || waitingOrdersCount <= 7)) {
+      // Quando baixar para 7 lanches ou menos -> LIBERA O SITE NORMAL DE NOVO
+      else if (isDogLimitBlocked && totalWaitingDogs <= 7) {
         isDogLimitBlocked = false;
         try { localStorage.setItem('industria_dog_limit_blocked', 'false'); } catch (e) {}
         if (localBroadcastChannel) {
@@ -10623,11 +10688,11 @@
       const menuPillText = document.getElementById('menuQueuePillText');
       if (menuDesc) {
         if (isDogLimitBlocked) {
-          menuDesc.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} dogs na chapa):</strong> Limite de 15 dogs atingido! Novos pedidos serão liberados automaticamente quando baixar para 7 lanches.`;
+          menuDesc.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} lanches na chapa):</strong> Limite de 15 lanches atingido! Novos pedidos serão liberados automaticamente quando baixar para 7 lanches.`;
         } else if (totalWaitingDogs === 0) {
-          menuDesc.textContent = 'Nenhum pedido na frente no momento. Preparo imediato (~4 min por dog)!';
+          menuDesc.textContent = 'Fila livre no momento! Preparo imediato (4 min por lanche).';
         } else {
-          menuDesc.textContent = `${totalWaitingDogs} lanche(s) em preparo na fila no trailer (~${nextEstimatedTime} min • média de 4 min por dog).`;
+          menuDesc.textContent = `${totalWaitingDogs} lanche(s) em preparo na chapa no trailer (~${nextEstimatedTime} min • 4 min por lanche).`;
         }
       }
       if (menuPillText) {
@@ -10636,7 +10701,7 @@
         } else if (totalWaitingDogs === 0) {
           menuPillText.textContent = `Fila Livre • ~4 min`;
         } else {
-          menuPillText.textContent = `Fila: ${totalWaitingDogs} dogs • ~${nextEstimatedTime} min`;
+          menuPillText.textContent = `Fila: ${totalWaitingDogs} lanches • ~${nextEstimatedTime} min`;
         }
       }
 
@@ -10644,9 +10709,9 @@
       const modalPreview = document.getElementById('modalQueuePreviewText');
       if (modalPreview) {
         if (isDogLimitBlocked) {
-          modalPreview.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7 pedidos`;
+          modalPreview.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} lanches)</span> • Libera em 7 lanches`;
         } else {
-          modalPreview.innerHTML = `~${nextEstimatedTime} min (Pedido Nº #${nextNum} • ${totalWaitingDogs === 0 ? '1º da fila' : totalWaitingDogs + ' dog(s) na frente • 4 min/dog'})`;
+          modalPreview.innerHTML = `~${nextEstimatedTime} min (Pedido Nº #${nextNum} • ${totalWaitingDogs === 0 ? 'Fila livre' : totalWaitingDogs + ' lanche(s) na frente • 4 min por lanche'})`;
         }
       }
 
@@ -10654,9 +10719,9 @@
       const cartQueueText = document.getElementById('cartQueuePreviewText');
       if (cartQueueText) {
         if (isDogLimitBlocked) {
-          cartQueueText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7`;
+          cartQueueText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} lanches)</span> • Libera em 7 lanches`;
         } else {
-          cartQueueText.textContent = `~${nextEstimatedTime} min (${totalWaitingDogs === 0 ? 'Próximo da fila' : totalWaitingDogs + ' dog(s) na frente • 4 min/dog'})`;
+          cartQueueText.textContent = `~${nextEstimatedTime} min (${totalWaitingDogs === 0 ? 'Fila livre' : totalWaitingDogs + ' lanche(s) na frente • 4 min por lanche'})`;
         }
       }
 
@@ -11160,19 +11225,20 @@
     }
 
     async function saveAdminQueueSettings() {
-      const baseInput = document.getElementById('inputQueueBaseTime');
       const incInput = document.getElementById('inputQueueIncTime');
-      if (baseInput) queueSettings.baseTime = Math.max(1, parseInt(baseInput.value, 10) || 15);
-      if (incInput) queueSettings.incTime = Math.max(0, parseInt(incInput.value, 10) || 4);
+      const timeVal = Math.max(1, parseInt(incInput ? incInput.value : '4', 10) || 4);
+      queueSettings.timePerDog = timeVal;
+      queueSettings.incTime = timeVal;
 
       updateQueueUI();
-      showToast('Tempos da fila salvos com sucesso!', 'success');
+      showToast('Tempo por lanche atualizado: ' + timeVal + ' min por dog!', 'success');
 
       try {
         if (!currentAdminSchedule) currentAdminSchedule = getActiveSchedule();
         currentAdminSchedule.queue_settings = {
-          base_time_min: queueSettings.baseTime,
-          inc_time_min: queueSettings.incTime
+          time_per_dog_min: timeVal,
+          base_time_min: timeVal,
+          inc_time_min: timeVal
         };
         await sbRpc('set_store_schedule', {
           p_password: getAdminToken(),
@@ -11193,24 +11259,30 @@
       if (waiting.length === 0) {
         container.innerHTML = '<div style="text-align: center; padding: 24px; color: #a8a29e; background: rgba(255, 255, 255, 0.02); border-radius: 10px; border: 1px dashed rgba(255, 255, 255, 0.1);">' +
           '<i class="fa-solid fa-mug-hot" style="font-size: 2rem; color: var(--color-mustard); margin-bottom: 8px; display: block;"></i>' +
-          'Nenhum pedido aguardando na fila. Próximo pedido terá estimativa de <strong>~' + queueSettings.baseTime + ' min</strong>.' +
+          'Nenhum lanche aguardando na fila. Fila livre no momento!' +
         '</div>';
         return;
       }
 
       container.innerHTML = waiting.map((order, idx) => {
+        let orderDogs = 0;
         const itemsSummary = (order.items || []).map(i => {
-          let str = (i.qty || 1) + 'x ' + (i.name || 'Lanche');
+          const qty = Number(i.qty || 1);
+          if (i.type !== 'drink') orderDogs += qty;
+          let str = qty + 'x ' + (i.name || 'Lanche');
           if (i.removed_ingredients && i.removed_ingredients.length > 0) {
             str += ' <span style="color: #f87171; font-size: 0.78rem;">(SEM ' + i.removed_ingredients.join(', SEM ') + ')</span>';
           }
           return str;
         }).join(', ');
 
+        if (orderDogs === 0 && order.qty) orderDogs = Number(order.qty || 1);
+        if (orderDogs === 0) orderDogs = 1;
+
         const orderNum = order.queue_number || order.queueNumber || (idx + 1);
         const orderType = order.order_type || order.orderType || 'Consumo no Local';
         const orderTotal = Number(order.total || 0).toFixed(2).replace('.', ',');
-        const orderTime = order.estimated_time_min || 15;
+        const orderTime = order.estimated_time_min || (orderDogs * ((queueSettings && queueSettings.timePerDog) || 4));
         const safeId = order.id || idx;
         const custName = order.customer_name || order.customerName || '';
         const custPhone = order.customer_phone || order.customerPhone || '';
@@ -11224,7 +11296,7 @@
               (custPhone ? '<span style="font-size: 0.8rem; color: #38bdf8;"><i class="fa-brands fa-whatsapp"></i> ' + custPhone + '</span>' : '') +
             '</div>' +
             '<div style="font-size: 0.92rem; color: #ffffff; margin-bottom: 4px;">' + itemsSummary + '</div>' +
-            '<div style="font-size: 0.82rem; color: #d1cbc1;">Total: <strong>R$ ' + orderTotal + '</strong> &bull; Estimativa: ~' + orderTime + ' min</div>' +
+            '<div style="font-size: 0.82rem; color: #d1cbc1;">Total: <strong>R$ ' + orderTotal + '</strong> &bull; ' + orderDogs + ' lanche(s) &bull; Estimativa: ~' + orderTime + ' min</div>' +
           '</div>' +
           '<div style="display: flex; gap: 8px; align-items: center;">' +
             '<button type="button" class="btn btn-whatsapp" onclick="handleMarkOrderReady(\'' + safeId + '\')" style="min-height: 42px; padding: 6px 14px; font-size: 0.85rem;">' +
@@ -11907,8 +11979,8 @@
       const modal = document.getElementById('cartModal');
       const previewText = document.getElementById('cartQueuePreviewText');
       const totalWaitingDogs = getTotalWaitingDogsCount();
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
-      const estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
+      const cartDogsCount = cartItems.filter(i => i.type !== 'drink').reduce((sum, item) => sum + Number(item.qty || 1), 0);
+      const estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs, cartDogsCount);
       const queueNumberToday = getNextQueueNumber();
 
       const badgeNum = document.getElementById('cartModalQueueNumberBadge');
@@ -11919,9 +11991,9 @@
 
       if (previewText) {
         if (isDogLimitBlocked) {
-          previewText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} dogs)</span> • Libera em 7`;
+          previewText.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} lanches)</span> • Libera em 7 lanches`;
         } else {
-          previewText.textContent = `~${estimatedTimeMin} min (Pedido Nº #${queueNumberToday} • ${totalWaitingDogs === 0 ? 'Fila livre • 4 min por dog' : totalWaitingDogs + ' dog(s) na fila • 4 min por dog'})`;
+          previewText.textContent = `~${estimatedTimeMin} min (${cartDogsCount} lanche(s) no carrinho ${totalWaitingDogs > 0 ? '+ ' + totalWaitingDogs + ' na frente' : '• fila livre'} • 4 min por lanche)`;
         }
       }
 
@@ -12087,14 +12159,13 @@
       const consumeLabel = cartConsumptionType === 'viagem' ? '🛍️ Para Levar (Viagem / Retirada)' : '🍽️ Comer no Local (Trailer)';
 
       const totalWaitingDogs = getTotalWaitingDogsCount();
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
-      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
+      const cartDogs = cartItems.filter(i => i.type !== 'drink');
+      const cartDrinks = cartItems.filter(i => i.type === 'drink');
+      const cartDogsCount = cartDogs.reduce((sum, item) => sum + Number(item.qty || 1), 0);
+      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs, cartDogsCount);
       let queueNumberToday = getNextQueueNumber();
       const totalGeral = getCartTotal();
       const totalFormatted = 'R$ ' + totalGeral.toFixed(2).replace('.', ',');
-
-      const cartDogs = cartItems.filter(i => i.type !== 'drink');
-      const cartDrinks = cartItems.filter(i => i.type === 'drink');
 
       const newOrderRecord = {
         id: 'ord_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
@@ -12129,10 +12200,6 @@
         if (row && row.queue_number) {
           queueNumberToday = Number(row.queue_number);
           newOrderRecord.queue_number = queueNumberToday;
-        }
-        if (row && row.estimated_time_min) {
-          estimatedTimeMin = Number(row.estimated_time_min);
-          newOrderRecord.estimated_time_min = estimatedTimeMin;
         }
         if (row && row.order_id) newOrderRecord.id = row.order_id;
       } catch (err) {}
@@ -12182,7 +12249,7 @@
       if (notes) {
         message += `📝 *Observações Gerais:* ${notes}\n`;
       }
-      message += `⏱️ *Previsão de Espera:* ~${estimatedTimeMin} min (${waitingOrdersCount === 0 ? 'Próximo da fila' : waitingOrdersCount + ' pedidos na frente'})\n`;
+      message += `⏱️ *Previsão de Espera:* ~${estimatedTimeMin} min (${cartDogsCount} lanche(s) no seu pedido ${totalWaitingDogs > 0 ? '+ ' + totalWaitingDogs + ' lanche(s) na frente' : '• fila livre'} • 4 min por lanche)\n`;
       message += `----------------------------------\n`;
       message += `_Pedido gerado via cardápio online Indústria do Dog - Três Coroas/RS_`;
 
@@ -12332,6 +12399,11 @@
 
     function toggleRemoveExtraDogIngredient(dogIndex, ingredient) {
       if (!selectedExtraDogs[dogIndex]) return;
+      const dogName = selectedExtraDogs[dogIndex].name;
+      if (isCoreIngredient(dogName, ingredient)) {
+        notifyCoreIngredientFixed(ingredient, dogName);
+        return;
+      }
       if (!selectedExtraDogs[dogIndex].removedIngredients) {
         selectedExtraDogs[dogIndex].removedIngredients = [];
       }
@@ -12367,12 +12439,28 @@
                 <span style="font-size: 0.78rem; font-weight: 700; color: var(--color-mustard); display: inline-flex; align-items: center; gap: 5px;">
                   <i class="fa-solid fa-scissors"></i> Tirar ingredientes deste lanche:
                 </span>
-                <span style="font-size: 0.7rem; color: #a8a29e;">Toque no ✕ para retirar</span>
+                <span style="font-size: 0.7rem; color: #a8a29e;">Toque no ✕ para retirar opcionais</span>
               </div>
               <div class="ingredient-chips-grid" style="margin-top: 4px; gap: 6px;">
                 ${ingredients.map(ing => {
+                  const isCore = isCoreIngredient(dog.name, ing);
                   const isRemoved = removed.includes(ing);
                   const safeIng = escapeQuotes(ing);
+                  const safeDog = escapeQuotes(dog.name);
+
+                  if (isCore) {
+                    return `
+                      <button type="button" 
+                              class="btn-ingredient-chip is-core-fixed" 
+                              onclick="notifyCoreIngredientFixed('${safeIng}', '${safeDog}')"
+                              style="min-height: 38px; padding: 6px 10px; font-size: 0.84rem;"
+                              title="Ingrediente principal obrigatório do lanche">
+                        <span class="chip-name"><i class="fa-solid fa-lock" style="font-size: 0.72rem; color: var(--color-mustard); margin-right: 4px;"></i>${ing}</span>
+                        <span class="chip-fixed-badge" style="font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 5px; border-radius: 4px; background: rgba(217, 130, 43, 0.2); color: var(--color-mustard); border: 1px solid rgba(217, 130, 43, 0.4); font-weight: 800;">Principal</span>
+                      </button>
+                    `;
+                  }
+
                   return `
                     <button type="button" 
                             class="btn-ingredient-chip ${isRemoved ? 'is-removed' : ''}" 
@@ -12546,6 +12634,19 @@
       if (btnAddCartText) {
         btnAddCartText.textContent = `Adicionar ao Carrinho (R$ ${formatted})`;
       }
+
+      // Atualiza estimativa de tempo no modal de acordo com a quantidade de lanches
+      const orderModalDogs = (currentQty || 1) + selectedExtraDogs.reduce((sum, d) => sum + (d.qty || 1), 0);
+      const totalWaitingDogs = getTotalWaitingDogsCount();
+      const modalEstimatedTime = calculateQueueEstimatedTime(totalWaitingDogs, orderModalDogs);
+      const modalPreview = document.getElementById('modalQueuePreviewText');
+      if (modalPreview) {
+        if (isDogLimitBlocked) {
+          modalPreview.innerHTML = `<span style="color: #f59e0b; font-weight: 800;">Fila Cheia (${totalWaitingDogs} lanches)</span> • Libera em 7 lanches`;
+        } else {
+          modalPreview.innerHTML = `~${modalEstimatedTime} min (${orderModalDogs} lanche(s) no seu pedido ${totalWaitingDogs > 0 ? '+ ' + totalWaitingDogs + ' na frente' : '• fila livre'} • 4 min por lanche)`;
+        }
+      }
     }
 
     // Fechamento do Modal
@@ -12650,10 +12751,10 @@
         return;
       }
 
-      // Fila de Espera & Tempo Estimado (4 min por dog)
+      // Fila de Espera & Tempo Estimado (calculado estritamente por quantidade de lanches)
       const totalWaitingDogs = getTotalWaitingDogsCount();
-      const waitingOrdersCount = activeQueueOrders.filter(o => o.status === 'waiting' || o.status === 'preparing').length;
-      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs);
+      const currentOrderDogs = currentQty + selectedExtraDogs.reduce((sum, d) => sum + (d.qty || 1), 0);
+      let estimatedTimeMin = calculateQueueEstimatedTime(totalWaitingDogs, currentOrderDogs);
       let queueNumberToday = getNextQueueNumber();
 
       const subtotalPrincipal = (currentRawPrice * currentQty).toFixed(2).replace('.', ',');
@@ -12745,10 +12846,6 @@
             queueNumberToday = Number(row.queue_number);
             orderRecord.queue_number = queueNumberToday;
           }
-          if (row && row.estimated_time_min) {
-            estimatedTimeMin = Number(row.estimated_time_min);
-            orderRecord.estimated_time_min = estimatedTimeMin;
-          }
           if (row && row.order_id) orderRecord.id = row.order_id;
         } catch (serverErr) {
           if (/STORE_CLOSED|STORE_COUNTER_ONLY/.test(serverErr.message)) {
@@ -12814,7 +12911,7 @@
 
         message += `\n🎫 *NÚMERO DO PEDIDO:* Nº #${queueNumberToday}`;
         message += `\n💰 *Total Estimado:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
-        message += `\n⏱️ *Tempo Estimado de Preparo:* ~${estimatedTimeMin} minutos`;
+        message += `\n⏱️ *Tempo Estimado de Preparo:* ~${estimatedTimeMin} minutos (${currentOrderDogs} lanche(s) no seu pedido ${totalWaitingDogs > 0 ? '+ ' + totalWaitingDogs + ' na frente' : '• fila livre'} • 4 min por lanche)`;
 
         message += `\n\nPodem confirmar o pedido e o tempo para retirada? Obrigado!`;
 
@@ -13343,16 +13440,16 @@
       if (estEl) estEl.textContent = '~' + nextEstimatedTime + ' min';
 
       const waitEl = document.getElementById('queueModalWaitingCount');
-      if (waitEl) waitEl.textContent = `${totalWaitingDogs} dogs (${waitingCount} ped)`;
+      if (waitEl) waitEl.textContent = `${totalWaitingDogs} lanches`;
 
       const msgEl = document.getElementById('queueModalMsg');
       if (msgEl) {
         if (isDogLimitBlocked) {
-          msgEl.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} dogs):</strong> Limite de 15 dogs atingido! Novos pedidos serão liberados assim que a fila baixar para 7 lanches.`;
+          msgEl.innerHTML = `<strong style="color: #f59e0b;">Fila Cheia (${totalWaitingDogs} lanches):</strong> Limite de 15 lanches atingido! Novos pedidos serão liberados assim que a fila baixar para 7 lanches.`;
         } else if (totalWaitingDogs === 0) {
-          msgEl.textContent = 'Nenhum pedido aguardando no momento. Seu lanche entra em preparo imediato (~4 min por dog)!';
+          msgEl.textContent = 'Fila livre no momento! Seu lanche entra em preparo imediato (4 min por lanche).';
         } else {
-          msgEl.textContent = `${totalWaitingDogs} cachorro(s)-quente(s) em preparo na fila no trailer (média de 4 min por dog).`;
+          msgEl.textContent = `${totalWaitingDogs} cachorro(s)-quente(s) em preparo na fila no trailer (média de 4 min por lanche).`;
         }
       }
 
@@ -13368,9 +13465,17 @@
       }
 
       listContainer.innerHTML = waitingOrders.map((order, idx) => {
+        let orderDogs = 0;
+        if (Array.isArray(order.items)) {
+          order.items.forEach(i => { if (i.type !== 'drink') orderDogs += Number(i.qty || 1); });
+        } else {
+          orderDogs = Number(order.qty || 1);
+        }
+        if (orderDogs === 0) orderDogs = 1;
+
         const orderNum = order.queue_number || order.queueNumber || (idx + 1);
         const orderType = order.order_type || order.orderType || 'Consumo no Local';
-        const orderTime = order.estimated_time_min || 15;
+        const orderTime = order.estimated_time_min || (orderDogs * 4);
         const custName = (order.customer_name || order.customerName || 'Cliente').split(' ')[0];
 
         return '<div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; width: 100%; box-sizing: border-box;">' +
@@ -13380,7 +13485,7 @@
               '<strong style="font-size: 0.94rem; color: #ffffff; white-space: nowrap;">Pedido Nº #' + orderNum + '</strong>' +
             '</div>' +
             '<span style="font-size: 0.72rem; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; padding: 3px 8px; font-weight: 700; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">' +
-              '<i class="fa-solid fa-fire-burner"></i> Em preparo (~' + orderTime + ' min)' +
+              '<i class="fa-solid fa-fire-burner"></i> ' + orderDogs + ' lanche(s) (~' + orderTime + ' min)' +
             '</span>' +
           '</div>' +
           '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.76rem; color: #94a3b8; padding-left: 34px;">' +
