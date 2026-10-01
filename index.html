@@ -9331,7 +9331,7 @@
         </div>
 
         <!-- Lista de Pedidos Ativos na Fila -->
-        <h4 style="font-size: 0.9rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+        <h4 id="queueModalListHeading" style="font-size: 0.9rem; font-weight: 800; color: #ffffff; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;">
           <i class="fa-solid fa-list-ol" style="color: var(--color-mustard);"></i> Pedidos em Preparo Agora
         </h4>
 
@@ -9812,8 +9812,33 @@
           <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i>
           <span>Abrir Conversa no WhatsApp</span>
         </a>
-        <button type="button" class="btn btn-secondary" onclick="closeOrderSuccessModal()" style="justify-content: center; min-height: 46px;">
+        <button type="button" class="btn btn-secondary" onclick="closeOrderSuccessModal(); openQueueModal();" style="justify-content: center; min-height: 46px; border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
+          <i class="fa-solid fa-users-line"></i>
+          <span>Acompanhar Meu Pedido na Fila</span>
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeOrderSuccessModal()" style="justify-content: center; min-height: 44px; font-size: 0.88rem; color: #a8a29e;">
           <span>Concluir e Fechar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner Flutuante de Notificação quando o Pedido do Cliente fica Pronto -->
+  <div id="clientReadyFloatingBanner" style="display: none; position: fixed; bottom: 85px; left: 16px; right: 16px; max-width: 440px; margin: 0 auto; z-index: 9999; background: linear-gradient(135deg, #15803d, #166534); border: 2px solid #4ade80; border-radius: 14px; padding: 14px 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.65), 0 0 20px rgba(74, 222, 128, 0.4); color: #ffffff;">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.8rem; line-height: 1;">🎉</span>
+        <div>
+          <strong style="font-size: 0.98rem; color: #4ade80; display: block;">SEU PEDIDO <span id="clientReadyBannerNum">#1</span> ESTÁ PRONTO!</strong>
+          <span style="font-size: 0.78rem; color: #dcfce7;">Pode retirar seu lanche no balcão agora!</span>
+        </div>
+      </div>
+      <div style="display: flex; gap: 6px; align-items: center;">
+        <button type="button" onclick="openQueueModal(); document.getElementById('clientReadyFloatingBanner').style.display = 'none';" class="btn" style="background: #ffffff; color: #166534; font-weight: 800; padding: 6px 12px; font-size: 0.8rem; border-radius: 8px; flex-shrink: 0; min-height: 32px;">
+          Ver Fila
+        </button>
+        <button type="button" onclick="document.getElementById('clientReadyFloatingBanner').style.display = 'none';" style="background: transparent; border: none; color: #dcfce7; font-size: 1.1rem; cursor: pointer; padding: 4px;" aria-label="Fechar aviso">
+          &times;
         </button>
       </div>
     </div>
@@ -10214,6 +10239,190 @@
     let queueSettings = { timePerDog: 4, incTime: 4 }; // Tempo de espera calculado por quantidade de lanches (4 min por dog/lanche)
     let activeQueueOrders = []; // Fila ativa de pedidos [{ id, queueNumber, orderType, items, total, status, createdAt }]
     let currentRemovedIngredients = []; // Ingredientes removidos do lanche principal selecionado
+
+    // Histórico e identificação dos pedidos deste cliente local
+    const MY_ORDERS_STORAGE_KEY = 'industria_dog_my_order_history';
+
+    function getClientOwnOrders() {
+      try {
+        const raw = localStorage.getItem(MY_ORDERS_STORAGE_KEY) || '[]';
+        const list = JSON.parse(raw);
+        return Array.isArray(list) ? list : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveClientOwnOrder(order) {
+      if (!order) return;
+      try {
+        const list = getClientOwnOrders();
+        const orderId = String(order.id || '');
+        const orderNum = String(order.queue_number || order.queueNumber || '');
+        const idx = list.findIndex(o => 
+          (orderId && String(o.id) === orderId) || 
+          (orderNum && String(o.queue_number || o.queueNumber) === orderNum)
+        );
+        if (idx > -1) {
+          list[idx] = { ...list[idx], ...order };
+        } else {
+          list.unshift(order);
+        }
+        localStorage.setItem(MY_ORDERS_STORAGE_KEY, JSON.stringify(list.slice(0, 30)));
+      } catch (e) {}
+    }
+
+    function isMyOrder(order) {
+      if (!order) return false;
+      try {
+        const myOrders = getClientOwnOrders();
+        const orderId = String(order.id || '');
+        const orderNum = String(order.queue_number || order.queueNumber || '');
+
+        if (orderId && myOrders.some(o => String(o.id) === orderId)) return true;
+        if (orderNum && myOrders.some(o => String(o.queue_number || o.queueNumber) === orderNum)) return true;
+
+        const savedPhone = (localStorage.getItem('industria_dog_customer_phone') || '').replace(/\D/g, '');
+        const orderPhone = (order.customer_phone || order.customerPhone || '').replace(/\D/g, '');
+        if (savedPhone && orderPhone && savedPhone === orderPhone && savedPhone.length >= 8) return true;
+
+        const savedName = (localStorage.getItem('industria_dog_customer_name') || '').trim().toLowerCase();
+        const orderName = (order.customer_name || order.customerName || '').trim().toLowerCase();
+        if (savedName && orderName && savedName === orderName && savedName.length >= 3) return true;
+
+        return false;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    let celebratedOrders = new Set();
+    try {
+      const savedCeleb = JSON.parse(localStorage.getItem('industria_dog_celebrated_orders') || '[]');
+      if (Array.isArray(savedCeleb)) celebratedOrders = new Set(savedCeleb);
+    } catch (e) {}
+
+    function playOrderReadyChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        if (ctx.state === 'suspended') {
+          ctx.resume();
+        }
+        const now = ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, now + i * 0.12);
+          gain.gain.setValueAtTime(0.25, now + i * 0.12);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + i * 0.12);
+          osc.stop(now + i * 0.12 + 0.35);
+        });
+      } catch (e) {}
+    }
+
+    function checkMyOrdersReadyAlert() {
+      if ((typeof isAdminLoggedIn === 'function' && isAdminLoggedIn()) || getDeviceRole() === 'counter') {
+        return;
+      }
+
+      const myHistory = getClientOwnOrders();
+      let hasReadyOrder = false;
+      let readyOrderNum = null;
+
+      myHistory.forEach(myOrder => {
+        const live = (activeQueueOrders || []).find(o => 
+          String(o.id) === String(myOrder.id) || 
+          String(o.queue_number || o.queueNumber) === String(myOrder.queue_number || myOrder.queueNumber)
+        );
+        const currentStatus = (live && live.status) || myOrder.status;
+        const orderNum = myOrder.queue_number || myOrder.queueNumber || (live && (live.queue_number || live.queueNumber));
+
+        if (currentStatus === 'ready') {
+          hasReadyOrder = true;
+          readyOrderNum = orderNum;
+          myOrder.status = 'ready';
+          saveClientOwnOrder(myOrder);
+
+          const key = String(orderNum || myOrder.id);
+          if (!celebratedOrders.has(key)) {
+            celebratedOrders.add(key);
+            try {
+              localStorage.setItem('industria_dog_celebrated_orders', JSON.stringify(Array.from(celebratedOrders)));
+            } catch (e) {}
+
+            playOrderReadyChime();
+
+            if (navigator.vibrate) {
+              try { navigator.vibrate([200, 100, 200, 100, 400]); } catch (e) {}
+            }
+
+            showToast(`🎉 SEU PEDIDO Nº #${orderNum} ESTÁ PRONTO! Pode retirar no balcão!`, 'success');
+
+            const banner = document.getElementById('clientReadyFloatingBanner');
+            if (banner) {
+              banner.style.display = 'block';
+              const numText = document.getElementById('clientReadyBannerNum');
+              if (numText) numText.textContent = '#' + orderNum;
+            }
+          }
+        }
+      });
+
+      const headerQueueBtn = document.getElementById('headerQueueBtn');
+      const headerQueueBadge = document.getElementById('headerQueueBadge');
+      const headerQueueTime = document.getElementById('headerQueueTime');
+      
+      if (hasReadyOrder && headerQueueBtn) {
+        headerQueueBtn.style.background = 'linear-gradient(135deg, #166534, #15803d)';
+        headerQueueBtn.style.borderColor = '#4ade80';
+        headerQueueBtn.style.boxShadow = '0 0 16px rgba(74, 222, 128, 0.6)';
+        if (headerQueueBadge) {
+          headerQueueBadge.innerHTML = '<i class="fa-solid fa-check"></i>';
+          headerQueueBadge.style.background = '#22c55e';
+          headerQueueBadge.style.color = '#ffffff';
+        }
+        if (headerQueueTime) {
+          headerQueueTime.textContent = 'PRONTO!';
+          headerQueueTime.style.color = '#4ade80';
+          headerQueueTime.style.fontWeight = '900';
+        }
+      } else if (headerQueueBtn) {
+        headerQueueBtn.style.background = '';
+        headerQueueBtn.style.borderColor = '';
+        headerQueueBtn.style.boxShadow = '';
+        if (headerQueueBadge) {
+          headerQueueBadge.style.background = '';
+          headerQueueBadge.style.color = '';
+        }
+        if (headerQueueTime) {
+          headerQueueTime.style.color = '';
+          headerQueueTime.style.fontWeight = '';
+        }
+      }
+    }
+
+    function handleClientDismissReadyOrder(orderId, orderNum) {
+      try {
+        const list = getClientOwnOrders().filter(o => 
+          String(o.id) !== String(orderId) && 
+          String(o.queue_number || o.queueNumber) !== String(orderNum)
+        );
+        localStorage.setItem(MY_ORDERS_STORAGE_KEY, JSON.stringify(list));
+      } catch (e) {}
+
+      const banner = document.getElementById('clientReadyFloatingBanner');
+      if (banner) banner.style.display = 'none';
+
+      updateQueueUI();
+      showToast('Bom apetite! Obrigado por pedir na Indústria do Dog!', 'success');
+    }
 
     // Carrega o papel deste aparelho no localStorage ('client' | 'counter')
     function getDeviceRole() {
@@ -10702,6 +10911,10 @@
         updateQueueModalUI();
       }
 
+      if (typeof checkMyOrdersReadyAlert === 'function') {
+        checkMyOrdersReadyAlert();
+      }
+
       updateCounterLockUI();
       renderAdminQueueOrders();
     }
@@ -10714,15 +10927,19 @@
           ? `store_orders?created_at=gt.${encodeURIComponent(clearedAt)}&select=id,queue_number,created_at&order=id.desc&limit=1`
           : `store_orders?select=id,queue_number,created_at&order=id.desc&limit=1`;
 
-        const [waitingRows, latestRows] = await Promise.all([
-          sbFetch('store_orders?status=eq.waiting&order=created_at.asc'),
+        const todayStart = new Date();
+        todayStart.setHours(0, 0, 0, 0);
+        const filterDate = (clearedAt && new Date(clearedAt) > todayStart) ? clearedAt : todayStart.toISOString();
+
+        const [queueRows, latestRows] = await Promise.all([
+          sbFetch(`store_orders?status=in.(waiting,preparing,ready)&created_at=gte.${encodeURIComponent(filterDate)}&order=created_at.asc`),
           sbFetch(latestUrl)
         ]);
 
-        if (Array.isArray(waitingRows)) {
+        if (Array.isArray(queueRows)) {
           activeQueueOrders = clearedAt
-            ? waitingRows.filter(r => !r.created_at || new Date(r.created_at) > new Date(clearedAt))
-            : waitingRows;
+            ? queueRows.filter(r => !r.created_at || new Date(r.created_at) > new Date(clearedAt))
+            : queueRows;
         }
 
         if (Array.isArray(latestRows) && latestRows[0]) {
@@ -11225,20 +11442,48 @@
 
     async function handleMarkOrderReady(orderId) {
       const foundIdx = activeQueueOrders.findIndex(o => String(o.id) === String(orderId) || String(activeQueueOrders.indexOf(o)) === String(orderId));
+      let readyOrder = null;
       if (foundIdx > -1) {
         activeQueueOrders[foundIdx].status = 'ready';
+        readyOrder = activeQueueOrders[foundIdx];
         saveLocalOrdersQueue();
       }
 
+      if (readyOrder && typeof saveClientOwnOrder === 'function') {
+        saveClientOwnOrder(readyOrder);
+      }
+
+      if (localBroadcastChannel && readyOrder) {
+        localBroadcastChannel.postMessage({
+          type: 'order_ready',
+          orderId: readyOrder.id,
+          queueNumber: readyOrder.queue_number || readyOrder.queueNumber,
+          queue: activeQueueOrders
+        });
+      }
+
       updateQueueUI();
-      showToast('Pedido concluído! Fila reduzida e tempos recalculados para todos.', 'success');
+      const qNumText = readyOrder ? 'Nº #' + (readyOrder.queue_number || readyOrder.queueNumber) : '';
+      showToast(`Pedido ${qNumText} concluído! Marcado como PRONTO.`, 'success');
 
       try {
-        await sbRpc('admin_update_order_status', {
-          p_password: getAdminToken(),
-          p_order_id: Number(orderId) || 0,
-          p_status: 'ready'
-        });
+        const numId = parseInt(orderId, 10);
+        if (!isNaN(numId) && numId > 0) {
+          await sbRpc('admin_update_order_status', {
+            p_password: getAdminToken(),
+            p_order_id: numId,
+            p_status: 'ready'
+          });
+        }
+        if (readyOrder) {
+          const qNum = readyOrder.queue_number || readyOrder.queueNumber;
+          if (qNum) {
+            await sbFetch(`store_orders?queue_number=eq.${qNum}`, {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'ready' })
+            });
+          }
+        }
       } catch (e) {}
     }
 
@@ -12117,6 +12362,8 @@
         if (row && row.order_id) newOrderRecord.id = row.order_id;
       } catch (err) {}
 
+      saveClientOwnOrder(newOrderRecord);
+
       latestRegisteredQueueNumber = Math.max(latestRegisteredQueueNumber, queueNumberToday);
       try { localStorage.setItem('industria_dog_highest_queue_num', latestRegisteredQueueNumber); } catch (e) {}
 
@@ -12773,6 +13020,8 @@
           // Falha de rede: nao bloqueia o cliente de chamar no WhatsApp (fallback local)
         }
 
+        saveClientOwnOrder(orderRecord);
+
         latestRegisteredQueueNumber = Math.max(latestRegisteredQueueNumber, queueNumberToday);
         try { localStorage.setItem('industria_dog_highest_queue_num', latestRegisteredQueueNumber); } catch (e) {}
 
@@ -12826,7 +13075,7 @@
         message += `\n💰 *Total Estimado:* R$ ${totalGeral.toFixed(2).replace('.', ',')}`;
         message += `\n⏱️ *Tempo Estimado de Preparo:* ~${estimatedTimeMin} minutos (${currentOrderDogs} lanche(s) no seu pedido ${totalWaitingDogs > 0 ? '+ ' + totalWaitingDogs + ' na frente' : '• fila livre'} • 4 min por lanche)`;
 
-        message += `\n\nPodem confirmar o pedido e o tempo para retirada? Obrigado!`;
+        message += `\n\nPodem confirmar o pedido? Obrigado!`;
 
         // Fila local (fallback) + UI
         activeQueueOrders.push(orderRecord);
@@ -12901,6 +13150,9 @@
               updateQueueUI();
             } else if (event.data.type === 'queue_settings_update' && event.data.settings) {
               queueSettings = event.data.settings;
+              updateQueueUI();
+            } else if (event.data.type === 'order_ready') {
+              if (event.data.queue) activeQueueOrders = event.data.queue;
               updateQueueUI();
             }
           }
@@ -13320,6 +13572,7 @@
     }
 
     function updateQueueModalUI() {
+      const isStaff = (typeof isAdminLoggedIn === 'function' && isAdminLoggedIn()) || getDeviceRole() === 'counter';
       const waitingOrders = (activeQueueOrders || []).filter(o => o.status === 'waiting' || o.status === 'preparing');
       const waitingCount = waitingOrders.length;
       const totalWaitingDogs = typeof getTotalWaitingDogsCount === 'function' ? getTotalWaitingDogsCount() : 0;
@@ -13347,46 +13600,218 @@
       }
 
       const listContainer = document.getElementById('queueModalList');
+      const listHeading = document.getElementById('queueModalListHeading');
       if (!listContainer) return;
 
-      if (waitingCount === 0) {
-        listContainer.innerHTML = '<div style="text-align: center; padding: 22px 14px; color: #94a3b8; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px dashed rgba(255,255,255,0.1);">' +
-          '<i class="fa-solid fa-mug-hot" style="font-size: 1.8rem; color: #38bdf8; margin-bottom: 8px; display: block;"></i>' +
-          '<strong>Fila totalmente livre no momento!</strong><br><span style="font-size: 0.78rem;">Faça seu pedido e ele será preparado na hora com prioridade máxima.</span>' +
-        '</div>';
-        return;
-      }
-
-      listContainer.innerHTML = waitingOrders.map((order, idx) => {
-        let orderDogs = 0;
-        if (Array.isArray(order.items)) {
-          order.items.forEach(i => { if (i.type !== 'drink') orderDogs += Number(i.qty || 1); });
-        } else {
-          orderDogs = Number(order.qty || 1);
+      if (isStaff) {
+        // ========================================================
+        // VISÃO DO ADMINISTRADOR / BANCADA: TODOS OS PEDIDOS DOS CLIENTES
+        // ========================================================
+        if (listHeading) {
+          listHeading.innerHTML = '<i class="fa-solid fa-users-gear" style="color: var(--color-mustard);"></i> Todos os Pedidos dos Clientes (Visão Admin / Bancada)';
         }
-        if (orderDogs === 0) orderDogs = 1;
 
-        const orderNum = order.queue_number || order.queueNumber || (idx + 1);
-        const orderType = order.order_type || order.orderType || 'Consumo no Local';
-        const orderTime = order.estimated_time_min || (orderDogs * 4);
-        const custName = (order.customer_name || order.customerName || 'Cliente').split(' ')[0];
+        if (waitingCount === 0) {
+          listContainer.innerHTML = '<div style="text-align: center; padding: 22px 14px; color: #94a3b8; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px dashed rgba(255,255,255,0.1);">' +
+            '<i class="fa-solid fa-mug-hot" style="font-size: 1.8rem; color: #38bdf8; margin-bottom: 8px; display: block;"></i>' +
+            '<strong>Fila totalmente livre no momento!</strong><br><span style="font-size: 0.78rem;">Nenhum pedido de cliente aguardando na chapa.</span>' +
+          '</div>';
+          return;
+        }
 
-        return '<div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; width: 100%; box-sizing: border-box;">' +
-          '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">' +
-            '<div style="display: flex; align-items: center; gap: 8px; min-width: 0;">' +
-              '<span style="width: 26px; height: 26px; border-radius: 50%; background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0;">' + (idx + 1) + 'º</span>' +
-              '<strong style="font-size: 0.94rem; color: #ffffff; white-space: nowrap;">Pedido Nº #' + orderNum + '</strong>' +
+        listContainer.innerHTML = waitingOrders.map((order, idx) => {
+          let orderDogs = 0;
+          const itemsSummary = (order.items || []).map(i => {
+            const qty = Number(i.qty || 1);
+            if (i.type !== 'drink') orderDogs += qty;
+            let str = qty + 'x ' + (i.name || 'Lanche');
+            if (i.removed_ingredients && i.removed_ingredients.length > 0) {
+              str += ' <span style="color: #f87171; font-size: 0.76rem;">(SEM ' + i.removed_ingredients.join(', SEM ') + ')</span>';
+            }
+            return str;
+          }).join(', ');
+
+          if (orderDogs === 0 && order.qty) orderDogs = Number(order.qty || 1);
+          if (orderDogs === 0) orderDogs = 1;
+
+          const orderNum = order.queue_number || order.queueNumber || (idx + 1);
+          const orderType = order.order_type || order.orderType || 'Consumo no Local';
+          const orderTotal = Number(order.total || 0).toFixed(2).replace('.', ',');
+          const orderTime = order.estimated_time_min || (orderDogs * 4);
+          const custName = order.customer_name || order.customerName || 'Cliente';
+          const custPhone = order.customer_phone || order.customerPhone || '';
+          const safeId = order.id || idx;
+
+          return '<div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; width: 100%; box-sizing: border-box;">' +
+            '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">' +
+              '<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">' +
+                '<span style="width: 26px; height: 26px; border-radius: 50%; background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem;">' + (idx + 1) + 'º</span>' +
+                '<strong style="font-size: 0.98rem; color: #ffffff;">Pedido Nº #' + orderNum + '</strong>' +
+                (custName ? '<span style="font-size: 0.8rem; font-weight: 700; color: #4ade80; background: rgba(74, 222, 128, 0.15); border: 1px solid rgba(74, 222, 128, 0.3); border-radius: 4px; padding: 2px 7px;"><i class="fa-regular fa-user"></i> ' + custName + '</span>' : '') +
+                (custPhone ? '<a href="https://wa.me/55' + custPhone.replace(/\D/g, '') + '" target="_blank" rel="noopener noreferrer" style="font-size: 0.78rem; color: #38bdf8; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;"><i class="fa-brands fa-whatsapp"></i> ' + custPhone + '</a>' : '') +
+              '</div>' +
+              '<span style="font-size: 0.74rem; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; padding: 3px 8px; font-weight: 700;">' +
+                orderDogs + ' lanche(s) (~' + orderTime + ' min)' +
+              '</span>' +
             '</div>' +
-            '<span style="font-size: 0.72rem; color: #38bdf8; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 6px; padding: 3px 8px; font-weight: 700; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;">' +
-              '<i class="fa-solid fa-fire-burner"></i> ' + orderDogs + ' lanche(s) (~' + orderTime + ' min)' +
-            '</span>' +
-          '</div>' +
-          '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.76rem; color: #94a3b8; padding-left: 34px;">' +
-            '<span style="display: inline-flex; align-items: center; gap: 4px; color: #cbd5e1;"><i class="fa-regular fa-user" style="color: var(--color-mustard); font-size: 0.74rem;"></i> Cliente: <strong style="color: #ffffff;">' + custName + '</strong></span>' +
-            '<span style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 4px; color: #e2e8f0; font-size: 0.72rem; white-space: nowrap;">' + orderType + '</span>' +
-          '</div>' +
-        '</div>';
-      }).join('');
+            '<div style="font-size: 0.88rem; color: #ffffff; padding-left: 34px;">' + (itemsSummary || '1x Lanche') + '</div>' +
+            '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.8rem; color: #d1cbc1; padding-left: 34px; flex-wrap: wrap;">' +
+              '<span>Total: <strong style="color: #4ade80;">R$ ' + orderTotal + '</strong> &bull; ' + orderType + '</span>' +
+              '<div style="display: flex; gap: 6px;">' +
+                '<button type="button" class="btn btn-whatsapp" onclick="handleMarkOrderReady(\'' + safeId + '\')" style="padding: 4px 10px; font-size: 0.76rem; min-height: 32px;"><i class="fa-solid fa-check"></i> Pronto</button>' +
+                '<button type="button" class="btn btn-secondary" onclick="handleCancelOrder(\'' + safeId + '\')" style="padding: 4px 10px; font-size: 0.76rem; min-height: 32px; color: #f87171;"><i class="fa-solid fa-xmark"></i></button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+      } else {
+        // ========================================================
+        // VISÃO DO CLIENTE: APENAS OS PEDIDOS QUE ELE PRÓPRIO FEZ
+        // ========================================================
+        if (listHeading) {
+          listHeading.innerHTML = '<i class="fa-solid fa-receipt" style="color: var(--color-mustard);"></i> Seus Pedidos';
+        }
+
+        const myHistory = getClientOwnOrders();
+        const myOrdersMap = new Map();
+
+        // 1. Registra os pedidos salvos localmente
+        myHistory.forEach(o => {
+          const key = String(o.id || o.queue_number || o.queueNumber);
+          myOrdersMap.set(key, { ...o });
+        });
+
+        // 2. Sincroniza com os pedidos ativos da chapa (se for o pedido deste cliente)
+        (activeQueueOrders || []).forEach(liveOrder => {
+          if (isMyOrder(liveOrder)) {
+            const key = String(liveOrder.id || liveOrder.queue_number || liveOrder.queueNumber);
+            const existing = myOrdersMap.get(key) || {};
+            const merged = { ...existing, ...liveOrder };
+            myOrdersMap.set(key, merged);
+            saveClientOwnOrder(merged);
+          }
+        });
+
+        // 3. Filtra pedidos ativos ou prontos recentes
+        const myOrdersList = Array.from(myOrdersMap.values()).filter(o => {
+          return o.status === 'waiting' || o.status === 'preparing' || o.status === 'ready';
+        });
+
+        // Se o cliente ainda não fez nenhum pedido
+        if (myOrdersList.length === 0) {
+          listContainer.innerHTML = '<div style="text-align: center; padding: 26px 16px; background: rgba(255,255,255,0.03); border: 1.5px dashed rgba(255,255,255,0.12); border-radius: 12px;">' +
+            '<i class="fa-solid fa-receipt" style="font-size: 2.2rem; color: var(--color-mustard); margin-bottom: 10px; display: block;"></i>' +
+            '<strong style="font-size: 1.05rem; color: #ffffff; display: block; margin-bottom: 6px;">Você ainda não tem pedidos na fila</strong>' +
+            '<p style="font-size: 0.83rem; color: #cbd5e1; margin-bottom: 16px; line-height: 1.5; max-width: 380px; margin-left: auto; margin-right: auto;">' +
+              'Quando você montar e enviar seu pedido pelo cardápio, ele aparecerá aqui com sua senha e o tempo de espera em tempo real!' +
+            '</p>' +
+            '<button type="button" class="btn btn-whatsapp" onclick="closeQueueModal(); scrollToMenu();" style="width: auto; margin: 0 auto; padding: 12px 24px; font-size: 0.9rem; justify-content: center;">' +
+              '<i class="fa-solid fa-utensils"></i> Fazer Pedido no Cardápio' +
+            '</button>' +
+          '</div>';
+          return;
+        }
+
+        // Renderiza com destaque cada pedido do cliente
+        listContainer.innerHTML = myOrdersList.map(order => {
+          let orderDogs = 0;
+          const itemsSummary = (order.items || []).map(i => {
+            const qty = Number(i.qty || 1);
+            if (i.type !== 'drink') orderDogs += qty;
+            let str = qty + 'x ' + (i.name || 'Lanche');
+            if (i.removed_ingredients && i.removed_ingredients.length > 0) {
+              str += ' <span style="color: #f87171; font-size: 0.76rem;">(SEM ' + i.removed_ingredients.join(', SEM ') + ')</span>';
+            }
+            return str;
+          }).join(', ');
+
+          if (orderDogs === 0 && order.qty) orderDogs = Number(order.qty || 1);
+          if (orderDogs === 0) orderDogs = 1;
+
+          const orderNum = order.queue_number || order.queueNumber || '1';
+          const orderType = order.order_type || order.orderType || 'Consumo no Local';
+          const orderTotal = Number(order.total || 0).toFixed(2).replace('.', ',');
+
+          // Posição deste pedido entre todos os pedidos aguardando no trailer
+          const queueIndex = waitingOrders.findIndex(w => 
+            String(w.id) === String(order.id) || 
+            String(w.queue_number || w.queueNumber) === String(orderNum)
+          );
+
+          let statusBadge = '';
+          let positionBox = '';
+
+          if (order.status === 'ready') {
+            statusBadge = '<span style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1.5px solid #22c55e; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 0 12px rgba(34, 197, 94, 0.35);">' +
+              '<i class="fa-solid fa-circle-check"></i> PRONTO PARA RETIRADA!' +
+            '</span>';
+            positionBox = '<div style="background: rgba(34, 197, 94, 0.12); border: 1.5px solid rgba(34, 197, 94, 0.35); border-radius: 10px; padding: 10px 14px; color: #86efac; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">' +
+              '<i class="fa-solid fa-bell" style="color: #4ade80; font-size: 1.2rem;"></i> ' +
+              '<span>Seu lanche está pronto! Apresente o <strong>Nº #' + orderNum + '</strong> no balcão do trailer para retirar.</span>' +
+            '</div>';
+          } else if (order.status === 'preparing' || queueIndex === 0) {
+            statusBadge = '<span style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1.5px solid rgba(245, 158, 11, 0.4); padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 5px;">' +
+              '<i class="fa-solid fa-fire-burner"></i> Na Chapa / Em Preparo' +
+            '</span>';
+            positionBox = '<div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 8px 12px; color: #fde68a; font-size: 0.83rem; display: flex; align-items: center; gap: 8px;">' +
+              '<i class="fa-solid fa-fire" style="color: #fbbf24; font-size: 1rem;"></i> ' +
+              '<span><strong>1º da fila!</strong> Seu pedido já está sendo prensado e montado na chapa agora.</span>' +
+            '</div>';
+          } else {
+            // Calcula lanches aguardando na frente do pedido deste cliente
+            let dogsAhead = 0;
+            if (queueIndex > 0) {
+              waitingOrders.slice(0, queueIndex).forEach(w => {
+                let count = 0;
+                if (Array.isArray(w.items)) {
+                  w.items.forEach(it => { if (it.type !== 'drink') count += Number(it.qty || 1); });
+                } else {
+                  count = Number(w.qty || 1);
+                }
+                dogsAhead += (count || 1);
+              });
+            }
+            const waitTimeMin = Math.max(4, dogsAhead * 4);
+            const posDisplay = queueIndex > -1 ? (queueIndex + 1) + 'º lugar' : 'Aguardando';
+
+            statusBadge = '<span style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); padding: 4px 10px; border-radius: 20px; font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 5px;">' +
+              '<i class="fa-solid fa-clock"></i> Na Fila (' + posDisplay + ')' +
+            '</span>';
+            positionBox = '<div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 8px 12px; color: #bae6fd; font-size: 0.83rem; display: flex; align-items: center; gap: 8px;">' +
+              '<i class="fa-solid fa-stopwatch" style="color: #38bdf8; font-size: 1rem;"></i> ' +
+              '<span><strong>' + (dogsAhead > 0 ? dogsAhead + ' lanche(s) na sua frente' : 'Fila livre!') + '</strong> &bull; Previsão de início: ~' + waitTimeMin + ' min</span>' +
+            '</div>';
+          }
+
+          const isReady = order.status === 'ready';
+          const cardBorder = isReady ? '2px solid #22c55e' : '1.5px solid rgba(217, 130, 43, 0.4)';
+          const cardBg = isReady 
+            ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(15, 23, 42, 0.7))'
+            : 'linear-gradient(135deg, rgba(217, 130, 43, 0.1), rgba(0, 0, 0, 0.45))';
+          const cardGlow = isReady ? '0 0 24px rgba(34, 197, 94, 0.4)' : '0 4px 16px rgba(0,0,0,0.3)';
+
+          return '<div style="background: ' + cardBg + '; border: ' + cardBorder + '; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; width: 100%; box-sizing: border-box; box-shadow: ' + cardGlow + ';">' +
+            '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">' +
+              '<div style="display: flex; align-items: center; gap: 8px;">' +
+                '<span class="badge-gold-admin" style="font-size: 1rem; padding: 4px 12px; background: ' + (isReady ? 'linear-gradient(135deg, #16a34a, #15803d)' : 'linear-gradient(135deg, #d9822b, #b86214)') + '; color: #fff; font-weight: 900;">' +
+                  'Seu Pedido Nº #' + orderNum +
+                '</span>' +
+              '</div>' +
+              statusBadge +
+            '</div>' +
+            positionBox +
+            '<div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.06);">' +
+              '<div style="font-size: 0.92rem; color: #ffffff; font-weight: 700; margin-bottom: 4px;">' + (itemsSummary || '1x Lanche') + '</div>' +
+              '<div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #cbd5e1; margin-top: 6px; flex-wrap: wrap; gap: 6px;">' +
+                '<span><i class="fa-solid fa-location-dot" style="color: var(--color-mustard);"></i> ' + orderType + '</span>' +
+                '<span>Total: <strong style="color: #4ade80; font-size: 0.92rem;">R$ ' + orderTotal + '</strong></span>' +
+              '</div>' +
+            '</div>' +
+            (isReady ? '<button type="button" class="btn btn-whatsapp" onclick="handleClientDismissReadyOrder(\'' + (order.id || '') + '\', \'' + orderNum + '\')" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.85rem; margin-top: 2px;"><i class="fa-solid fa-circle-check"></i> Já retirei meu lanche / Concluir</button>' : '') +
+          '</div>';
+        }).join('');
+      }
     }
 
     // Modal de Horários do Cliente
